@@ -7,5 +7,9 @@ module ChannelAdvisor
 			@password = credentials[:password]
 			@account_id = credentials[:account_id]
 		end
+
+		def client
+			@client ||= Savon::Client.new
+		end
 	end
 end
