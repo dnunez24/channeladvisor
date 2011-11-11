@@ -1,3 +1,3 @@
-module Channeladvisor
+module ChannelAdvisor
   VERSION = "0.0.1"
 end

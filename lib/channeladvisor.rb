@@ -1,5 +1,5 @@
 require 'channeladvisor/version'
 
-module Channeladvisor
+module ChannelAdvisor
 
 end
