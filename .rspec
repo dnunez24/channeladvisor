@@ -1,2 +1,3 @@
+--pattern **/*.spec.rb
 --color
 --format documentation
