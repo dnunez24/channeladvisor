@@ -1,6 +1,7 @@
 require 'channeladvisor/version'
 require 'channeladvisor/configuration'
 require 'channeladvisor/connection'
+require 'channeladvisor/order'
 
 module ChannelAdvisor
 	extend Configuration
