@@ -7,3 +7,7 @@ guard 'rspec', :version => 2 do
   watch('spec/spec_helper.rb')  { "spec" }
 end
 
+guard 'bundler' do
+	watch('Gemfile')
+	watch(%r{^.+\.gemspec$})
+end

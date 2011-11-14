@@ -20,7 +20,12 @@ Gem::Specification.new do |s|
 
   # specify any dependencies here; for example:
   s.add_development_dependency "rspec"
+  s.add_development_dependency "fakeweb"
   s.add_development_dependency "guard-rspec"
+  s.add_development_dependency "guard-bundler"
+  s.add_development_dependency "rb-fsevent"
   s.add_development_dependency "rb-notifu"
+  s.add_development_dependency "growl"
+  s.add_development_dependency "yard"
   s.add_runtime_dependency "savon"
 end
