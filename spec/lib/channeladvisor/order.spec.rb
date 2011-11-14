@@ -10,6 +10,10 @@ module ChannelAdvisor
 			)
 		end
 
+		after(:each) do
+		  FakeWeb.clean_registry
+		end
+
 		describe ".ping" do
 			context "when successful" do
 			  it "returns a Success status" do
@@ -38,11 +42,6 @@ module ChannelAdvisor
 	  describe ".list" do
 	    context "without filters" do
 	      it "returns an array of order objects" do
-			  	FakeWeb.register_uri(
-			  		:post,
-						"https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
-						:body => File.expand_path("../../../fixtures/responses/order_service/list_no_criteria.xml", __FILE__)
-					)
 	      	orders = ChannelAdvisor::Order.list
 	        orders.first.should be_an_instance_of ChannelAdvisor::Order
 	      end

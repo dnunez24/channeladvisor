@@ -45,7 +45,7 @@ module ChannelAdvisor
 		end
 
 		def self.list(criteria = {})
-			response = client.request "GetOrderList" do
+			response = client.request :get_order_list do
 				soap.xml do |xml|
 					xml.soap :Envelope, Order::NAMESPACES do
 						xml.soap :Header do
@@ -58,17 +58,17 @@ module ChannelAdvisor
 							xml.web :GetOrderList do
 								xml.web :accountID, ChannelAdvisor.account_id
 								xml.web :orderCriteria do
-									xml.ord :DetailLevel, criteria[:detail_level] if criteria[:detail_level]
-									xml.ord :OrderCreationFilterBeginTimeGMT, criteria[:created_from] if criteria[:created_from]
-									xml.ord :OrderCreationFilterEndTimeGMT, criteria[:created_to] if criteria[:created_to]
-									xml.ord :StatusUpdateFilterBeginTimeGMT, criteria[:updated_from] if criteria[:updated_from]
-									xml.ord :StatusUpdateFilterEndTimeGMT, criteria[:updated_to] if criteria[:updated_to]
-									xml.ord :OrderStateFilter, criteria[:state] if criteria[:state]
-									xml.ord :PaymentStatusFilter, criteria[:payment_status] if criteria[:payment_status]
-									xml.ord :CheckoutStatusFilter, criteria[:checkout_status] if criteria[:checkout_status]
-									xml.ord :ShippingStatusFilter, criteria[:shipping_status] if criteria[:shipping_status]
-									xml.ord :PageNumberFilter, criteria[:page_number] if criteria[:page_number]
-									xml.ord :PageSize, criteria[:page_size] if criteria[:page_size]
+									build_criterion xml, :DetailLevel, criteria[:detail_level]
+									build_criterion xml, :OrderCreationFilterBeginTimeGMT, criteria[:created_from]
+									build_criterion xml, :OrderCreationFilterEndTimeGMT, criteria[:created_to]
+									build_criterion xml, :StatusUpdateFilterBeginTimeGMT, criteria[:updated_from]
+									build_criterion xml, :StatusUpdateFilterEndTimeGMT, criteria[:updated_to]
+									build_criterion xml, :OrderStateFilter, criteria[:state]
+									build_criterion xml, :PaymentStatusFilter, criteria[:payment_status]
+									build_criterion xml, :CheckoutStatusFilter, criteria[:checkout_status]
+									build_criterion xml, :ShippingStatusFilter, criteria[:shipping_status]
+									build_criterion xml, :PageNumberFilter, criteria[:page_number]
+									build_criterion xml, :PageSize, criteria[:page_size]
 								end
 							end
 						end
@@ -76,20 +76,30 @@ module ChannelAdvisor
 				end
 			end
 
-			orders = response.to_hash[:get_order_list_response][:get_order_list_result][:result_data][:order_response_item]
-			result = []
+			order_array = []
+			orders = []
 
-			orders.each do |order|
-				result << Order.new(order)
+			order_array << response.to_hash[:get_order_list_response][:get_order_list_result][:result_data][:order_response_item]
+
+			order_array.flatten.each do |order|
+				orders << Order.new(order)
 			end
 
-			return result
+			return orders
 		end
 
 		private
 
 		def self.client
 			Connection.client "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx?WSDL"
+		end
+
+		def self.build_criterion(parent, element, criterion)
+			if criterion.nil?
+				parent.ord element, nil, "xsi:nil" => true
+			else
+				parent.ord element, criterion
+			end
 		end
 	end
 end
