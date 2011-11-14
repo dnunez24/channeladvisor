@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "channeladvisor"
 
+  s.platform      = RUBY_PLATFORM
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
@@ -23,9 +24,11 @@ Gem::Specification.new do |s|
   s.add_development_dependency "fakeweb"
   s.add_development_dependency "guard-rspec"
   s.add_development_dependency "guard-bundler"
-  s.add_development_dependency "rb-fsevent"
-  s.add_development_dependency "rb-notifu"
-  s.add_development_dependency "growl"
+  s.add_development_dependency "rb-fsevent"     if s.platform.to_s =~ /darwin/
+  s.add_development_dependency "growl"          if s.platform.to_s =~ /darwin/
+  s.add_development_dependency "rb-fchange"     if s.platform.to_s =~ /w32/
+  s.add_development_dependency "rb-notifu"      if s.platform.to_s =~ /w32/
+  s.add_development_dependency "win32console"   if s.platform.to_s =~ /w32/
   s.add_development_dependency "yard"
   s.add_runtime_dependency "savon"
 end
