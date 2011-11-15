@@ -40,9 +40,9 @@ module ChannelAdvisor
     end
 
     describe ".list" do
-      context "without filters" do
+      context "with no filters" do
         context "returning 0 orders" do
-          it "raises a No Matches error" do
+          it "raises a No Result Error" do
             FakeWeb.register_uri(
               :post,
               "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
