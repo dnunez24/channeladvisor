@@ -19,16 +19,18 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  # specify any dependencies here; for example:
   s.add_development_dependency "rspec"
   s.add_development_dependency "fakeweb"
   s.add_development_dependency "guard-rspec"
   s.add_development_dependency "guard-bundler"
   s.add_development_dependency "rb-fsevent"     if s.platform.to_s =~ /darwin/
   s.add_development_dependency "growl"          if s.platform.to_s =~ /darwin/
+  s.add_development_dependency "rb-inotify"			if s.platform.to_s =~ /linux/
+  s.add_development_dependency "libnotify"			if s.platform.to_s =~ /linux/
   s.add_development_dependency "rb-fchange"     if s.platform.to_s =~ /w32/
   s.add_development_dependency "rb-notifu"      if s.platform.to_s =~ /w32/
   s.add_development_dependency "win32console"   if s.platform.to_s =~ /w32/
   s.add_development_dependency "yard"
+
   s.add_runtime_dependency "savon"
 end
