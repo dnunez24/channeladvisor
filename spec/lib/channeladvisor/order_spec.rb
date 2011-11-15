@@ -52,7 +52,7 @@ module ChannelAdvisor
           end
         end
         context "returning 1 order" do
-          it "returns an array of order objects" do
+          it "returns an array of 1 order object" do
             FakeWeb.register_uri(
               :post,
               "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
@@ -65,7 +65,7 @@ module ChannelAdvisor
         end
 
         context "returning more than 1 order" do
-          it "returns an array of order objects" do
+          it "returns an array with more than 1 order object" do
             FakeWeb.register_uri(
               :post,
               "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",

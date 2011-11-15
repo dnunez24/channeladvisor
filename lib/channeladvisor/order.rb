@@ -10,7 +10,7 @@ module ChannelAdvisor
 
     def initialize(attributes = {})
       attributes.each do |key, value|
-        if key =~ /^\w*$/
+        if key.to_s =~ /^\w*$/
           self.class.__send__ :attr_accessor, key
           self.__send__("#{key}=", value)
         end
