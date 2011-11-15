@@ -3,4 +3,4 @@ rvm:
   - 1.9.2
   - 1.9.3
   - ree
-script: "bundle exec rake test"
+script: "bundle exec rake spec"
