@@ -52,13 +52,28 @@ module ChannelAdvisor
           end
         end
         context "returning 1 order" do
-          it "returns an array of order objects"
+          it "returns an array of order objects" do
+            FakeWeb.register_uri(
+              :post,
+              "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
+              :body => File.expand_path("../../../fixtures/responses/order_service/list_one_match.xml", __FILE__)
+            )
+            orders = ChannelAdvisor::Order.list
+            orders.first.should be_an_instance_of ChannelAdvisor::Order
+            orders.size.should == 1
+          end
         end
 
         context "returning more than 1 order" do
           it "returns an array of order objects" do
+            FakeWeb.register_uri(
+              :post,
+              "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
+              :body => File.expand_path("../../../fixtures/responses/order_service/list_no_criteria.xml", __FILE__)
+            )
             orders = ChannelAdvisor::Order.list
             orders.first.should be_an_instance_of ChannelAdvisor::Order
+            orders.size.should be > 1
           end
         end
       end
