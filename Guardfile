@@ -6,7 +6,14 @@ guard 'bundler' do
 	watch(%r{^.+\.gemspec$})
 end
 
-guard 'rspec' do
+guard 'yard', :stdout => '/dev/null', :stderr => '/dev/null' do
+  watch(%r{lib/.+\.rb})
+  watch('README.md')
+  watch('LICENSE')
+  watch('.yardopts')
+end
+
+guard 'rspec', :run_all => {:cli => '-f p'}, :all_after_pass => false do
   watch(%r{^(spec/.+_spec\.rb)$})	{ |m| "#{m[1]}" }
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }

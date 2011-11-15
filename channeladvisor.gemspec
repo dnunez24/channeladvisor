@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "fakeweb"
   s.add_development_dependency "guard-rspec"
   s.add_development_dependency "guard-bundler"
+  s.add_development_dependency "guard-yard"
   s.add_development_dependency "rb-fsevent"     if s.platform.to_s =~ /darwin/
   s.add_development_dependency "growl"          if s.platform.to_s =~ /darwin/
   s.add_development_dependency "rb-inotify"			if s.platform.to_s =~ /linux/
@@ -31,6 +32,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rb-notifu"      if s.platform.to_s =~ /w32/
   s.add_development_dependency "win32console"   if s.platform.to_s =~ /w32/
   s.add_development_dependency "yard"
+  s.add_development_dependency "redcarpet"
 
   s.add_runtime_dependency "savon"
 end
