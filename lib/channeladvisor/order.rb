@@ -44,7 +44,7 @@ module ChannelAdvisor
       if status == "Failure"
         raise ServiceFailure, message
       else
-        status
+        message
       end
     end
 
@@ -121,8 +121,6 @@ module ChannelAdvisor
         orders = []
 
         [result_data[:order_response_item]].flatten.each do |params|
-          detail_level = params[:"@xsi:type"].split(/([A-Z])/).slice(-2..-1).join
-          params.update({:detail_level => detail_level})
           orders << Order.new(params)
         end
 
