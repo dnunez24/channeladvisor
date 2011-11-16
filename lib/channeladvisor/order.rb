@@ -17,9 +17,9 @@ module ChannelAdvisor
       end
     end
 
-    # Pings the Order Service
+    # Checks authorization for and availability of the order service
     #
-    # @raise [ServiceFailure] When the response returns a failure status
+    # @raise [ServiceFailure] Raises an exception when the service returns a failure status
     # @return [String] Status message
     def self.ping
       response = client.request :ping do
@@ -50,20 +50,31 @@ module ChannelAdvisor
 
     # Lists all orders restricted by the provided filters
     #
-    # @param [optional, Hash] filters Order criteria used to filter the list
+    # @example List orders created between 11/11/2011 and 11/15/2011
+    # 	ChannelAdvisor::Order.list(:created_from => DateTime.new(2011,11,11), :created_to => DateTime.new(2011,11,15))
+    #
+    # @param [optional, Hash] filters Criteria used to filter the order list
+    # @option filters [DateTime] :created_from Order creation start time in GMT/UTC
+    # @option filters [DateTime] :created_to Order creation end time in GMT/UTC
+    # @option filters [DateTime] :updated_from Order update start time in GMT/UTC
+    # @option filters [DateTime] :updated_to Order update end time in GMT/UTC
+    # @option filters [Boolean] :join_dates `true` indicates that orders can satisfy either
+    # 	the created date range or the updated date range
     # @option filters [String] :detail_level `Low`, `Medium`, `High` or `Complete`
     # @option filters [String] :export_state `Unknown`, `NotExported` or `Exported`
-    # @option filters [Time] :created_from Order creation start time
-    # @option filters [Time] :created_to Order creation end time
-    # @option filters [Time] :updated_from Order update start time
-    # @option filters [Time] :updated_to Order update end time
-    # @option filters [Array] :order_ids List of order IDs
-    # @option filters [String] :state Order state
-    # @option filters [String] :payment_status Payment status
-    # @option filters [String] :shipping_status Shipping status
-    # @option filters [Number] :page_number (1) Page number of result set
-    # @option filters [Number] :page_size (50) Size of each page in result set
-    # @return [Array] An array of <tt>ChannelAdvisor::Order<tt>
+    # @option filters [Array<Integer>] :order_ids Array of order IDs
+    # @option filters [Array<String>] :client_order_ids Array of client order IDs
+    # @option filters [String] :state `Active`, `Archived`, or `Cancelled`
+    # @option filters [String] :payment_status `NoChange`, `NotSubmitted`, `Cleared`, `Submitted`, `Failed`, or `Deposited`
+    # @option filters [String] :checkout_status `NoChange`, `NotVisited`, `Completed`, `Visited`, `Cancelled`, `CompletedOffline`, or `OnHold`
+    # @option filters [String] :shipping_status `NoChange`, `Unshipped`, `PendingShipment`, `PartiallyShipped`, or `Shipped`
+    # @option filters [String] :refund_status `NoRefunds`, `OrderLevel`, `LineItemLevel`, `OrderAndLineItemLevel`, or `FailedAttemptsOnly`
+    # @option filters [String] :distribution_center Only orders containing at least one item from the specified distribution center
+    # @option filters [Integer] :page_number Page number of result set
+    # @option filters [Integer] :page_size Size of each page in result set
+    #
+    # @return [Array<Order>] Array of {Order} objects
+    # @raise [NoResultError] Raises an exception when no results are returned
     def self.list(filters = {})
       response = client.request :get_order_list do
         soap.xml do |xml|
@@ -78,15 +89,21 @@ module ChannelAdvisor
               xml.web :GetOrderList do
                 xml.web :accountID, ChannelAdvisor.account_id
                 xml.web :orderCriteria do
-                  build_filter xml, :DetailLevel, filters[:detail_level]
                   build_filter xml, :OrderCreationFilterBeginTimeGMT, filters[:created_from]
                   build_filter xml, :OrderCreationFilterEndTimeGMT, filters[:created_to]
                   build_filter xml, :StatusUpdateFilterBeginTimeGMT, filters[:updated_from]
                   build_filter xml, :StatusUpdateFilterEndTimeGMT, filters[:updated_to]
+                  build_filter xml, :JoinDateFiltersWithOr, filters[:join_dates]
+                  build_filter xml, :DetailLevel, filters[:detail_level]
+                  build_filter xml, :ExportState, filters[:export_state]
+                  build_filter xml, :OrderIDList, filters[:order_ids]
+                  build_filter xml, :ClientOrderIdentifierList, filters[:client_order_ids]
                   build_filter xml, :OrderStateFilter, filters[:state]
                   build_filter xml, :PaymentStatusFilter, filters[:payment_status]
                   build_filter xml, :CheckoutStatusFilter, filters[:checkout_status]
                   build_filter xml, :ShippingStatusFilter, filters[:shipping_status]
+                  build_filter xml, :RefundStatusFilter, filters[:refund_status]
+                  build_filter xml, :DistributionCenterCode, filters[:distribution_center]
                   build_filter xml, :PageNumberFilter, filters[:page_number]
                   build_filter xml, :PageSize, filters[:page_size]
                 end
@@ -103,10 +120,10 @@ module ChannelAdvisor
       else
         orders = []
 
-        [result_data[:order_response_item]].flatten.each do |order|
-          detail_level = order[:"@xsi:type"].split(/([A-Z])/).slice(-2..-1).join
-          order.update({:detail_level => detail_level})
-          orders << Order.new(order)
+        [result_data[:order_response_item]].flatten.each do |params|
+          detail_level = params[:"@xsi:type"].split(/([A-Z])/).slice(-2..-1).join
+          params.update({:detail_level => detail_level})
+          orders << Order.new(params)
         end
 
         return orders
@@ -121,7 +138,12 @@ module ChannelAdvisor
 
     def self.build_filter(parent, element, filter)
       if filter.nil?
-        parent.ord element, nil, "xsi:nil" => true
+      	case element
+      	when :OrderIDList, :ClientOrderIdentifierList, :DistributionCenterCode
+      		nil
+      	else
+      		parent.ord element, nil, "xsi:nil" => true
+      	end
       else
         parent.ord element, filter
       end
