@@ -166,7 +166,7 @@ module ChannelAdvisor
               "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
               :body => File.expand_path("../../../fixtures/responses/order_service/list_detail_low.xml", __FILE__)
             )
-            orders = ChannelAdvisor::Order.list(:detail_level => :low)
+            orders = ChannelAdvisor::Order.list(:detail_level => "Low")
             orders.first.detail_level.should == "Low"
           end
         end
@@ -178,8 +178,32 @@ module ChannelAdvisor
               "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
               :body => File.expand_path("../../../fixtures/responses/order_service/list_detail_medium.xml", __FILE__)
             )
-            orders = ChannelAdvisor::Order.list(:detail_level => :medium)
+            orders = ChannelAdvisor::Order.list(:detail_level => "Medium")
             orders.first.detail_level.should == "Medium"
+          end
+        end
+
+        describe "with High detail level" do
+          it "returns orders with a high detail level" do
+            FakeWeb.register_uri(
+              :post,
+              "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
+              :body => File.expand_path("../../../fixtures/responses/order_service/list_detail_high.xml", __FILE__)
+            )
+            orders = ChannelAdvisor::Order.list(:detail_level => "High")
+            orders.first.detail_level.should == "High"
+          end
+        end
+
+        describe "with Complete detail level" do
+          it "returns orders with a complete detail level" do
+            FakeWeb.register_uri(
+              :post,
+              "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
+              :body => File.expand_path("../../../fixtures/responses/order_service/list_detail_complete.xml", __FILE__)
+            )
+            orders = ChannelAdvisor::Order.list(:detail_level => "Complete")
+            orders.first.detail_level.should == "Complete"
           end
         end
       end

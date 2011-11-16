@@ -17,6 +17,10 @@ module ChannelAdvisor
       end
     end
 
+    # Pings the Order Service
+    #
+    # @raise [ServiceFailure] When the response returns a failure status
+    # @return [String] Status message
     def self.ping
       response = client.request :ping do
         soap.xml do |xml|
@@ -44,6 +48,22 @@ module ChannelAdvisor
       end
     end
 
+    # Lists all orders restricted by the provided filters
+    #
+    # @param [optional, Hash] filters Order criteria used to filter the list
+    # @option filters [String] :detail_level `Low`, `Medium`, `High` or `Complete`
+    # @option filters [String] :export_state `Unknown`, `NotExported` or `Exported`
+    # @option filters [Time] :created_from Order creation start time
+    # @option filters [Time] :created_to Order creation end time
+    # @option filters [Time] :updated_from Order update start time
+    # @option filters [Time] :updated_to Order update end time
+    # @option filters [Array] :order_ids List of order IDs
+    # @option filters [String] :state Order state
+    # @option filters [String] :payment_status Payment status
+    # @option filters [String] :shipping_status Shipping status
+    # @option filters [Number] :page_number (1) Page number of result set
+    # @option filters [Number] :page_size (50) Size of each page in result set
+    # @return [Array] An array of <tt>ChannelAdvisor::Order<tt>
     def self.list(filters = {})
       response = client.request :get_order_list do
         soap.xml do |xml|
