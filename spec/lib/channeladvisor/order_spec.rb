@@ -164,23 +164,22 @@ module ChannelAdvisor
             FakeWeb.register_uri(
               :post,
               "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
-              :body => File.expand_path("../../../fixtures/responses/order_service/list_no_criteria.xml", __FILE__)
+              :body => File.expand_path("../../../fixtures/responses/order_service/list_detail_low.xml", __FILE__)
             )
             orders = ChannelAdvisor::Order.list(:detail_level => :low)
-            orders.first.instance_variables.count.should be <= 11
+            orders.first.detail_level.should == "Low"
           end
         end
 
         describe "with Medium detail level" do
           it "returns orders with a medium detail level" do
-          	pending
             FakeWeb.register_uri(
               :post,
               "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
-              :body => File.expand_path("../../../fixtures/responses/order_service/list_no_criteria.xml", __FILE__)
+              :body => File.expand_path("../../../fixtures/responses/order_service/list_detail_medium.xml", __FILE__)
             )
             orders = ChannelAdvisor::Order.list(:detail_level => :medium)
-            orders.first.instance_variables.count.should be <= 17
+            orders.first.detail_level.should == "Medium"
           end
         end
       end

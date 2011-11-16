@@ -76,7 +76,7 @@ module ChannelAdvisor
         end
       end
 
-      result_data = response.to_hash[:get_order_list_response][:get_order_list_result][:result_data]
+      result_data = response.body[:get_order_list_response][:get_order_list_result][:result_data]
 
       if result_data.nil?
         raise NoResultError, "No order data returned in the response"
@@ -84,6 +84,8 @@ module ChannelAdvisor
         orders = []
 
         [result_data[:order_response_item]].flatten.each do |order|
+          detail_level = order[:"@xsi:type"].split(/([A-Z])/).slice(-2..-1).join
+          order.update({:detail_level => detail_level})
           orders << Order.new(order)
         end
 
