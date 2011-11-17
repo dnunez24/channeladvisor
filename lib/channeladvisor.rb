@@ -12,5 +12,4 @@ module ChannelAdvisor
 	end
 
 	class ServiceFailure < StandardError; end
-  class NoResultError < StandardError; end
 end

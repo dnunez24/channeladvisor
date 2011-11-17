@@ -48,7 +48,8 @@ module ChannelAdvisor
               "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
               :body => File.expand_path("../../../fixtures/responses/order_service/list_no_match.xml", __FILE__)
             )
-            lambda {ChannelAdvisor::Order.list}.should raise_error ChannelAdvisor::NoResultError, "No order data returned in the response"
+            orders = ChannelAdvisor::Order.list
+            orders.should == []
           end
         end
         context "returning 1 order" do
@@ -79,27 +80,27 @@ module ChannelAdvisor
       end
 
       context "with filter" do
-        describe "created after 11/11/11 00:00:00" do
-          it "returns only orders created after 11/11/11 00:00:00" do
+        describe "created after 11/11/11" do
+          it "returns only orders created after 11/11/11" do
             FakeWeb.register_uri(
               :post,
               "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
               :body => File.expand_path("../../../fixtures/responses/order_service/list_created_from.xml", __FILE__)
             )
-            orders = ChannelAdvisor::Order.list :created_from => DateTime.new(2011, 11, 11, 00, 00, 00)
-            orders.first.order_time_gmt.should be >= DateTime.new(2011, 11, 11, 00, 00, 00)
+            orders = ChannelAdvisor::Order.list :created_from => DateTime.new(2011, 11, 11)
+            orders.first.order_time_gmt.should be >= DateTime.new(2011, 11, 11)
           end
         end
 
-        describe "created before 11/11/11 00:00:00" do
+        describe "created before 11/11/11" do
           it "returns only orders created before 11/11/11" do
             FakeWeb.register_uri(
               :post,
               "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
               :body => File.expand_path("../../../fixtures/responses/order_service/list_created_to.xml", __FILE__)
             )
-            orders = ChannelAdvisor::Order.list :created_to => DateTime.new(2011, 11, 11, 00, 00, 00)
-            orders.first.order_time_gmt.should be <= DateTime.new(2011, 11, 11, 00, 00, 00)
+            orders = ChannelAdvisor::Order.list :created_to => DateTime.new(2011, 11, 11)
+            orders.first.order_time_gmt.should be <= DateTime.new(2011, 11, 11)
           end
         end
 
@@ -116,29 +117,29 @@ module ChannelAdvisor
           end
         end
 
-        describe "updated after 11/11/11 00:00:00" do
-          it "returns only orders updated after 11/11/11 00:00:00" do
+        describe "updated after 11/11/11" do
+          it "returns only orders updated after 11/11/11" do
             FakeWeb.register_uri(
               :post,
               "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
               :body => File.expand_path("../../../fixtures/responses/order_service/list_updated_from.xml", __FILE__)
             )
-            orders = ChannelAdvisor::Order.list :updated_from => DateTime.new(2011, 11, 11, 00, 00, 00)
+            orders = ChannelAdvisor::Order.list :updated_from => DateTime.new(2011, 11, 11)
             sorted_orders = orders.sort_by { |order| order.last_update_date }
-            sorted_orders.first.last_update_date.should be >= DateTime.new(2011, 11, 11, 00, 00, 00)
+            sorted_orders.first.last_update_date.should be >= DateTime.new(2011, 11, 11)
           end
         end
 
-        describe "updated before 11/11/11 00:00:00" do
-          it "returns only orders updated before 11/11/11 00:00:00" do
+        describe "updated before 11/11/11" do
+          it "returns only orders updated before 11/11/11" do
             FakeWeb.register_uri(
               :post,
               "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
               :body => File.expand_path("../../../fixtures/responses/order_service/list_updated_to.xml", __FILE__)
             )
-            orders = ChannelAdvisor::Order.list :updated_to => DateTime.new(2011, 11, 11, 00, 00, 00)
+            orders = ChannelAdvisor::Order.list :updated_to => DateTime.new(2011, 11, 11)
             sorted_orders = orders.sort_by { |order| order.last_update_date }
-            sorted_orders.last.last_update_date.should be <= DateTime.new(2011, 11, 11, 00, 00, 00)
+            sorted_orders.last.last_update_date.should be <= DateTime.new(2011, 11, 11)
           end
         end
 
@@ -177,9 +178,10 @@ module ChannelAdvisor
 	            FakeWeb.register_uri(
 	              :post,
 	              "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
-	              :body => File.expand_path("../../../fixtures/responses/order_service/list_detail_low.xml", __FILE__)
+	              :body => File.expand_path("../../../fixtures/responses/order_service/list_invalid_detail_level.xml", __FILE__),
+	              :status => ["500", "Internal Server Error"]
 	            )
-	            lambda {ChannelAdvisor::Order.list}.should raise_error ChannelAdvisor::InvalidRequestError
+	            lambda{ ChannelAdvisor::Order.list(:detail_level => 'Junk') }.should raise_error Savon::SOAP::Fault, /'Junk' is not a valid value for DetailLevelType/
         	  end
         	end
         end

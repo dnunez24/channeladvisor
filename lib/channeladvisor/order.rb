@@ -115,17 +115,14 @@ module ChannelAdvisor
 
       result_data = response.body[:get_order_list_response][:get_order_list_result][:result_data]
 
-      if result_data.nil?
-        raise NoResultError, "No order data returned in the response"
-      else
-        orders = []
+      orders = []
+      return orders if result_data.nil?
 
-        [result_data[:order_response_item]].flatten.each do |params|
-          orders << Order.new(params)
-        end
-
-        return orders
+      [result_data[:order_response_item]].flatten.each do |params|
+        orders << Order.new(params)
       end
+
+      return orders
     end
 
     private
