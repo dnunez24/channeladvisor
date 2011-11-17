@@ -38,8 +38,8 @@ module ChannelAdvisor
         end
       end
 
-      status = response.xpath("//xmlns:Status").text
-      message = response.xpath("//xmlns:ResultData").text
+      status = response.xpath('//web:Status', 'web' => 'http://api.channeladvisor.com/webservices/').text
+      message = response.xpath('//web:ResultData', 'web' => 'http://api.channeladvisor.com/webservices/').text
 
       if status == "Failure"
         raise ServiceFailure, message
@@ -73,8 +73,7 @@ module ChannelAdvisor
     # @option filters [Integer] :page_number Page number of result set
     # @option filters [Integer] :page_size Size of each page in result set
     #
-    # @return [Array<Order>] Array of {Order} objects
-    # @raise [NoResultError] Raises an exception when no results are returned
+    # @return [Array<Order>, nil] Array of {Order} objects or nil
     def self.list(filters = {})
       response = client.request :get_order_list do
         soap.xml do |xml|
@@ -114,9 +113,9 @@ module ChannelAdvisor
       end
 
       result_data = response.body[:get_order_list_response][:get_order_list_result][:result_data]
+      return result_data if result_data.nil?
 
       orders = []
-      return orders if result_data.nil?
 
       [result_data[:order_response_item]].flatten.each do |params|
         orders << Order.new(params)

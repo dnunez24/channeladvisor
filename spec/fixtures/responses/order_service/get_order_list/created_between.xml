@@ -1,0 +1,243 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <soap:Body>
+      <GetOrderListResponse xmlns="http://api.channeladvisor.com/webservices/">
+         <GetOrderListResult>
+            <Status>Success</Status>
+            <MessageCode>0</MessageCode>
+            <ResultData>
+               <OrderResponseItem xsi:type="q1:OrderResponseDetailLow" xmlns:q1="http://api.channeladvisor.com/datacontracts/orders">
+                  <q1:NumberOfMatches>11</q1:NumberOfMatches>
+                  <q1:OrderTimeGMT>2011-11-11T00:01:33</q1:OrderTimeGMT>
+                  <q1:LastUpdateDate>2011-11-11T17:18:40.913</q1:LastUpdateDate>
+                  <q1:TotalOrderAmount>42.9100</q1:TotalOrderAmount>
+                  <q1:OrderState>Active</q1:OrderState>
+                  <q1:DateCancelledGMT xsi:nil="true"/>
+                  <q1:OrderID>11620113</q1:OrderID>
+                  <q1:ClientOrderIdentifier>104-0694396-8554638</q1:ClientOrderIdentifier>
+                  <q1:SellerOrderID/>
+                  <q1:FlagStyle xsi:nil="true"/>
+                  <q1:OrderStatus>
+                     <q1:CheckoutStatus>Completed</q1:CheckoutStatus>
+                     <q1:CheckoutDateGMT>2011-11-11T00:01:33</q1:CheckoutDateGMT>
+                     <q1:PaymentStatus>Cleared</q1:PaymentStatus>
+                     <q1:PaymentDateGMT>2011-11-11T00:01:33</q1:PaymentDateGMT>
+                     <q1:ShippingStatus>Shipped</q1:ShippingStatus>
+                     <q1:ShippingDateGMT>2011-11-11T08:00:00</q1:ShippingDateGMT>
+                     <q1:OrderRefundStatus>NoRefunds</q1:OrderRefundStatus>
+                  </q1:OrderStatus>
+               </OrderResponseItem>
+               <OrderResponseItem xsi:type="q2:OrderResponseDetailLow" xmlns:q2="http://api.channeladvisor.com/datacontracts/orders">
+                  <q2:NumberOfMatches>11</q2:NumberOfMatches>
+                  <q2:OrderTimeGMT>2011-11-11T00:03:54</q2:OrderTimeGMT>
+                  <q2:LastUpdateDate>2011-11-11T17:19:54.887</q2:LastUpdateDate>
+                  <q2:TotalOrderAmount>15.6400</q2:TotalOrderAmount>
+                  <q2:OrderState>Active</q2:OrderState>
+                  <q2:DateCancelledGMT xsi:nil="true"/>
+                  <q2:OrderID>11620114</q2:OrderID>
+                  <q2:ClientOrderIdentifier>104-3775612-2381816</q2:ClientOrderIdentifier>
+                  <q2:SellerOrderID/>
+                  <q2:FlagStyle xsi:nil="true"/>
+                  <q2:OrderStatus>
+                     <q2:CheckoutStatus>Completed</q2:CheckoutStatus>
+                     <q2:CheckoutDateGMT>2011-11-11T00:03:54</q2:CheckoutDateGMT>
+                     <q2:PaymentStatus>Cleared</q2:PaymentStatus>
+                     <q2:PaymentDateGMT>2011-11-11T00:03:54</q2:PaymentDateGMT>
+                     <q2:ShippingStatus>Shipped</q2:ShippingStatus>
+                     <q2:ShippingDateGMT>2011-11-11T08:00:00</q2:ShippingDateGMT>
+                     <q2:OrderRefundStatus>NoRefunds</q2:OrderRefundStatus>
+                  </q2:OrderStatus>
+               </OrderResponseItem>
+               <OrderResponseItem xsi:type="q3:OrderResponseDetailLow" xmlns:q3="http://api.channeladvisor.com/datacontracts/orders">
+                  <q3:NumberOfMatches>11</q3:NumberOfMatches>
+                  <q3:OrderTimeGMT>2011-11-11T00:13:00</q3:OrderTimeGMT>
+                  <q3:LastUpdateDate>2011-11-11T17:22:26.29</q3:LastUpdateDate>
+                  <q3:TotalOrderAmount>68.5700</q3:TotalOrderAmount>
+                  <q3:OrderState>Active</q3:OrderState>
+                  <q3:DateCancelledGMT xsi:nil="true"/>
+                  <q3:OrderID>11620244</q3:OrderID>
+                  <q3:ClientOrderIdentifier>103-4489984-0221044</q3:ClientOrderIdentifier>
+                  <q3:SellerOrderID/>
+                  <q3:FlagStyle xsi:nil="true"/>
+                  <q3:OrderStatus>
+                     <q3:CheckoutStatus>Completed</q3:CheckoutStatus>
+                     <q3:CheckoutDateGMT>2011-11-11T00:13:00</q3:CheckoutDateGMT>
+                     <q3:PaymentStatus>Cleared</q3:PaymentStatus>
+                     <q3:PaymentDateGMT>2011-11-11T00:13:00</q3:PaymentDateGMT>
+                     <q3:ShippingStatus>Shipped</q3:ShippingStatus>
+                     <q3:ShippingDateGMT>2011-11-11T08:00:00</q3:ShippingDateGMT>
+                     <q3:OrderRefundStatus>NoRefunds</q3:OrderRefundStatus>
+                  </q3:OrderStatus>
+               </OrderResponseItem>
+               <OrderResponseItem xsi:type="q4:OrderResponseDetailLow" xmlns:q4="http://api.channeladvisor.com/datacontracts/orders">
+                  <q4:NumberOfMatches>11</q4:NumberOfMatches>
+                  <q4:OrderTimeGMT>2011-11-11T00:33:36</q4:OrderTimeGMT>
+                  <q4:LastUpdateDate>2011-11-11T17:24:09.027</q4:LastUpdateDate>
+                  <q4:TotalOrderAmount>13.7400</q4:TotalOrderAmount>
+                  <q4:OrderState>Active</q4:OrderState>
+                  <q4:DateCancelledGMT xsi:nil="true"/>
+                  <q4:OrderID>11620413</q4:OrderID>
+                  <q4:ClientOrderIdentifier>002-2801604-3811431</q4:ClientOrderIdentifier>
+                  <q4:SellerOrderID/>
+                  <q4:FlagStyle xsi:nil="true"/>
+                  <q4:OrderStatus>
+                     <q4:CheckoutStatus>Completed</q4:CheckoutStatus>
+                     <q4:CheckoutDateGMT>2011-11-11T00:33:36</q4:CheckoutDateGMT>
+                     <q4:PaymentStatus>Cleared</q4:PaymentStatus>
+                     <q4:PaymentDateGMT>2011-11-11T00:33:36</q4:PaymentDateGMT>
+                     <q4:ShippingStatus>Shipped</q4:ShippingStatus>
+                     <q4:ShippingDateGMT>2011-11-11T08:00:00</q4:ShippingDateGMT>
+                     <q4:OrderRefundStatus>NoRefunds</q4:OrderRefundStatus>
+                  </q4:OrderStatus>
+               </OrderResponseItem>
+               <OrderResponseItem xsi:type="q5:OrderResponseDetailLow" xmlns:q5="http://api.channeladvisor.com/datacontracts/orders">
+                  <q5:NumberOfMatches>11</q5:NumberOfMatches>
+                  <q5:OrderTimeGMT>2011-11-11T00:39:46</q5:OrderTimeGMT>
+                  <q5:LastUpdateDate>2011-11-11T17:25:24.597</q5:LastUpdateDate>
+                  <q5:TotalOrderAmount>13.4400</q5:TotalOrderAmount>
+                  <q5:OrderState>Active</q5:OrderState>
+                  <q5:DateCancelledGMT xsi:nil="true"/>
+                  <q5:OrderID>11620576</q5:OrderID>
+                  <q5:ClientOrderIdentifier>102-0328211-5753055</q5:ClientOrderIdentifier>
+                  <q5:SellerOrderID/>
+                  <q5:FlagStyle xsi:nil="true"/>
+                  <q5:OrderStatus>
+                     <q5:CheckoutStatus>Completed</q5:CheckoutStatus>
+                     <q5:CheckoutDateGMT>2011-11-11T00:39:46</q5:CheckoutDateGMT>
+                     <q5:PaymentStatus>Cleared</q5:PaymentStatus>
+                     <q5:PaymentDateGMT>2011-11-11T00:39:46</q5:PaymentDateGMT>
+                     <q5:ShippingStatus>Shipped</q5:ShippingStatus>
+                     <q5:ShippingDateGMT>2011-11-11T08:00:00</q5:ShippingDateGMT>
+                     <q5:OrderRefundStatus>NoRefunds</q5:OrderRefundStatus>
+                  </q5:OrderStatus>
+               </OrderResponseItem>
+               <OrderResponseItem xsi:type="q6:OrderResponseDetailLow" xmlns:q6="http://api.channeladvisor.com/datacontracts/orders">
+                  <q6:NumberOfMatches>11</q6:NumberOfMatches>
+                  <q6:OrderTimeGMT>2011-11-11T01:27:26.763</q6:OrderTimeGMT>
+                  <q6:LastUpdateDate>2011-11-11T03:36:41.307</q6:LastUpdateDate>
+                  <q6:TotalOrderAmount>3.9400</q6:TotalOrderAmount>
+                  <q6:OrderState>Active</q6:OrderState>
+                  <q6:DateCancelledGMT xsi:nil="true"/>
+                  <q6:OrderID>11620596</q6:OrderID>
+                  <q6:ClientOrderIdentifier>11620596</q6:ClientOrderIdentifier>
+                  <q6:SellerOrderID/>
+                  <q6:FlagStyle xsi:nil="true"/>
+                  <q6:OrderStatus>
+                     <q6:CheckoutStatus>Completed</q6:CheckoutStatus>
+                     <q6:CheckoutDateGMT>2011-11-11T03:36:40.547</q6:CheckoutDateGMT>
+                     <q6:PaymentStatus>Deposited</q6:PaymentStatus>
+                     <q6:PaymentDateGMT>2011-11-11T03:36:40.547</q6:PaymentDateGMT>
+                     <q6:ShippingStatus>Unshipped</q6:ShippingStatus>
+                     <q6:ShippingDateGMT>1900-01-01T00:00:00</q6:ShippingDateGMT>
+                     <q6:OrderRefundStatus>NoRefunds</q6:OrderRefundStatus>
+                  </q6:OrderStatus>
+               </OrderResponseItem>
+               <OrderResponseItem xsi:type="q7:OrderResponseDetailLow" xmlns:q7="http://api.channeladvisor.com/datacontracts/orders">
+                  <q7:NumberOfMatches>11</q7:NumberOfMatches>
+                  <q7:OrderTimeGMT>2011-11-11T00:53:05</q7:OrderTimeGMT>
+                  <q7:LastUpdateDate>2011-11-11T17:26:39.44</q7:LastUpdateDate>
+                  <q7:TotalOrderAmount>108.2300</q7:TotalOrderAmount>
+                  <q7:OrderState>Active</q7:OrderState>
+                  <q7:DateCancelledGMT xsi:nil="true"/>
+                  <q7:OrderID>11620753</q7:OrderID>
+                  <q7:ClientOrderIdentifier>103-1323793-5385831</q7:ClientOrderIdentifier>
+                  <q7:SellerOrderID/>
+                  <q7:FlagStyle xsi:nil="true"/>
+                  <q7:OrderStatus>
+                     <q7:CheckoutStatus>Completed</q7:CheckoutStatus>
+                     <q7:CheckoutDateGMT>2011-11-11T00:53:05</q7:CheckoutDateGMT>
+                     <q7:PaymentStatus>Cleared</q7:PaymentStatus>
+                     <q7:PaymentDateGMT>2011-11-11T00:53:05</q7:PaymentDateGMT>
+                     <q7:ShippingStatus>Shipped</q7:ShippingStatus>
+                     <q7:ShippingDateGMT>2011-11-11T08:00:00</q7:ShippingDateGMT>
+                     <q7:OrderRefundStatus>NoRefunds</q7:OrderRefundStatus>
+                  </q7:OrderStatus>
+               </OrderResponseItem>
+               <OrderResponseItem xsi:type="q8:OrderResponseDetailLow" xmlns:q8="http://api.channeladvisor.com/datacontracts/orders">
+                  <q8:NumberOfMatches>11</q8:NumberOfMatches>
+                  <q8:OrderTimeGMT>2011-11-11T01:33:22</q8:OrderTimeGMT>
+                  <q8:LastUpdateDate>2011-11-11T17:27:53.613</q8:LastUpdateDate>
+                  <q8:TotalOrderAmount>99.8500</q8:TotalOrderAmount>
+                  <q8:OrderState>Active</q8:OrderState>
+                  <q8:DateCancelledGMT xsi:nil="true"/>
+                  <q8:OrderID>11621136</q8:OrderID>
+                  <q8:ClientOrderIdentifier>102-1812574-1734610</q8:ClientOrderIdentifier>
+                  <q8:SellerOrderID/>
+                  <q8:FlagStyle xsi:nil="true"/>
+                  <q8:OrderStatus>
+                     <q8:CheckoutStatus>Completed</q8:CheckoutStatus>
+                     <q8:CheckoutDateGMT>2011-11-11T01:33:22</q8:CheckoutDateGMT>
+                     <q8:PaymentStatus>Cleared</q8:PaymentStatus>
+                     <q8:PaymentDateGMT>2011-11-11T01:33:22</q8:PaymentDateGMT>
+                     <q8:ShippingStatus>Shipped</q8:ShippingStatus>
+                     <q8:ShippingDateGMT>2011-11-11T08:00:00</q8:ShippingDateGMT>
+                     <q8:OrderRefundStatus>NoRefunds</q8:OrderRefundStatus>
+                  </q8:OrderStatus>
+               </OrderResponseItem>
+               <OrderResponseItem xsi:type="q9:OrderResponseDetailLow" xmlns:q9="http://api.channeladvisor.com/datacontracts/orders">
+                  <q9:NumberOfMatches>11</q9:NumberOfMatches>
+                  <q9:OrderTimeGMT>2011-11-11T01:33:34</q9:OrderTimeGMT>
+                  <q9:LastUpdateDate>2011-11-11T17:29:11.053</q9:LastUpdateDate>
+                  <q9:TotalOrderAmount>32.7200</q9:TotalOrderAmount>
+                  <q9:OrderState>Active</q9:OrderState>
+                  <q9:DateCancelledGMT xsi:nil="true"/>
+                  <q9:OrderID>11621137</q9:OrderID>
+                  <q9:ClientOrderIdentifier>102-9125025-7993820</q9:ClientOrderIdentifier>
+                  <q9:SellerOrderID/>
+                  <q9:FlagStyle xsi:nil="true"/>
+                  <q9:OrderStatus>
+                     <q9:CheckoutStatus>Completed</q9:CheckoutStatus>
+                     <q9:CheckoutDateGMT>2011-11-11T01:33:34</q9:CheckoutDateGMT>
+                     <q9:PaymentStatus>Cleared</q9:PaymentStatus>
+                     <q9:PaymentDateGMT>2011-11-11T01:33:34</q9:PaymentDateGMT>
+                     <q9:ShippingStatus>Shipped</q9:ShippingStatus>
+                     <q9:ShippingDateGMT>2011-11-11T08:00:00</q9:ShippingDateGMT>
+                     <q9:OrderRefundStatus>NoRefunds</q9:OrderRefundStatus>
+                  </q9:OrderStatus>
+               </OrderResponseItem>
+               <OrderResponseItem xsi:type="q10:OrderResponseDetailLow" xmlns:q10="http://api.channeladvisor.com/datacontracts/orders">
+                  <q10:NumberOfMatches>11</q10:NumberOfMatches>
+                  <q10:OrderTimeGMT>2011-11-11T01:48:26</q10:OrderTimeGMT>
+                  <q10:LastUpdateDate>2011-11-11T17:30:27.867</q10:LastUpdateDate>
+                  <q10:TotalOrderAmount>13.7400</q10:TotalOrderAmount>
+                  <q10:OrderState>Active</q10:OrderState>
+                  <q10:DateCancelledGMT xsi:nil="true"/>
+                  <q10:OrderID>11621311</q10:OrderID>
+                  <q10:ClientOrderIdentifier>002-2338348-2568212</q10:ClientOrderIdentifier>
+                  <q10:SellerOrderID/>
+                  <q10:FlagStyle xsi:nil="true"/>
+                  <q10:OrderStatus>
+                     <q10:CheckoutStatus>Completed</q10:CheckoutStatus>
+                     <q10:CheckoutDateGMT>2011-11-11T01:48:26</q10:CheckoutDateGMT>
+                     <q10:PaymentStatus>Cleared</q10:PaymentStatus>
+                     <q10:PaymentDateGMT>2011-11-11T01:48:26</q10:PaymentDateGMT>
+                     <q10:ShippingStatus>Shipped</q10:ShippingStatus>
+                     <q10:ShippingDateGMT>2011-11-11T08:00:00</q10:ShippingDateGMT>
+                     <q10:OrderRefundStatus>NoRefunds</q10:OrderRefundStatus>
+                  </q10:OrderStatus>
+               </OrderResponseItem>
+               <OrderResponseItem xsi:type="q11:OrderResponseDetailLow" xmlns:q11="http://api.channeladvisor.com/datacontracts/orders">
+                  <q11:NumberOfMatches>11</q11:NumberOfMatches>
+                  <q11:OrderTimeGMT>2011-11-11T00:01:35</q11:OrderTimeGMT>
+                  <q11:LastUpdateDate>2011-11-13T20:07:39.237</q11:LastUpdateDate>
+                  <q11:TotalOrderAmount>99.2700</q11:TotalOrderAmount>
+                  <q11:OrderState>Active</q11:OrderState>
+                  <q11:DateCancelledGMT xsi:nil="true"/>
+                  <q11:OrderID>11649800</q11:OrderID>
+                  <q11:ClientOrderIdentifier>002-1274454-7048222</q11:ClientOrderIdentifier>
+                  <q11:SellerOrderID/>
+                  <q11:FlagStyle xsi:nil="true"/>
+                  <q11:OrderStatus>
+                     <q11:CheckoutStatus>Completed</q11:CheckoutStatus>
+                     <q11:CheckoutDateGMT>2011-11-11T00:01:35</q11:CheckoutDateGMT>
+                     <q11:PaymentStatus>Cleared</q11:PaymentStatus>
+                     <q11:PaymentDateGMT>2011-11-11T00:01:35</q11:PaymentDateGMT>
+                     <q11:ShippingStatus>Unshipped</q11:ShippingStatus>
+                     <q11:ShippingDateGMT>1900-01-01T00:00:00</q11:ShippingDateGMT>
+                     <q11:OrderRefundStatus>NoRefunds</q11:OrderRefundStatus>
+                  </q11:OrderStatus>
+               </OrderResponseItem>
+            </ResultData>
+         </GetOrderListResult>
+      </GetOrderListResponse>
+   </soap:Body>
+</soap:Envelope>
