@@ -4,7 +4,7 @@ require 'channeladvisor'
 require 'fakeweb'
 
 Savon.configure do |config|
-	config.log = false
+	config.log = true
 end
 
 HTTPI.log = false

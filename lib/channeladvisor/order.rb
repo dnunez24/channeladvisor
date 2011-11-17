@@ -88,23 +88,23 @@ module ChannelAdvisor
               xml.web :GetOrderList do
                 xml.web :accountID, ChannelAdvisor.account_id
                 xml.web :orderCriteria do
-                  build_filter xml, :OrderCreationFilterBeginTimeGMT, filters[:created_from]
-                  build_filter xml, :OrderCreationFilterEndTimeGMT, filters[:created_to]
-                  build_filter xml, :StatusUpdateFilterBeginTimeGMT, filters[:updated_from]
-                  build_filter xml, :StatusUpdateFilterEndTimeGMT, filters[:updated_to]
-                  build_filter xml, :JoinDateFiltersWithOr, filters[:join_dates]
-                  build_filter xml, :DetailLevel, filters[:detail_level]
-                  build_filter xml, :ExportState, filters[:export_state]
-                  build_filter xml, :OrderIDList, filters[:order_ids]
-                  build_filter xml, :ClientOrderIdentifierList, filters[:client_order_ids]
-                  build_filter xml, :OrderStateFilter, filters[:state]
-                  build_filter xml, :PaymentStatusFilter, filters[:payment_status]
-                  build_filter xml, :CheckoutStatusFilter, filters[:checkout_status]
-                  build_filter xml, :ShippingStatusFilter, filters[:shipping_status]
-                  build_filter xml, :RefundStatusFilter, filters[:refund_status]
-                  build_filter xml, :DistributionCenterCode, filters[:distribution_center]
-                  build_filter xml, :PageNumberFilter, filters[:page_number]
-                  build_filter xml, :PageSize, filters[:page_size]
+                  nillable xml, :OrderCreationFilterBeginTimeGMT, filters[:created_from]
+                  nillable xml, :OrderCreationFilterEndTimeGMT, filters[:created_to]
+                  nillable xml, :StatusUpdateFilterBeginTimeGMT, filters[:updated_from]
+                  nillable xml, :StatusUpdateFilterEndTimeGMT, filters[:updated_to]
+                  nillable xml, :JoinDateFiltersWithOr, filters[:join_dates]
+                  nillable xml, :DetailLevel, filters[:detail_level]
+                  nillable xml, :ExportState, filters[:export_state]
+                  optional xml, :OrderIDList, filters[:order_ids]
+                  optional xml, :ClientOrderIdentifierList, filters[:client_order_ids]
+                  nillable xml, :OrderStateFilter, filters[:state]
+                  nillable xml, :PaymentStatusFilter, filters[:payment_status]
+                  nillable xml, :CheckoutStatusFilter, filters[:checkout_status]
+                  nillable xml, :ShippingStatusFilter, filters[:shipping_status]
+                  nillable xml, :RefundStatusFilter, filters[:refund_status]
+                  optional xml, :DistributionCenterCode, filters[:distribution_center]
+                  nillable xml, :PageNumberFilter, filters[:page_number]
+                  nillable xml, :PageSize, filters[:page_size]
                 end
               end
             end
@@ -130,16 +130,21 @@ module ChannelAdvisor
       Connection.client "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx?WSDL"
     end
 
-    def self.build_filter(parent, element, filter)
+    def self.nillable(xml, element, filter)
       if filter.nil?
-      	case element
-      	when :OrderIDList, :ClientOrderIdentifierList, :DistributionCenterCode
-      		nil
-      	else
-      		parent.ord element, nil, "xsi:nil" => true
-      	end
+        xml.ord element, nil, "xsi:nil" => true
       else
-        parent.ord element, filter
+        xml.ord element, filter
+      end
+    end
+
+    def self.optional(xml, element, filter)
+      if filter.nil?
+      	nil
+      else
+        xml.ord element do
+          filter.each { |item| xml.ord(:int, item) }
+        end
       end
     end
   end

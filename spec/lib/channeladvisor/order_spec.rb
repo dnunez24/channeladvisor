@@ -119,8 +119,8 @@ module ChannelAdvisor
         describe "detail level" do
         	context "when valid" do
 	          it "returns an array of orders" do
-              mock_response(:order, :get_order_list, :low_detail)
-	            orders = ChannelAdvisor::Order.list(:detail_level => "Low")
+              mock_response(:order, :get_order_list, :valid_detail_level)
+	            orders = ChannelAdvisor::Order.list(:detail_level => 'Low')
 	            orders.first.should be_an_instance_of ChannelAdvisor::Order
 	          end
         	end
@@ -131,6 +131,27 @@ module ChannelAdvisor
 	            lambda{ ChannelAdvisor::Order.list(:detail_level => 'Junk') }.should raise_error Savon::SOAP::Fault, /'Junk' is not a valid value for DetailLevelType/
         	  end
         	end
+        end
+
+        describe "order ID list" do
+          context "with 3 valid order IDs" do
+            it "sends a SOAP request with an order ID list" do
+              pending
+              mock_response(:order, :get_order_list, :valid_order_ids)
+              soap = double 'soap'
+              soap.should_receive(:xml).with(/<ord:OrderIDList>\s*(<ord:int>\d+<\/ord:int>\s*)+<\/ord:OrderIDList>/)
+              order_ids = [9505559, 9578802, 9589767]
+              orders = ChannelAdvisor::Order.list(:order_ids => order_ids)
+            end
+
+            it "returns 3 orders with matching order IDs" do
+              mock_response(:order, :get_order_list, :valid_order_ids)
+              order_ids = [9505559, 9578802, 9589767]
+              orders = ChannelAdvisor::Order.list(:order_ids => order_ids)
+              orders.should have(3).items
+              orders.each { |order| order_ids.should include(order.order_id.to_i) }
+            end
+          end
         end
       end
     end
