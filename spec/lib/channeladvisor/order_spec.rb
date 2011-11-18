@@ -136,10 +136,10 @@ module ChannelAdvisor
         describe "order ID list" do
           context "with 3 valid order IDs" do
             it "sends a SOAP request with an order ID list" do
-              pending
               mock_response(:order, :get_order_list, :valid_order_ids)
-              soap = double 'soap'
-              soap.should_receive(:xml).with(/<ord:OrderIDList>\s*(<ord:int>\d+<\/ord:int>\s*)+<\/ord:OrderIDList>/)
+              any_instance_of(HTTPI::Request) do |request|
+                mock(request).body=(/<ord:OrderIDList>\s*(<ord:int>\d+<\/ord:int>\s*)+<\/ord:OrderIDList>/)
+              end
               order_ids = [9505559, 9578802, 9589767]
               orders = ChannelAdvisor::Order.list(:order_ids => order_ids)
             end

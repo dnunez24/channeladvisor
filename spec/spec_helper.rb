@@ -3,11 +3,17 @@ require 'bundler/setup'
 require 'channeladvisor'
 require 'fakeweb'
 
+RSpec.configure do |config|
+  config.mock_with :rr
+end
+
 Savon.configure do |config|
-	config.log = true
+	config.log = false
 end
 
 HTTPI.log = false
+
+FakeWeb.allow_net_connect = false
 
 def mock_response(*args)
   service   = args[0].to_s.downcase

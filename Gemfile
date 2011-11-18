@@ -4,6 +4,7 @@ source "http://rubygems.org"
 gemspec
 
 group :test do
+  gem 'rr'
   gem 'guard-rspec'
   gem 'guard-bundler'
   gem 'guard-yard',   :platforms => [:ruby] if RUBY_VERSION >= "1.9.2"
