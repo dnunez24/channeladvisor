@@ -15,7 +15,7 @@ HTTPI.log = false
 
 FakeWeb.allow_net_connect = false
 
-def mock_response(*args)
+def stub_response(*args)
   service   = args[0].to_s.downcase
   method    = args[1].to_s.downcase
   result    = args[2].to_s.downcase
