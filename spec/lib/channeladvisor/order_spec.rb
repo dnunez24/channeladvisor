@@ -33,14 +33,15 @@ module ChannelAdvisor
 
     describe ".list" do
       context "with no filters" do
-        context "with no orders" do
+        describe "with no orders" do
           it "raises a No Result Error" do
             stub_response(:order, :get_order_list, :no_match)
             orders = ChannelAdvisor::Order.list
             orders.should == nil
           end
         end
-        context "with 1 order" do
+
+        describe "with 1 order" do
           it "returns an array of 1 order object" do
             stub_response(:order, :get_order_list, :one_match)
             orders = ChannelAdvisor::Order.list
@@ -49,7 +50,7 @@ module ChannelAdvisor
           end
         end
 
-        context "with more than 1 order" do
+        describe "with more than 1 order" do
           it "returns an array with more than 1 order object" do
             stub_response(:order, :get_order_list, :no_criteria)
             orders = ChannelAdvisor::Order.list
@@ -60,6 +61,14 @@ module ChannelAdvisor
       end
 
       context "with created from filter" do
+        describe "not given" do
+          it "sends a SOAP request with an xsi:nil OrderCreationFilterBeginTimeGMT element" do
+            stub_response(:order, :get_order_list, :no_criteria)
+            mock.instance_of(HTTPI::Request).body=(/<ord:OrderCreationFilterBeginTimeGMT xsi:nil="true"><\/ord:OrderCreationFilterBeginTimeGMT>/)
+            ChannelAdvisor::Order.list
+          end
+        end
+
         describe "using 11/11/11" do
           it "returns only orders created after 11/11/11" do
             stub_response(:order, :get_order_list, :created_from)
@@ -70,6 +79,14 @@ module ChannelAdvisor
       end
 
       context "with created to filter" do
+        describe "not given" do
+          it "sends a SOAP request with an xsi:nil OrderCreationFilterEndTimeGMT element" do
+            stub_response(:order, :get_order_list, :no_criteria)
+            mock.instance_of(HTTPI::Request).body=(/<ord:OrderCreationFilterEndTimeGMT xsi:nil="true"><\/ord:OrderCreationFilterEndTimeGMT>/)
+            ChannelAdvisor::Order.list
+          end
+        end
+
         describe "using 11/11/11" do
           it "returns only orders created before 11/11/11" do
             stub_response(:order, :get_order_list, :created_to)
@@ -91,6 +108,14 @@ module ChannelAdvisor
       end
 
       context "with updated from filter" do
+        describe "not given" do
+          it "sends a SOAP request with an xsi:nil StatusUpdateFilterEndTimeGMT element" do
+            stub_response(:order, :get_order_list, :no_criteria)
+            mock.instance_of(HTTPI::Request).body=(/<ord:StatusUpdateFilterEndTimeGMT xsi:nil="true"><\/ord:StatusUpdateFilterEndTimeGMT>/)
+            ChannelAdvisor::Order.list
+          end
+        end
+
         describe "using 11/11/11" do
           it "returns only orders updated after 11/11/11" do
             stub_response(:order, :get_order_list, :updated_from)
@@ -102,6 +127,11 @@ module ChannelAdvisor
       end
 
       context "with updated to filter" do
+        describe "not given" do
+          it "sends a SOAP request with an xsi:nil StatusUpdateFilterEndTimeGMT element" do
+
+          end
+        end
         describe "using 11/11/11" do
           it "returns only orders updated before 11/11/11" do
             stub_response(:order, :get_order_list, :updated_to)
@@ -131,19 +161,15 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil DetailLevel element" do
             stub_response(:order, :get_order_list, :no_criteria)
-            any_instance_of(HTTPI::Request) do |request|
-              mock(request).body=(/<ord:DetailLevel xsi:nil="true"><\/ord:DetailLevel>/)
-            end
+            mock.instance_of(HTTPI::Request).body=(/<ord:DetailLevel xsi:nil="true"><\/ord:DetailLevel>/)
             ChannelAdvisor::Order.list
           end
         end
-        
+
       	describe "using a valid value" do
           it "sends a SOAP request with a DetailLevel element" do
             stub_response(:order, :get_order_list, :valid_detail_level)
-            any_instance_of(HTTPI::Request) do |request|
-              mock(request).body=(/<ord:DetailLevel>Low<\/ord:DetailLevel>/)
-            end
+            mock.instance_of(HTTPI::Request).body=(/<ord:DetailLevel>Low<\/ord:DetailLevel>/)
             ChannelAdvisor::Order.list(:detail_level => 'Low')
           end
 
@@ -162,10 +188,41 @@ module ChannelAdvisor
       	end
       end
 
+      context "with export state filter" do
+        describe "not given" do
+          it "sends a SOAP request with an xsi:nil ExportState element" do
+            stub_response :order, :get_order_list, :no_criteria
+            mock.instance_of(HTTPI::Request).body=(/<ord:ExportState xsi:nil="true"><\/ord:ExportState>/)
+            ChannelAdvisor::Order.list
+          end
+        end
+
+        describe "using a valid value" do
+          it "sends a SOAP request with an ExportState element" do
+            stub_response(:order, :get_order_list, :valid_export_state)
+            mock.instance_of(HTTPI::Request).body=(/<ord:ExportState>NotExported<\/ord:ExportState>/)
+            ChannelAdvisor::Order.list(:export_state => 'NotExported')
+          end
+
+          it "returns an array of orders" do
+            stub_response(:order, :get_order_list, :valid_export_state)
+            orders = ChannelAdvisor::Order.list(:export_state => 'NotExported')
+            orders.each { |order| order.should be_an_instance_of ChannelAdvisor::Order }
+          end
+        end
+
+        describe "using an invalid value" do
+          it "raises a SOAP Fault Error" do
+            stub_response(:order, :get_order_list, :invalid_export_state, ['500', 'Internal Server Error'])
+            lambda { ChannelAdvisor::Order.list(:export_state => 'Junk') }.should raise_error Savon::SOAP::Fault, /'Junk' is not a valid value for ExportStateType/
+          end
+        end
+      end
+
       context "with order ID list filter" do
         describe "not given" do
           it "sends a SOAP request without the OrderIDList element" do
-            stub_response(:order, :get_order_list, :valid_detail_level)
+            stub_response(:order, :get_order_list, :valid_order_ids)
             mock.instance_of(HTTPI::Request).body=(/(?!<ord:OrderIDList>.*<\/ord:OrderIDList>)/s)
             ChannelAdvisor::Order.list
           end
@@ -184,10 +241,84 @@ module ChannelAdvisor
             order_ids = [9505559, 9578802, 9589767]
             orders = ChannelAdvisor::Order.list(:order_ids => order_ids)
             orders.should have(3).items
-            orders.each { |order| order_ids.should include(order.order_id.to_i) }
+            orders.each { |order| order_ids.should include order.order_id.to_i }
           end
         end
       end
-    end
-  end
-end
+
+      context "with client order ID list filter" do
+        describe "not given" do
+          it "sends a SOAP request without the ClientOrderIdentifierList element" do
+            stub_response(:order, :get_order_list, :no_criteria)
+            mock.instance_of(HTTPI::Request).body=(/(?!<ord:ClientOrderIdentifierList>.*<\/ord:ClientOrderIdentifierList>)/s)
+            ChannelAdvisor::Order.list
+          end
+        end
+
+        describe "containing 2 valid client order IDs" do
+          it "sends a SOAP request with a client order ID list" do
+            stub_response(:order, :get_order_list, :valid_client_order_ids)
+            mock.instance_of(HTTPI::Request).body=(/<ord:ClientOrderIdentifierList>\s*(<ord:string>[-0-9]+<\/ord:string>\s*)+<\/ord:ClientOrderIdentifierList>/)
+            client_order_ids = ['103-2623013-3383425', '104-3096697-0099456']
+            ChannelAdvisor::Order.list(:client_order_ids => client_order_ids)
+          end
+
+          it "returns 2 orders with matching client order IDs" do
+            stub_response :order, :get_order_list, :valid_client_order_ids
+            client_order_ids = ['103-2623013-3383425', '104-3096697-0099456']
+            orders = ChannelAdvisor::Order.list(:client_order_ids => client_order_ids)
+            orders.should have(2).items
+            orders.each { |order| client_order_ids.should include order.client_order_identifier }
+          end
+        end
+      end
+
+      context "with order state filter" do
+        describe "not given" do
+          it "sends a SOAP request with an xsi:nil OrderStateFilter element" do
+            stub_response(:order, :get_order_list, :no_criteria)
+            mock.instance_of(HTTPI::Request).body=(/<ord:OrderStateFilter xsi:nil="true"><\/ord:OrderStateFilter>/)
+            ChannelAdvisor::Order.list
+          end
+        end
+
+        describe "using a valid value" do
+          it "sends a SOAP request with an OrderStateFilter element" do
+            stub_response(:order, :get_order_list, :valid_order_state)
+            mock.instance_of(HTTPI::Request).body=(/<ord:OrderStateFilter>Active<\/ord:OrderStateFilter>/)
+            ChannelAdvisor::Order.list(:state => 'Active')
+          end
+
+          it "returns only orders with Active order state" do
+            stub_response(:order, :get_order_list, :valid_order_state)
+            orders = ChannelAdvisor::Order.list(:state => 'Active')
+            orders.each { |order| ['Active', 'Cancelled'].should include order.order_state }
+          end
+        end
+      end
+
+      context "with payment status filter" do
+        describe "not given" do
+          it "sends a SOAP request with an xsi:nil PaymentStatusFilter element" do
+            stub_response(:order, :get_order_list, :no_criteria)
+            mock.instance_of(HTTPI::Request).body=(/<ord:PaymentStatusFilter xsi:nil="true"><\/ord:PaymentStatusFilter>/)
+            ChannelAdvisor::Order.list
+          end
+        end
+
+        describe "using a valid value" do
+          it "sends a SOAP request with a PaymentStatusFilter element" do
+            stub_response(:order, :get_order_list, :valid_payment_status)
+            mock.instance_of(HTTPI::Request).body=(/<ord:PaymentStatusFilter>Submitted<\/ord:PaymentStatusFilter>/)
+            ChannelAdvisor::Order.list(:payment_status => 'Submitted')
+          end
+
+          it "returns only orders with a post-submitted payment status" do
+            pending
+          end
+        end
+      end
+
+    end # .list
+  end # Order
+end # ChannelAdvisor

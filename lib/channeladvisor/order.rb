@@ -142,8 +142,15 @@ module ChannelAdvisor
       if filter.nil?
       	nil
       else
-        xml.ord element do
-          filter.each { |item| xml.ord(:int, item) }
+        case element
+        when :OrderIDList
+          xml.ord element do
+            filter.each { |item| xml.ord(:int, item) }
+          end
+        when :ClientOrderIdentifierList
+          xml.ord element do
+            filter.each { |item| xml.ord(:string, item) }
+          end
         end
       end
     end
