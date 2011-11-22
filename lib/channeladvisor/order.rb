@@ -125,13 +125,13 @@ module ChannelAdvisor
       Connection.client "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx?WSDL"
     end
 
-    def assign_attributes(hash)
-      hash.each do |key, value|
+    def assign_attributes(attributes)
+      attributes.each do |key, value|
         if value.is_a? Hash
           assign_attributes(value)
         else
           if key.to_s =~ /^\w*$/
-            self.class.__send__ :attr_accessor, key
+            self.class.instance_eval "attr_accessor :#{key}"
             self.__send__("#{key}=", value)
           end
         end
