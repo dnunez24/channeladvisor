@@ -308,13 +308,15 @@ module ChannelAdvisor
 
         describe "using a valid value" do
           it "sends a SOAP request with a PaymentStatusFilter element" do
-            stub_response(:order, :get_order_list, :valid_payment_status)
-            mock.instance_of(HTTPI::Request).body=(/<ord:PaymentStatusFilter>Submitted<\/ord:PaymentStatusFilter>/)
-            ChannelAdvisor::Order.list(:payment_status => 'Submitted')
+            stub_response :order, :get_order_list, :valid_payment_status
+            mock.instance_of(HTTPI::Request).body=(/<ord:PaymentStatusFilter>Failed<\/ord:PaymentStatusFilter>/)
+            ChannelAdvisor::Order.list(:payment_status => 'Failed')
           end
 
-          it "returns only orders with a post-submitted payment status" do
-            pending
+          it "returns only orders with a submitted-type payment status" do
+            stub_response :order, :get_order_list, :valid_payment_status
+            orders = ChannelAdvisor::Order.list(:payment_status => 'Failed')
+            orders.each { |order| order.payment_status.should == 'Failed' }
           end
         end
       end

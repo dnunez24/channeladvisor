@@ -9,12 +9,7 @@ module ChannelAdvisor
     }
 
     def initialize(attributes = {})
-      attributes.each do |key, value|
-        if key.to_s =~ /^\w*$/
-          self.class.__send__ :attr_accessor, key
-          self.__send__("#{key}=", value)
-        end
-      end
+      assign_attributes(attributes)
     end
 
     # Checks authorization for and availability of the order service
@@ -128,6 +123,19 @@ module ChannelAdvisor
 
     def self.client
       Connection.client "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx?WSDL"
+    end
+
+    def assign_attributes(hash)
+      hash.each do |key, value|
+        if value.is_a? Hash
+          assign_attributes(value)
+        else
+          if key.to_s =~ /^\w*$/
+            self.class.__send__ :attr_accessor, key
+            self.__send__("#{key}=", value)
+          end
+        end
+      end
     end
 
     def self.nillable(xml, element, filter)
