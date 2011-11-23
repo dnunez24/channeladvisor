@@ -8,6 +8,30 @@ module ChannelAdvisor
       "xmlns:ord" => "http://api.channeladvisor.com/datacontracts/orders"
     }
 
+    attr_reader(
+      :status,
+      :payment,
+      :shipping,
+      :billing,
+      :cart,
+      :items,
+      :invoices,
+      :promos,
+      :created_at,
+      :updated_at,
+      :total,
+      :state,
+      :cancelled_at,
+      :id,
+      :client_order_id,
+      :seller_order_id,
+      :flag_style,
+      :flag_description,
+      :reseller_id,
+      :buyer_email,
+      :email_opt_in
+    )
+
     def initialize(attributes = {})
       assign_attributes(attributes)
     end
@@ -125,6 +149,18 @@ module ChannelAdvisor
       Connection.client "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx?WSDL"
     end
 
+    def build_struct(attr_hash)
+      Struct.new(*attr_hash.keys).new(*attr_hash.values)
+    end
+
+    def status=(attr_hash)
+      @status = build_struct(attr_hash)
+    end
+
+    def payment=(attr_hash)
+      @payment = build_struct(attr_hash)
+    end
+
     def assign_attributes(attributes)
       attributes.each do |key, value|
         if value.is_a? Hash
@@ -159,6 +195,8 @@ module ChannelAdvisor
           xml.ord element do
             filter.each { |item| xml.ord(:string, item) }
           end
+        else
+          xml.ord(element, filter)
         end
       end
     end

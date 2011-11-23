@@ -413,6 +413,43 @@ module ChannelAdvisor
           end
         end
       end
+
+      context "with distribution center filter" do
+        describe "not given" do
+          it "sends a SOAP request without a DistributionCenterCode element" do
+            stub_response(:order, :get_order_list, :no_criteria)
+            mock.instance_of(HTTPI::Request).body=(/(?!<ord:DistributionCenterCode>.*<\/ord:DistributionCenterCode>)/s)
+            ChannelAdvisor::Order.list
+          end
+        end
+
+        describe "using a valid value" do
+          it "sends a SOAP request with a DistributionCenterCode element" do
+            stub_response :order, :get_order_list, :valid_distribution_center
+            mock.instance_of(HTTPI::Request).body=(/<ord:DistributionCenterCode>Wilsonville<\/ord:DistributionCenterCode>/)
+            ChannelAdvisor::Order.list(:distribution_center => 'Wilsonville')
+          end
+
+          it "returns only orders with a matching distribution center" do
+            pending
+            stub_response :order, :get_order_list, :valid_distribution_center
+            orders = ChannelAdvisor::Order.list(:distribution_center => 'Wilsonville')
+            orders.each do |order|
+              order.items.each do |item|
+                item.distribution_center == 'Wilsonville'
+              end
+            end
+          end
+        end
+
+        describe "using an invalid value" do
+          it "raises a SOAP Fault error" do
+            pending
+            stub_response(:order, :get_order_list, :invalid_refund_status, ['500', 'Internal Server Error'])
+            lambda { ChannelAdvisor::Order.list(:refund_status => 'Junk') }.should raise_error Savon::SOAP::Fault, /'Junk' is not a valid value for OrderRefundStatusCode/
+          end
+        end
+      end
     end # .list
   end # Order
 end # ChannelAdvisor

@@ -1,8 +1,8 @@
+require 'savon'
 require 'channeladvisor/version'
 require 'channeladvisor/configuration'
 require 'channeladvisor/connection'
 require 'channeladvisor/order'
-require 'savon'
 
 module ChannelAdvisor
 	extend Configuration
