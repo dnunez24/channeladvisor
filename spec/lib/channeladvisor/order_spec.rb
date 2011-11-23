@@ -285,14 +285,14 @@ module ChannelAdvisor
         describe "using a valid value" do
           it "sends a SOAP request with an OrderStateFilter element" do
             stub_response(:order, :get_order_list, :valid_order_state)
-            mock.instance_of(HTTPI::Request).body=(/<ord:OrderStateFilter>Active<\/ord:OrderStateFilter>/)
-            ChannelAdvisor::Order.list(:state => 'Active')
+            mock.instance_of(HTTPI::Request).body=(/<ord:OrderStateFilter>Cancelled<\/ord:OrderStateFilter>/)
+            ChannelAdvisor::Order.list(:state => 'Cancelled')
           end
 
           it "returns only orders with a matching order state" do
             stub_response(:order, :get_order_list, :valid_order_state)
-            orders = ChannelAdvisor::Order.list(:state => 'Active')
-            orders.each { |order| ['Active', 'Cancelled'].should include order.order_state }
+            orders = ChannelAdvisor::Order.list(:state => 'Cancelled')
+            orders.each { |order| order.order_state.should == 'Cancelled' }
           end
         end
       end
@@ -321,7 +321,7 @@ module ChannelAdvisor
         end
       end
 
-      context "with checkout status filter" do
+      context "with refund status filter" do
         describe "not given" do
           it "sends a SOAP request with an xsi:nil CheckoutStatusFilter element" do
             stub_response :order, :get_order_list, :no_criteria
@@ -363,7 +363,7 @@ module ChannelAdvisor
 
         describe "using a valid value" do
           it "sends a SOAP request with a ShippingStatusFilter element" do
-            stub_response :order, :get_order_list, :valid_checkout_status
+            stub_response :order, :get_order_list, :valid_shipping_status
             mock.instance_of(HTTPI::Request).body=(/<ord:ShippingStatusFilter>Unshipped<\/ord:ShippingStatusFilter>/)
             ChannelAdvisor::Order.list(:shipping_status => 'Unshipped')
           end
@@ -379,6 +379,37 @@ module ChannelAdvisor
           it "raises a SOAP Fault error" do
             stub_response(:order, :get_order_list, :invalid_shipping_status, ['500', 'Internal Server Error'])
             lambda { ChannelAdvisor::Order.list(:shipping_status => 'Junk') }.should raise_error Savon::SOAP::Fault, /'Junk' is not a valid value for ShippingStatusCode/
+          end
+        end
+      end
+
+      context "with refund status filter" do
+        describe "not given" do
+          it "sends a SOAP request with an xsi:nil RefundStatusFilter element" do
+            stub_response :order, :get_order_list, :no_criteria
+            mock.instance_of(HTTPI::Request).body=(/<ord:RefundStatusFilter xsi:nil="true"><\/ord:RefundStatusFilter>/)
+            ChannelAdvisor::Order.list
+          end
+        end
+
+        describe "using a valid value" do
+          it "sends a SOAP request with a RefundStatusFilter element" do
+            stub_response :order, :get_order_list, :valid_refund_status
+            mock.instance_of(HTTPI::Request).body=(/<ord:RefundStatusFilter>OrderLevel<\/ord:RefundStatusFilter>/)
+            ChannelAdvisor::Order.list(:refund_status => 'OrderLevel')
+          end
+
+          it "returns only orders with a matching refund status" do
+            stub_response :order, :get_order_list, :valid_refund_status
+            orders = ChannelAdvisor::Order.list(:refund_status => 'OrderLevel')
+            orders.each { |order| order.order_refund_status == 'OrderLevel' }
+          end
+        end
+
+        describe "using an invalid value" do
+          it "raises a SOAP Fault error" do
+            stub_response(:order, :get_order_list, :invalid_refund_status, ['500', 'Internal Server Error'])
+            lambda { ChannelAdvisor::Order.list(:refund_status => 'Junk') }.should raise_error Savon::SOAP::Fault, /'Junk' is not a valid value for OrderRefundStatusCode/
           end
         end
       end
