@@ -34,10 +34,10 @@ module ChannelAdvisor
     describe ".list" do
       context "with no filters" do
         describe "with no orders" do
-          it "raises a No Result Error" do
+          it "returns an empty array" do
             stub_response(:order, :get_order_list, :no_match)
             orders = ChannelAdvisor::Order.list
-            orders.should == nil
+            orders.should be_empty
           end
         end
 
@@ -73,7 +73,7 @@ module ChannelAdvisor
           it "returns only orders created after 11/11/11" do
             stub_response(:order, :get_order_list, :created_from)
             orders = ChannelAdvisor::Order.list :created_from => DateTime.new(2011, 11, 11)
-            orders.first.order_time_gmt.should be >= DateTime.new(2011, 11, 11)
+            orders.first.created_at.should be >= DateTime.new(2011, 11, 11)
           end
         end
       end
@@ -91,7 +91,7 @@ module ChannelAdvisor
           it "returns only orders created before 11/11/11" do
             stub_response(:order, :get_order_list, :created_to)
             orders = ChannelAdvisor::Order.list :created_to => DateTime.new(2011, 11, 11)
-            orders.first.order_time_gmt.should be <= DateTime.new(2011, 11, 11)
+            orders.first.created_at.should be <= DateTime.new(2011, 11, 11)
           end
         end
       end
@@ -101,8 +101,8 @@ module ChannelAdvisor
           it "returns only orders created between 11/11/11 00:00:00 and 11/11/11 02:00:00" do
             stub_response(:order, :get_order_list, :created_between)
             orders = ChannelAdvisor::Order.list :created_from => DateTime.new(2011, 11, 11, 00, 00, 00), :created_to => DateTime.new(2011, 11, 11, 02, 00, 00)
-            orders.first.order_time_gmt.should be >= DateTime.new(2011, 11, 11, 00, 00, 00)
-            orders.last.order_time_gmt.should be <= DateTime.new(2011, 11, 11, 02, 00, 00)
+            orders.first.created_at.should be >= DateTime.new(2011, 11, 11, 00, 00, 00)
+            orders.last.created_at.should be <= DateTime.new(2011, 11, 11, 02, 00, 00)
           end
         end
       end
@@ -120,8 +120,8 @@ module ChannelAdvisor
           it "returns only orders updated after 11/11/11" do
             stub_response(:order, :get_order_list, :updated_from)
             orders = ChannelAdvisor::Order.list :updated_from => DateTime.new(2011, 11, 11)
-            sorted_orders = orders.sort_by { |order| order.last_update_date }
-            sorted_orders.first.last_update_date.should be >= DateTime.new(2011, 11, 11)
+            sorted_orders = orders.sort_by { |order| order.updated_at }
+            sorted_orders.first.updated_at.should be >= DateTime.new(2011, 11, 11)
           end
         end
       end
@@ -136,8 +136,8 @@ module ChannelAdvisor
           it "returns only orders updated before 11/11/11" do
             stub_response(:order, :get_order_list, :updated_to)
             orders = ChannelAdvisor::Order.list :updated_to => DateTime.new(2011, 11, 11)
-            sorted_orders = orders.sort_by { |order| order.last_update_date }
-            sorted_orders.last.last_update_date.should be <= DateTime.new(2011, 11, 11)
+            sorted_orders = orders.sort_by { |order| order.updated_at }
+            sorted_orders.last.updated_at.should be <= DateTime.new(2011, 11, 11)
           end
         end
       end
@@ -150,9 +150,9 @@ module ChannelAdvisor
               :updated_from => DateTime.new(2011, 11, 11, 00, 00, 00),
               :updated_to => DateTime.new(2011, 11, 11, 02, 00, 00)
             )
-            sorted_orders = orders.sort_by { |order| order.last_update_date }
-            sorted_orders.first.last_update_date.should be >= DateTime.new(2011, 11, 11, 00, 00, 00)
-            sorted_orders.last.last_update_date.should be <= DateTime.new(2011, 11, 11, 02, 00, 00)
+            sorted_orders = orders.sort_by { |order| order.updated_at }
+            sorted_orders.first.updated_at.should be >= DateTime.new(2011, 11, 11, 00, 00, 00)
+            sorted_orders.last.updated_at.should be <= DateTime.new(2011, 11, 11, 02, 00, 00)
           end
         end
       end
@@ -241,7 +241,7 @@ module ChannelAdvisor
             order_ids = [9505559, 9578802, 9589767]
             orders = ChannelAdvisor::Order.list(:order_ids => order_ids)
             orders.should have(3).items
-            orders.each { |order| order_ids.should include order.order_id.to_i }
+            orders.each { |order| order_ids.should include order.id.to_i }
           end
         end
       end
@@ -268,7 +268,7 @@ module ChannelAdvisor
             client_order_ids = ['103-2623013-3383425', '104-3096697-0099456']
             orders = ChannelAdvisor::Order.list(:client_order_ids => client_order_ids)
             orders.should have(2).items
-            orders.each { |order| client_order_ids.should include order.client_order_identifier }
+            orders.each { |order| client_order_ids.should include order.client_order_id }
           end
         end
       end
@@ -292,7 +292,7 @@ module ChannelAdvisor
           it "returns only orders with a matching order state" do
             stub_response(:order, :get_order_list, :valid_order_state)
             orders = ChannelAdvisor::Order.list(:state => 'Cancelled')
-            orders.each { |order| order.order_state.should == 'Cancelled' }
+            orders.each { |order| order.state.should == 'Cancelled' }
           end
         end
       end
@@ -402,7 +402,7 @@ module ChannelAdvisor
           it "returns only orders with a matching refund status" do
             stub_response :order, :get_order_list, :valid_refund_status
             orders = ChannelAdvisor::Order.list(:refund_status => 'OrderLevel')
-            orders.each { |order| order.order_refund_status == 'OrderLevel' }
+            orders.each { |order| order.refund_status == 'OrderLevel' }
           end
         end
 

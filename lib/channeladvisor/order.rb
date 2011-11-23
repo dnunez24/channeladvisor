@@ -8,32 +8,35 @@ module ChannelAdvisor
       "xmlns:ord" => "http://api.channeladvisor.com/datacontracts/orders"
     }
 
-    attr_reader(
-      :status,
-      :payment,
-      :shipping,
-      :billing,
-      :cart,
-      :items,
-      :invoices,
-      :promos,
-      :created_at,
-      :updated_at,
-      :total,
-      :state,
-      :cancelled_at,
+    attr_accessor(
       :id,
       :client_order_id,
       :seller_order_id,
+      :state,
+      :created_at,
+      :updated_at,
+      :checkout_status,
+      :checkout_date,
+      :payment_status,
+      :payment_date,
+      :shipping_status,
+      :shipping_date,
+      :refund_status,
+      :total,
+      :cancelled_at,
       :flag_style,
       :flag_description,
       :reseller_id,
       :buyer_email,
       :email_opt_in
     )
+    attr_reader :items
 
-    def initialize(attributes = {})
-      assign_attributes(attributes)
+    def items=(items)
+      @items = []
+      items.each do |item|
+        @items << LineItem.new(item)
+      end
     end
 
     # Checks authorization for and availability of the order service
@@ -131,13 +134,26 @@ module ChannelAdvisor
         end
       end
 
-      result_data = response.body[:get_order_list_response][:get_order_list_result][:result_data]
-      return result_data if result_data.nil?
-
       orders = []
+      ns_web = {'web' => NAMESPACES['xmlns:web']}
+      ns_ord = {'ord' => NAMESPACES['xmlns:ord']}
+      order_nodes = response.xpath('//web:OrderResponseItem', ns_web)
+      return orders if order_nodes.empty?
 
-      [result_data[:order_response_item]].flatten.each do |params|
-        orders << Order.new(params)
+      order_nodes.each do |order_node|
+        order = Order.new
+        order.id = order_node.xpath('./ord:OrderID', ns_ord).text
+        order.client_order_id = order_node.xpath('./ord:ClientOrderIdentifier', ns_ord).text
+        order.state = order_node.xpath('./ord:OrderState', ns_ord).text
+        order.created_at = DateTime.parse(order_node.xpath('./ord:OrderTimeGMT', ns_ord).text + " UTC")
+        order.updated_at = DateTime.parse(order_node.xpath('./ord:LastUpdateDate', ns_ord).text + " UTC")
+        order.checkout_status = order_node.xpath('./ord:OrderStatus/ord:CheckoutStatus', ns_ord).text
+        order.payment_status = order_node.xpath('./ord:OrderStatus/ord:PaymentStatus', ns_ord).text
+        order.shipping_status = order_node.xpath('./ord:OrderStatus/ord:ShippingStatus', ns_ord).text
+        order.refund_status = order_node.xpath('./ord:OrderStatus/ord:OrderRefundStatus', ns_ord).text
+        items = order_node.xpath('./ord:ShoppingCart/ord:LineItemSKUList/ord:OrderLineItemItem', ns_ord)
+        order.items = items
+        orders << order
       end
 
       return orders
@@ -147,31 +163,6 @@ module ChannelAdvisor
 
     def self.client
       Connection.client "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx?WSDL"
-    end
-
-    def build_struct(attr_hash)
-      Struct.new(*attr_hash.keys).new(*attr_hash.values)
-    end
-
-    def status=(attr_hash)
-      @status = build_struct(attr_hash)
-    end
-
-    def payment=(attr_hash)
-      @payment = build_struct(attr_hash)
-    end
-
-    def assign_attributes(attributes)
-      attributes.each do |key, value|
-        if value.is_a? Hash
-          assign_attributes(value)
-        else
-          if key.to_s =~ /^\w*$/
-            self.class.instance_eval "attr_accessor :#{key}"
-            self.__send__("#{key}=", value)
-          end
-        end
-      end
     end
 
     def self.nillable(xml, element, filter)
@@ -201,4 +192,66 @@ module ChannelAdvisor
       end
     end
   end
+
+  class LineItem
+    attr_reader(
+      :id,
+      :type,
+      :sku,
+      :title,
+      :unit_price,
+      :quantity,
+      :allow_negative_quantity,
+      :sale_source,
+      :buyer_user_id,
+      :buyer_feedback_rating,
+      :sales_source_id,
+      :vat_rate,
+      :tax_cost,
+      :shipping_cost,
+      :shipping_tax_cost,
+      :gift_wrap_cost,
+      :gift_wrap_tax_cost,
+      :gift_message,
+      :gift_wrap_level,
+      :recycling_fee,
+      :unit_weight,
+      :unit_of_measure,
+      :warehouse_location,
+      :user_name,
+      :distribution_center_code,
+      :is_fba
+    )
+
+    def initialize(item)
+      ns = {'ord' => Order::NAMESPACES['xmlns:ord']}
+      @id                       = item.xpath('./ord:LineItemID', ns).text
+      @type                     = item.xpath('./ord:LineItemType', ns).text
+      @sku                      = item.xpath('./ord:SKU', ns).text
+      @title                    = item.xpath('./ord:Title', ns).text
+      @unit_price               = item.xpath('./ord:UnitPrice', ns).text
+      @quantity                 = item.xpath('./ord:Quantity', ns).text
+      @allow_negative_quantity  = item.xpath('./ord:AllowNegativeQuantity', ns).text
+      @sale_source              = item.xpath('./ord:ItemSaleSource', ns).text
+      @buyer_user_id            = item.xpath('./ord:BuyerUserID', ns).text
+      @buyer_feedback_rating    = item.xpath('./ord:BuyerFeedbackRating', ns).text
+      @sales_source_id          = item.xpath('./ord:SalesSourceID', ns).text
+      @vat_rate                 = item.xpath('./ord:VATRate', ns).text
+      @tax_cost                 = item.xpath('./ord:TaxCost', ns).text
+      @shipping_cost            = item.xpath('./ord:ShippingCost', ns).text
+      @shipping_tax_cost        = item.xpath('./ord:ShippingTaxCost', ns).text
+      @gift_wrap_cost           = item.xpath('./ord:GiftWrapCost', ns).text
+      @gift_wrap_tax_cost       = item.xpath('./ord:GiftWrapTaxCost', ns).text
+      @gift_message             = item.xpath('./ord:GiftMessage', ns).text
+      @gift_wrap_level          = item.xpath('./ord:GiftWrapLevel', ns).text
+      @recycling_fee            = item.xpath('./ord:RecyclingFee', ns).text
+      @unit_weight              = item.xpath('./ord:UnitWeight', ns).text
+      @unit_of_measure          = item.xpath('./ord:UnitWeight', ns).attribute('UnitOfMeasure').text
+      @warehouse_location       = item.xpath('./ord:WarehouseLocation', ns).text
+      @user_name                = item.xpath('./ord:UserName', ns).text
+      @distribution_center_code = item.xpath('./ord:DistributionCenterCode', ns).text
+      @is_fba                   = item.xpath('./ord:IsFBA', ns).text
+    end
+  end
+
 end
