@@ -289,7 +289,7 @@ module ChannelAdvisor
             ChannelAdvisor::Order.list(:state => 'Active')
           end
 
-          it "returns only orders with Active order state" do
+          it "returns only orders with a matching order state" do
             stub_response(:order, :get_order_list, :valid_order_state)
             orders = ChannelAdvisor::Order.list(:state => 'Active')
             orders.each { |order| ['Active', 'Cancelled'].should include order.order_state }
@@ -313,7 +313,7 @@ module ChannelAdvisor
             ChannelAdvisor::Order.list(:payment_status => 'Failed')
           end
 
-          it "returns only orders with a submitted-type payment status" do
+          it "returns only orders with a matching payment status" do
             stub_response :order, :get_order_list, :valid_payment_status
             orders = ChannelAdvisor::Order.list(:payment_status => 'Failed')
             orders.each { |order| order.payment_status.should == 'Failed' }
@@ -321,6 +321,67 @@ module ChannelAdvisor
         end
       end
 
+      context "with checkout status filter" do
+        describe "not given" do
+          it "sends a SOAP request with an xsi:nil CheckoutStatusFilter element" do
+            stub_response :order, :get_order_list, :no_criteria
+            mock.instance_of(HTTPI::Request).body=(/<ord:CheckoutStatusFilter xsi:nil="true"><\/ord:CheckoutStatusFilter>/)
+            ChannelAdvisor::Order.list
+          end
+        end
+
+        describe "using a valid value" do
+          it "sends a SOAP request with a CheckoutStatusFilter element" do
+            stub_response :order, :get_order_list, :valid_checkout_status
+            mock.instance_of(HTTPI::Request).body=(/<ord:CheckoutStatusFilter>NotVisited<\/ord:CheckoutStatusFilter>/)
+            ChannelAdvisor::Order.list(:checkout_status => 'NotVisited')
+          end
+
+          it "returns only orders with a matching checkout status" do
+            stub_response :order, :get_order_list, :valid_checkout_status
+            orders = ChannelAdvisor::Order.list(:checkout_status => 'NotVisited')
+            orders.each { |order| order.checkout_status.should == 'NotVisited' }
+          end
+        end
+
+        describe "using an invalid value" do
+          it "raises a SOAP Fault error" do
+            stub_response(:order, :get_order_list, :invalid_checkout_status, ['500', 'Internal Server Error'])
+            lambda { ChannelAdvisor::Order.list(:checkout_status => 'Junk') }.should raise_error Savon::SOAP::Fault, /'Junk' is not a valid value for CheckoutStatusCode/
+          end
+        end
+      end
+
+      context "with shipping status filter" do
+        describe "not given" do
+          it "sends a SOAP request with an xsi:nil ShippingStatusFilter element" do
+            stub_response :order, :get_order_list, :no_criteria
+            mock.instance_of(HTTPI::Request).body=(/<ord:ShippingStatusFilter xsi:nil="true"><\/ord:ShippingStatusFilter>/)
+            ChannelAdvisor::Order.list
+          end
+        end
+
+        describe "using a valid value" do
+          it "sends a SOAP request with a ShippingStatusFilter element" do
+            stub_response :order, :get_order_list, :valid_checkout_status
+            mock.instance_of(HTTPI::Request).body=(/<ord:ShippingStatusFilter>Unshipped<\/ord:ShippingStatusFilter>/)
+            ChannelAdvisor::Order.list(:shipping_status => 'Unshipped')
+          end
+
+          it "returns only orders with a matching shipping status" do
+            stub_response :order, :get_order_list, :valid_shipping_status
+            orders = ChannelAdvisor::Order.list(:shipping_status => 'Unshipped')
+            orders.each { |order| order.shipping_status.should == 'Unshipped' }
+          end
+        end
+
+        describe "using an invalid value" do
+          it "raises a SOAP Fault error" do
+            stub_response(:order, :get_order_list, :invalid_shipping_status, ['500', 'Internal Server Error'])
+            lambda { ChannelAdvisor::Order.list(:shipping_status => 'Junk') }.should raise_error Savon::SOAP::Fault, /'Junk' is not a valid value for ShippingStatusCode/
+          end
+        end
+      end
     end # .list
   end # Order
 end # ChannelAdvisor
