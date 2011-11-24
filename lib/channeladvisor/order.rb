@@ -219,7 +219,7 @@ module ChannelAdvisor
       :unit_of_measure,
       :warehouse_location,
       :user_name,
-      :distribution_center_code,
+      :distribution_center,
       :is_fba
     )
 
@@ -249,7 +249,7 @@ module ChannelAdvisor
       @unit_of_measure          = item.xpath('./ord:UnitWeight', ns).attribute('UnitOfMeasure').text
       @warehouse_location       = item.xpath('./ord:WarehouseLocation', ns).text
       @user_name                = item.xpath('./ord:UserName', ns).text
-      @distribution_center_code = item.xpath('./ord:DistributionCenterCode', ns).text
+      @distribution_center      = item.xpath('./ord:DistributionCenterCode', ns).text
       @is_fba                   = item.xpath('./ord:IsFBA', ns).text
     end
   end

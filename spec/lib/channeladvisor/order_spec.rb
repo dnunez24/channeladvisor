@@ -9,6 +9,8 @@ module ChannelAdvisor
         :body => File.expand_path("../../../fixtures/wsdls/order_service.xml", __FILE__)
       )
     end
+    
+    let(:request) { FakeWeb.last_request.body }
 
     after(:each) do
       FakeWeb.clean_registry
@@ -32,10 +34,19 @@ module ChannelAdvisor
     end
 
     describe ".list" do
+      # before(:each) do
+      #   FakeWeb.register_uri(
+      #     :post,
+      #     "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
+      #     :body => File.expand_path("../fixtures/responses/order_service/get_order_list/#{response_xml}", __FILE__)
+      #   )
+      # end
+      
       context "with no filters" do
         describe "with no orders" do
+          # let(:response_xml) { 'no_match.xml' }
           it "returns an empty array" do
-            stub_response(:order, :get_order_list, :no_match)
+            # stub_response(:order, :get_order_list, :no_match)
             orders = ChannelAdvisor::Order.list
             orders.should be_empty
           end
@@ -64,7 +75,7 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil OrderCreationFilterBeginTimeGMT element" do
             stub_response(:order, :get_order_list, :no_criteria)
-            mock.instance_of(HTTPI::Request).body=(/<ord:OrderCreationFilterBeginTimeGMT xsi:nil="true"><\/ord:OrderCreationFilterBeginTimeGMT>/)
+            request.should =~ /<ord:OrderCreationFilterBeginTimeGMT xsi:nil="true"><\/ord:OrderCreationFilterBeginTimeGMT>/
             ChannelAdvisor::Order.list
           end
         end
@@ -82,7 +93,7 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil OrderCreationFilterEndTimeGMT element" do
             stub_response(:order, :get_order_list, :no_criteria)
-            mock.instance_of(HTTPI::Request).body=(/<ord:OrderCreationFilterEndTimeGMT xsi:nil="true"><\/ord:OrderCreationFilterEndTimeGMT>/)
+            request.should =~ /<ord:OrderCreationFilterEndTimeGMT xsi:nil="true"><\/ord:OrderCreationFilterEndTimeGMT>/
             ChannelAdvisor::Order.list
           end
         end
@@ -111,7 +122,7 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil StatusUpdateFilterEndTimeGMT element" do
             stub_response(:order, :get_order_list, :no_criteria)
-            mock.instance_of(HTTPI::Request).body=(/<ord:StatusUpdateFilterEndTimeGMT xsi:nil="true"><\/ord:StatusUpdateFilterEndTimeGMT>/)
+            request.should =~ /<ord:StatusUpdateFilterEndTimeGMT xsi:nil="true"><\/ord:StatusUpdateFilterEndTimeGMT>/
             ChannelAdvisor::Order.list
           end
         end
@@ -161,7 +172,7 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil DetailLevel element" do
             stub_response(:order, :get_order_list, :no_criteria)
-            mock.instance_of(HTTPI::Request).body=(/<ord:DetailLevel xsi:nil="true"><\/ord:DetailLevel>/)
+            request.should =~ /<ord:DetailLevel xsi:nil="true"><\/ord:DetailLevel>/
             ChannelAdvisor::Order.list
           end
         end
@@ -169,7 +180,7 @@ module ChannelAdvisor
       	describe "using a valid value" do
           it "sends a SOAP request with a DetailLevel element" do
             stub_response(:order, :get_order_list, :valid_detail_level)
-            mock.instance_of(HTTPI::Request).body=(/<ord:DetailLevel>Low<\/ord:DetailLevel>/)
+            request.should =~ /<ord:DetailLevel>Low<\/ord:DetailLevel>/
             ChannelAdvisor::Order.list(:detail_level => 'Low')
           end
 
@@ -192,7 +203,7 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil ExportState element" do
             stub_response :order, :get_order_list, :no_criteria
-            mock.instance_of(HTTPI::Request).body=(/<ord:ExportState xsi:nil="true"><\/ord:ExportState>/)
+            request.should =~ /<ord:ExportState xsi:nil="true"><\/ord:ExportState>/
             ChannelAdvisor::Order.list
           end
         end
@@ -200,7 +211,7 @@ module ChannelAdvisor
         describe "using a valid value" do
           it "sends a SOAP request with an ExportState element" do
             stub_response(:order, :get_order_list, :valid_export_state)
-            mock.instance_of(HTTPI::Request).body=(/<ord:ExportState>NotExported<\/ord:ExportState>/)
+            request.should =~ /<ord:ExportState>NotExported<\/ord:ExportState>/
             ChannelAdvisor::Order.list(:export_state => 'NotExported')
           end
 
@@ -223,7 +234,7 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request without the OrderIDList element" do
             stub_response(:order, :get_order_list, :valid_order_ids)
-            mock.instance_of(HTTPI::Request).body=(/(?!<ord:OrderIDList>.*<\/ord:OrderIDList>)/s)
+            request.should =~ /(?!<ord:OrderIDList>.*<\/ord:OrderIDList>)/s
             ChannelAdvisor::Order.list
           end
         end
@@ -231,7 +242,7 @@ module ChannelAdvisor
         describe "containing 3 valid order IDs" do
           it "sends a SOAP request with an order ID list" do
             stub_response(:order, :get_order_list, :valid_order_ids)
-            mock.instance_of(HTTPI::Request).body=(/<ord:OrderIDList>\s*(<ord:int>\d+<\/ord:int>\s*)+<\/ord:OrderIDList>/)
+            request.should =~ /<ord:OrderIDList>\s*(<ord:int>\d+<\/ord:int>\s*)+<\/ord:OrderIDList>/
             order_ids = [9505559, 9578802, 9589767]
             ChannelAdvisor::Order.list(:order_ids => order_ids)
           end
@@ -250,7 +261,7 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request without the ClientOrderIdentifierList element" do
             stub_response(:order, :get_order_list, :no_criteria)
-            mock.instance_of(HTTPI::Request).body=(/(?!<ord:ClientOrderIdentifierList>.*<\/ord:ClientOrderIdentifierList>)/s)
+            request.should =~ /(?!<ord:ClientOrderIdentifierList>.*<\/ord:ClientOrderIdentifierList>)/s
             ChannelAdvisor::Order.list
           end
         end
@@ -258,7 +269,7 @@ module ChannelAdvisor
         describe "containing 2 valid client order IDs" do
           it "sends a SOAP request with a client order ID list" do
             stub_response(:order, :get_order_list, :valid_client_order_ids)
-            mock.instance_of(HTTPI::Request).body=(/<ord:ClientOrderIdentifierList>\s*(<ord:string>[-0-9]+<\/ord:string>\s*)+<\/ord:ClientOrderIdentifierList>/)
+            request.should =~ /<ord:ClientOrderIdentifierList>\s*(<ord:string>[-0-9]+<\/ord:string>\s*)+<\/ord:ClientOrderIdentifierList>/
             client_order_ids = ['103-2623013-3383425', '104-3096697-0099456']
             ChannelAdvisor::Order.list(:client_order_ids => client_order_ids)
           end
@@ -277,7 +288,7 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil OrderStateFilter element" do
             stub_response(:order, :get_order_list, :no_criteria)
-            mock.instance_of(HTTPI::Request).body=(/<ord:OrderStateFilter xsi:nil="true"><\/ord:OrderStateFilter>/)
+            request.should =~ /<ord:OrderStateFilter xsi:nil="true"><\/ord:OrderStateFilter>/
             ChannelAdvisor::Order.list
           end
         end
@@ -285,7 +296,7 @@ module ChannelAdvisor
         describe "using a valid value" do
           it "sends a SOAP request with an OrderStateFilter element" do
             stub_response(:order, :get_order_list, :valid_order_state)
-            mock.instance_of(HTTPI::Request).body=(/<ord:OrderStateFilter>Cancelled<\/ord:OrderStateFilter>/)
+            request.should =~ /<ord:OrderStateFilter>Cancelled<\/ord:OrderStateFilter>/
             ChannelAdvisor::Order.list(:state => 'Cancelled')
           end
 
@@ -301,7 +312,7 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil PaymentStatusFilter element" do
             stub_response(:order, :get_order_list, :no_criteria)
-            mock.instance_of(HTTPI::Request).body=(/<ord:PaymentStatusFilter xsi:nil="true"><\/ord:PaymentStatusFilter>/)
+            request.should =~ /<ord:PaymentStatusFilter xsi:nil="true"><\/ord:PaymentStatusFilter>/
             ChannelAdvisor::Order.list
           end
         end
@@ -309,7 +320,7 @@ module ChannelAdvisor
         describe "using a valid value" do
           it "sends a SOAP request with a PaymentStatusFilter element" do
             stub_response :order, :get_order_list, :valid_payment_status
-            mock.instance_of(HTTPI::Request).body=(/<ord:PaymentStatusFilter>Failed<\/ord:PaymentStatusFilter>/)
+            request.should =~ /<ord:PaymentStatusFilter>Failed<\/ord:PaymentStatusFilter>/
             ChannelAdvisor::Order.list(:payment_status => 'Failed')
           end
 
@@ -325,7 +336,7 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil CheckoutStatusFilter element" do
             stub_response :order, :get_order_list, :no_criteria
-            mock.instance_of(HTTPI::Request).body=(/<ord:CheckoutStatusFilter xsi:nil="true"><\/ord:CheckoutStatusFilter>/)
+            request.should =~ /<ord:CheckoutStatusFilter xsi:nil="true"><\/ord:CheckoutStatusFilter>/
             ChannelAdvisor::Order.list
           end
         end
@@ -333,7 +344,7 @@ module ChannelAdvisor
         describe "using a valid value" do
           it "sends a SOAP request with a CheckoutStatusFilter element" do
             stub_response :order, :get_order_list, :valid_checkout_status
-            mock.instance_of(HTTPI::Request).body=(/<ord:CheckoutStatusFilter>NotVisited<\/ord:CheckoutStatusFilter>/)
+            request.should =~ /<ord:CheckoutStatusFilter>NotVisited<\/ord:CheckoutStatusFilter>/
             ChannelAdvisor::Order.list(:checkout_status => 'NotVisited')
           end
 
@@ -356,7 +367,7 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil ShippingStatusFilter element" do
             stub_response :order, :get_order_list, :no_criteria
-            mock.instance_of(HTTPI::Request).body=(/<ord:ShippingStatusFilter xsi:nil="true"><\/ord:ShippingStatusFilter>/)
+            request.should =~ /<ord:ShippingStatusFilter xsi:nil="true"><\/ord:ShippingStatusFilter>/
             ChannelAdvisor::Order.list
           end
         end
@@ -364,7 +375,7 @@ module ChannelAdvisor
         describe "using a valid value" do
           it "sends a SOAP request with a ShippingStatusFilter element" do
             stub_response :order, :get_order_list, :valid_shipping_status
-            mock.instance_of(HTTPI::Request).body=(/<ord:ShippingStatusFilter>Unshipped<\/ord:ShippingStatusFilter>/)
+            request.should =~ /<ord:ShippingStatusFilter>Unshipped<\/ord:ShippingStatusFilter>/
             ChannelAdvisor::Order.list(:shipping_status => 'Unshipped')
           end
 
@@ -387,7 +398,7 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil RefundStatusFilter element" do
             stub_response :order, :get_order_list, :no_criteria
-            mock.instance_of(HTTPI::Request).body=(/<ord:RefundStatusFilter xsi:nil="true"><\/ord:RefundStatusFilter>/)
+            request.should =~ /<ord:RefundStatusFilter xsi:nil="true"><\/ord:RefundStatusFilter>/
             ChannelAdvisor::Order.list
           end
         end
@@ -395,7 +406,7 @@ module ChannelAdvisor
         describe "using a valid value" do
           it "sends a SOAP request with a RefundStatusFilter element" do
             stub_response :order, :get_order_list, :valid_refund_status
-            mock.instance_of(HTTPI::Request).body=(/<ord:RefundStatusFilter>OrderLevel<\/ord:RefundStatusFilter>/)
+            request.should =~ /<ord:RefundStatusFilter>OrderLevel<\/ord:RefundStatusFilter>/
             ChannelAdvisor::Order.list(:refund_status => 'OrderLevel')
           end
 
@@ -418,7 +429,7 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request without a DistributionCenterCode element" do
             stub_response(:order, :get_order_list, :no_criteria)
-            mock.instance_of(HTTPI::Request).body=(/(?!<ord:DistributionCenterCode>.*<\/ord:DistributionCenterCode>)/s)
+            request.should =~ /(?!<ord:DistributionCenterCode>.*<\/ord:DistributionCenterCode>)/s
             ChannelAdvisor::Order.list
           end
         end
@@ -426,12 +437,11 @@ module ChannelAdvisor
         describe "using a valid value" do
           it "sends a SOAP request with a DistributionCenterCode element" do
             stub_response :order, :get_order_list, :valid_distribution_center
-            mock.instance_of(HTTPI::Request).body=(/<ord:DistributionCenterCode>Wilsonville<\/ord:DistributionCenterCode>/)
+            request.should =~ /<ord:DistributionCenterCode>Wilsonville<\/ord:DistributionCenterCode>/
             ChannelAdvisor::Order.list(:distribution_center => 'Wilsonville')
           end
 
           it "returns only orders with a matching distribution center" do
-            pending
             stub_response :order, :get_order_list, :valid_distribution_center
             orders = ChannelAdvisor::Order.list(:distribution_center => 'Wilsonville')
             orders.each do |order|
@@ -443,10 +453,47 @@ module ChannelAdvisor
         end
 
         describe "using an invalid value" do
-          it "raises a SOAP Fault error" do
+          it "returns an empty array" do
+            stub_response(:order, :get_order_list, :invalid_distribution_center)
+            orders = ChannelAdvisor::Order.list(:distribution_center => 'Junk')
+            orders.should be_empty
+          end
+        end
+      end
+
+      context "with page number filter" do
+        describe "not given" do
+          it "sends a SOAP request with an xsi:nil PageNumberFilter element" do
+            stub_response(:order, :get_order_list, :no_criteria)
+            request.should =~ /<ord:PageNumberFilter xsi:nil="true"><\/ord:PageNumberFilter>/
+            ChannelAdvisor::Order.list
+          end
+        end
+
+        describe "using a valid value" do
+          it "sends a SOAP request with a PageNumberFilter element" do
+            stub_response :order, :get_order_list, :valid_page_number_2
+            ChannelAdvisor::Order.list(:page_number => 2)
+            request.should =~ /<ord:PageNumberFilter>2<\/ord:PageNumberFilter>/
+          end
+
+          it "returns orders from the corresponding page" do
             pending
-            stub_response(:order, :get_order_list, :invalid_refund_status, ['500', 'Internal Server Error'])
-            lambda { ChannelAdvisor::Order.list(:refund_status => 'Junk') }.should raise_error Savon::SOAP::Fault, /'Junk' is not a valid value for OrderRefundStatusCode/
+            stub_response :order, :get_order_list, :valid_page_number_1
+            stub_response :order, :get_order_list, :valid_page_number_2
+            request.should =~ /<ord:PageNumberFilter>2<\/ord:PageNumberFilter>/
+            ChannelAdvisor::Order.list(:page_number => 2)
+          end
+
+          it "does not return records from another page" do
+            
+          end
+        end
+
+        describe "using an invalid value" do
+          it "returns a SOAP Fault error" do
+            pending
+            # Input string was not in a correct format.
           end
         end
       end
