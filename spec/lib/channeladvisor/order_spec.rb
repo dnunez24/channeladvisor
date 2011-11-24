@@ -9,7 +9,7 @@ module ChannelAdvisor
         :body => File.expand_path("../../../fixtures/wsdls/order_service.xml", __FILE__)
       )
     end
-    
+
     let(:request) { FakeWeb.last_request.body }
 
     after(:each) do
@@ -41,12 +41,12 @@ module ChannelAdvisor
       #     :body => File.expand_path("../fixtures/responses/order_service/get_order_list/#{response_xml}", __FILE__)
       #   )
       # end
-      
+
       context "with no filters" do
         describe "with no orders" do
           # let(:response_xml) { 'no_match.xml' }
           it "returns an empty array" do
-            # stub_response(:order, :get_order_list, :no_match)
+            stub_response(:order, :get_order_list, :no_match)
             orders = ChannelAdvisor::Order.list
             orders.should be_empty
           end
@@ -75,8 +75,8 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil OrderCreationFilterBeginTimeGMT element" do
             stub_response(:order, :get_order_list, :no_criteria)
-            request.should =~ /<ord:OrderCreationFilterBeginTimeGMT xsi:nil="true"><\/ord:OrderCreationFilterBeginTimeGMT>/
             ChannelAdvisor::Order.list
+            request.should contain_nil_element "ord:OrderCreationFilterBeginTimeGMT"
           end
         end
 
@@ -93,8 +93,8 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil OrderCreationFilterEndTimeGMT element" do
             stub_response(:order, :get_order_list, :no_criteria)
-            request.should =~ /<ord:OrderCreationFilterEndTimeGMT xsi:nil="true"><\/ord:OrderCreationFilterEndTimeGMT>/
             ChannelAdvisor::Order.list
+            request.should contain_nil_element "ord:OrderCreationFilterEndTimeGMT"
           end
         end
 
@@ -122,8 +122,8 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil StatusUpdateFilterEndTimeGMT element" do
             stub_response(:order, :get_order_list, :no_criteria)
-            request.should =~ /<ord:StatusUpdateFilterEndTimeGMT xsi:nil="true"><\/ord:StatusUpdateFilterEndTimeGMT>/
             ChannelAdvisor::Order.list
+            request.should contain_nil_element "ord:StatusUpdateFilterEndTimeGMT"
           end
         end
 
@@ -143,6 +143,7 @@ module ChannelAdvisor
 
           end
         end
+
         describe "using 11/11/11" do
           it "returns only orders updated before 11/11/11" do
             stub_response(:order, :get_order_list, :updated_to)
@@ -172,16 +173,16 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil DetailLevel element" do
             stub_response(:order, :get_order_list, :no_criteria)
-            request.should =~ /<ord:DetailLevel xsi:nil="true"><\/ord:DetailLevel>/
             ChannelAdvisor::Order.list
+            request.should contain_nil_element "ord:DetailLevel"
           end
         end
 
       	describe "using a valid value" do
           it "sends a SOAP request with a DetailLevel element" do
             stub_response(:order, :get_order_list, :valid_detail_level)
-            request.should =~ /<ord:DetailLevel>Low<\/ord:DetailLevel>/
             ChannelAdvisor::Order.list(:detail_level => 'Low')
+            request.should contain_element('ord:DetailLevel').with_value('Low')
           end
 
           it "returns an array of orders" do
@@ -203,16 +204,16 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil ExportState element" do
             stub_response :order, :get_order_list, :no_criteria
-            request.should =~ /<ord:ExportState xsi:nil="true"><\/ord:ExportState>/
             ChannelAdvisor::Order.list
+            request.should contain_nil_element "ord:ExportState"
           end
         end
 
         describe "using a valid value" do
           it "sends a SOAP request with an ExportState element" do
             stub_response(:order, :get_order_list, :valid_export_state)
-            request.should =~ /<ord:ExportState>NotExported<\/ord:ExportState>/
             ChannelAdvisor::Order.list(:export_state => 'NotExported')
+            request.should contain_element('ord:ExportState').with_value('NotExported')
           end
 
           it "returns an array of orders" do
@@ -234,17 +235,17 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request without the OrderIDList element" do
             stub_response(:order, :get_order_list, :valid_order_ids)
-            request.should =~ /(?!<ord:OrderIDList>.*<\/ord:OrderIDList>)/s
             ChannelAdvisor::Order.list
+            request.should_not contain_element('ord:OrderIDList')
           end
         end
 
         describe "containing 3 valid order IDs" do
           it "sends a SOAP request with an order ID list" do
             stub_response(:order, :get_order_list, :valid_order_ids)
-            request.should =~ /<ord:OrderIDList>\s*(<ord:int>\d+<\/ord:int>\s*)+<\/ord:OrderIDList>/
             order_ids = [9505559, 9578802, 9589767]
             ChannelAdvisor::Order.list(:order_ids => order_ids)
+            request.should =~ /<ord:OrderIDList>\s*(<ord:int>\d+<\/ord:int>\s*)+<\/ord:OrderIDList>/
           end
 
           it "returns 3 orders with matching order IDs" do
@@ -261,17 +262,17 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request without the ClientOrderIdentifierList element" do
             stub_response(:order, :get_order_list, :no_criteria)
-            request.should =~ /(?!<ord:ClientOrderIdentifierList>.*<\/ord:ClientOrderIdentifierList>)/s
             ChannelAdvisor::Order.list
+            request.should_not contain_element('ord:ClientOrderIdentifierList')
           end
         end
 
         describe "containing 2 valid client order IDs" do
           it "sends a SOAP request with a client order ID list" do
             stub_response(:order, :get_order_list, :valid_client_order_ids)
-            request.should =~ /<ord:ClientOrderIdentifierList>\s*(<ord:string>[-0-9]+<\/ord:string>\s*)+<\/ord:ClientOrderIdentifierList>/
             client_order_ids = ['103-2623013-3383425', '104-3096697-0099456']
             ChannelAdvisor::Order.list(:client_order_ids => client_order_ids)
+            request.should =~ /<ord:ClientOrderIdentifierList>\s*(<ord:string>[-0-9]+<\/ord:string>\s*)+<\/ord:ClientOrderIdentifierList>/
           end
 
           it "returns 2 orders with matching client order IDs" do
@@ -288,16 +289,16 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil OrderStateFilter element" do
             stub_response(:order, :get_order_list, :no_criteria)
-            request.should =~ /<ord:OrderStateFilter xsi:nil="true"><\/ord:OrderStateFilter>/
             ChannelAdvisor::Order.list
+            request.should contain_nil_element "ord:OrderStateFilter"
           end
         end
 
         describe "using a valid value" do
           it "sends a SOAP request with an OrderStateFilter element" do
             stub_response(:order, :get_order_list, :valid_order_state)
-            request.should =~ /<ord:OrderStateFilter>Cancelled<\/ord:OrderStateFilter>/
             ChannelAdvisor::Order.list(:state => 'Cancelled')
+            request.should =~ /<ord:OrderStateFilter>Cancelled<\/ord:OrderStateFilter>/
           end
 
           it "returns only orders with a matching order state" do
@@ -312,16 +313,16 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil PaymentStatusFilter element" do
             stub_response(:order, :get_order_list, :no_criteria)
-            request.should =~ /<ord:PaymentStatusFilter xsi:nil="true"><\/ord:PaymentStatusFilter>/
             ChannelAdvisor::Order.list
+            request.should contain_nil_element "ord:PaymentStatusFilter"
           end
         end
 
         describe "using a valid value" do
           it "sends a SOAP request with a PaymentStatusFilter element" do
             stub_response :order, :get_order_list, :valid_payment_status
-            request.should =~ /<ord:PaymentStatusFilter>Failed<\/ord:PaymentStatusFilter>/
             ChannelAdvisor::Order.list(:payment_status => 'Failed')
+            request.should contain_element('ord:PaymentStatusFilter').with_value('Failed')
           end
 
           it "returns only orders with a matching payment status" do
@@ -336,16 +337,16 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil CheckoutStatusFilter element" do
             stub_response :order, :get_order_list, :no_criteria
-            request.should =~ /<ord:CheckoutStatusFilter xsi:nil="true"><\/ord:CheckoutStatusFilter>/
             ChannelAdvisor::Order.list
+            request.should contain_nil_element "ord:CheckoutStatusFilter"
           end
         end
 
         describe "using a valid value" do
           it "sends a SOAP request with a CheckoutStatusFilter element" do
             stub_response :order, :get_order_list, :valid_checkout_status
-            request.should =~ /<ord:CheckoutStatusFilter>NotVisited<\/ord:CheckoutStatusFilter>/
             ChannelAdvisor::Order.list(:checkout_status => 'NotVisited')
+            request.should contain_element('ord:CheckoutStatusFilter').with_value('NotVisited')
           end
 
           it "returns only orders with a matching checkout status" do
@@ -367,16 +368,16 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil ShippingStatusFilter element" do
             stub_response :order, :get_order_list, :no_criteria
-            request.should =~ /<ord:ShippingStatusFilter xsi:nil="true"><\/ord:ShippingStatusFilter>/
             ChannelAdvisor::Order.list
+            request.should contain_nil_element "ord:ShippingStatusFilter"
           end
         end
 
         describe "using a valid value" do
           it "sends a SOAP request with a ShippingStatusFilter element" do
             stub_response :order, :get_order_list, :valid_shipping_status
-            request.should =~ /<ord:ShippingStatusFilter>Unshipped<\/ord:ShippingStatusFilter>/
             ChannelAdvisor::Order.list(:shipping_status => 'Unshipped')
+            request.should contain_element('ord:ShippingStatusFilter').with_value('Unshipped')
           end
 
           it "returns only orders with a matching shipping status" do
@@ -398,16 +399,16 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil RefundStatusFilter element" do
             stub_response :order, :get_order_list, :no_criteria
-            request.should =~ /<ord:RefundStatusFilter xsi:nil="true"><\/ord:RefundStatusFilter>/
             ChannelAdvisor::Order.list
+            request.should contain_nil_element "ord:RefundStatusFilter"
           end
         end
 
         describe "using a valid value" do
           it "sends a SOAP request with a RefundStatusFilter element" do
             stub_response :order, :get_order_list, :valid_refund_status
-            request.should =~ /<ord:RefundStatusFilter>OrderLevel<\/ord:RefundStatusFilter>/
             ChannelAdvisor::Order.list(:refund_status => 'OrderLevel')
+            request.should contain_element('ord:RefundStatusFilter').with_value('OrderLevel')
           end
 
           it "returns only orders with a matching refund status" do
@@ -429,16 +430,16 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request without a DistributionCenterCode element" do
             stub_response(:order, :get_order_list, :no_criteria)
-            request.should =~ /(?!<ord:DistributionCenterCode>.*<\/ord:DistributionCenterCode>)/s
             ChannelAdvisor::Order.list
+            request.should_not contain_element('ord:DistributionCenterCode')
           end
         end
 
         describe "using a valid value" do
           it "sends a SOAP request with a DistributionCenterCode element" do
             stub_response :order, :get_order_list, :valid_distribution_center
-            request.should =~ /<ord:DistributionCenterCode>Wilsonville<\/ord:DistributionCenterCode>/
             ChannelAdvisor::Order.list(:distribution_center => 'Wilsonville')
+            request.should contain_element('ord:DistributionCenterCode').with_value('Wilsonville')
           end
 
           it "returns only orders with a matching distribution center" do
@@ -465,8 +466,8 @@ module ChannelAdvisor
         describe "not given" do
           it "sends a SOAP request with an xsi:nil PageNumberFilter element" do
             stub_response(:order, :get_order_list, :no_criteria)
-            request.should =~ /<ord:PageNumberFilter xsi:nil="true"><\/ord:PageNumberFilter>/
             ChannelAdvisor::Order.list
+            request.should contain_nil_element "ord:PageNumberFilter"
           end
         end
 
@@ -474,19 +475,19 @@ module ChannelAdvisor
           it "sends a SOAP request with a PageNumberFilter element" do
             stub_response :order, :get_order_list, :valid_page_number_2
             ChannelAdvisor::Order.list(:page_number => 2)
-            request.should =~ /<ord:PageNumberFilter>2<\/ord:PageNumberFilter>/
+            request.should contain_element('ord:PageNumberFilter').with_value('2')
           end
 
           it "returns orders from the corresponding page" do
             pending
             stub_response :order, :get_order_list, :valid_page_number_1
             stub_response :order, :get_order_list, :valid_page_number_2
-            request.should =~ /<ord:PageNumberFilter>2<\/ord:PageNumberFilter>/
             ChannelAdvisor::Order.list(:page_number => 2)
+            request.should =~ /<ord:PageNumberFilter>2<\/ord:PageNumberFilter>/
           end
 
           it "does not return records from another page" do
-            
+
           end
         end
 
