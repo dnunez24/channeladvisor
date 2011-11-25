@@ -34,8 +34,6 @@ module ChannelAdvisor
     let(:request) { FakeWeb.last_request.body }
 
     shared_examples "a standard filter" do |name|
-      name_symbol = name.gsub(/\s+/, "_")
-
       context "when not given" do
         it "sends a SOAP request with an xsi:nil type #{name} element" do
           stub_response :order, :get_order_list, :no_criteria
@@ -45,7 +43,7 @@ module ChannelAdvisor
       end
 
       context "when valid" do
-        before { stub_response :order, :get_order_list, :"valid_#{name_symbol}" }
+        before { stub_response :order, :get_order_list, :"valid_#{name.symbolize}" }
 
         it "sends a SOAP request with a #{name} element" do
           ChannelAdvisor::Order.list(filters)
@@ -64,7 +62,7 @@ module ChannelAdvisor
 
       context "when invalid" do
         it "raises a SOAP Fault error" do
-          stub_response :order, :get_order_list, :"invalid_#{name_symbol}", ['500', 'Internal Server Error']
+          stub_response :order, :get_order_list, :"invalid_#{name.symbolize}", ['500', 'Internal Server Error']
           expect { described_class.list }.to raise_error SoapFault
         end
       end

@@ -3,7 +3,7 @@ require 'bundler/setup'
 require 'channeladvisor'
 require 'fakeweb'
 
-Dir[File.dirname(__FILE__) + "/support/matchers/**/*.rb"].each {|f| require f}
+Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each {|f| require f}
 
 RSpec.configure do |config|
   config.mock_with :rr
