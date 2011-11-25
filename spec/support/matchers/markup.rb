@@ -17,15 +17,17 @@ RSpec::Matchers.define :contain_nil_element do |element|
 end
 
 RSpec::Matchers.define :contain_element do |element|
-  chain :with_value do |value|
+  chain :with do |value|
     @value = value
   end
 
   match do |markup|
     if @value
-      markup =~ /<#{element}>#{@value}<\/#{element}>/
+      /<#{element}>(.*)<\/#{element}>/m.match markup do |m|
+        m[1] =~ /#{Regexp.escape @value}/
+      end
     else
-      markup =~ /<#{element}>.*<\/#{element}>/s
+      markup =~ /<#{element}>.*<\/#{element}>/m
     end
   end
 

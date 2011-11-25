@@ -1,5 +1,6 @@
 require 'savon'
 require 'channeladvisor/version'
+require 'channeladvisor/error'
 require 'channeladvisor/configuration'
 require 'channeladvisor/connection'
 require 'channeladvisor/order'
@@ -10,6 +11,4 @@ module ChannelAdvisor
 	def self.configure(&block)
 		yield self if block_given?
 	end
-
-	class ServiceFailure < StandardError; end
 end
