@@ -25,7 +25,7 @@ module ChannelAdvisor
   describe Order, ".ping" do
     before(:all)  { stub_wsdl }
     before(:each) { stub_response :ping, data }
-    subject { described_class.ping }
+    subject { ChannelAdvisor::Order.ping }
 
     context "when successful" do
       let(:data) { :success }
@@ -63,7 +63,7 @@ module ChannelAdvisor
       end
 
       context "when valid" do
-        let(:data) { "valid_#{name.to_s}" }
+        let(:data) { "valid_#{name}" }
 
         it "sends a SOAP request with a #{name.stringify} element" do
           ChannelAdvisor::Order.list(filters)
@@ -81,39 +81,11 @@ module ChannelAdvisor
       end
 
       context "when invalid" do
-        let(:data) { "invalid_#{name.to_s}" }
+        let(:data) { "invalid_#{name}" }
         let(:status) { ['500', 'Internal Server Error'] }
-        
+
         it "raises a SOAP Fault error" do
-          expect { described_class.list }.to raise_error SoapFault
-        end
-      end
-    end
-
-    context "with no filters" do
-      subject { described_class.list }
-
-      context "when receiving no orders" do
-        let(:data) { :no_match }
-        it { should be_an Array }
-        it { should be_empty }
-      end
-
-      context "when receiving 1 order" do
-        let(:data) { :one_match }
-
-        it "returns an array of 1 order" do
-          subject.size.should == 1
-          subject.first.should be_an_instance_of described_class
-        end
-      end
-
-      context "when receiving more than 1 order" do
-        let(:data) { :no_criteria }
-
-        it "returns an array with more than 1 order" do
-          subject.size.should be > 1
-          subject.each { |order| order.should be_an_instance_of described_class }
+          expect { ChannelAdvisor::Order.list }.to raise_error SoapFault
         end
       end
     end
@@ -123,23 +95,23 @@ module ChannelAdvisor
         let(:data) { :no_criteria }
 
         it "sends a SOAP request with an xsi:nil type #{name.stringify} element" do
-          described_class.list
+          ChannelAdvisor::Order.list
           request.should contain_nil_element element
         end
       end
-      
-      /(_from|_to)/.match(name) do |m|
+
+      /(_from|_to)/.match(name.to_s) do |m|
         context "when valid" do
           let(:data) { "valid_#{name}_date" }
           let(:date) { DateTime.new(2011, 11, 11) }
 
           it "sends a SOAP request with a #{name.stringify} element" do
-            described_class.list name => date
+            ChannelAdvisor::Order.list name => date
             request.should contain_element(element).with(date.strftime("%Y-%m-%dT%H:%M:%S"))
           end
 
           it "returns only orders bound by the supplied date" do
-            orders = described_class.list name => date
+            orders = ChannelAdvisor::Order.list name => date
             action = "#{$`}_at".clone.to_sym
             case m[1]
             when "from"
@@ -156,7 +128,35 @@ module ChannelAdvisor
         let(:status) { ['500', 'Internal Server Error'] }
 
         it "raises a SOAP Fault error" do
-          expect { described_class.list }.to raise_error SoapFault
+          expect { ChannelAdvisor::Order.list }.to raise_error SoapFault
+        end
+      end
+    end
+
+    context "with no filters" do
+      subject { ChannelAdvisor::Order.list }
+
+      context "when receiving no orders" do
+        let(:data) { :no_match }
+        it { should be_an Array }
+        it { should be_empty }
+      end
+
+      context "when receiving 1 order" do
+        let(:data) { :one_match }
+
+        it "returns an array of 1 order" do
+          subject.size.should == 1
+          subject.first.should be_an_instance_of ChannelAdvisor::Order
+        end
+      end
+
+      context "when receiving more than 1 order" do
+        let(:data) { :no_criteria }
+
+        it "returns an array with more than 1 order" do
+          subject.size.should be > 1
+          subject.each { |order| order.should be_an_instance_of ChannelAdvisor::Order }
         end
       end
     end
@@ -216,8 +216,8 @@ module ChannelAdvisor
       end
     end
 
-    context "with detail level filter" do
-      describe "not given" do
+    describe "detail level filter" do
+      context "not given" do
         let(:data) { :no_criteria }
 
         it "sends a SOAP request with an xsi:nil DetailLevel element" do
@@ -226,7 +226,7 @@ module ChannelAdvisor
         end
       end
 
-    	describe "using a valid value" do
+    	context "when valid" do
         let(:data) { :valid_detail_level }
 
         it "sends a SOAP request with a DetailLevel element" do
@@ -240,18 +240,18 @@ module ChannelAdvisor
         end
     	end
 
-    	describe "using an invalid value" do
+    	context "when invlaid" do
         let(:data) { :invalid_detail_level }
         let(:status) { ['500', 'Internal Server Error'] }
 
     	  it "raises a SOAP Fault Error" do
-          expect { described_class.list }.to raise_error SoapFault
+          expect { ChannelAdvisor::Order.list }.to raise_error SoapFault
     	  end
     	end
     end
 
-    context "with export state filter" do
-      describe "not given" do
+    describe "export state filter" do
+      context "not given" do
         let(:data) { :no_criteria }
 
         it "sends a SOAP request with an xsi:nil ExportState element" do
@@ -260,7 +260,7 @@ module ChannelAdvisor
         end
       end
 
-      describe "using a valid value" do
+      context "when valid" do
         let(:data) { :valid_export_state }
 
         it "sends a SOAP request with an ExportState element" do
@@ -274,19 +274,19 @@ module ChannelAdvisor
         end
       end
 
-      describe "using an invalid value" do
+      context "when invalid" do
         let(:data)    { :invalid_export_state }
         let(:status)  { ['500', 'Internal Server Error'] }
 
         it "raises a SOAP Fault Error" do
-          expect { described_class.list }.to raise_error SoapFault
+          expect { ChannelAdvisor::Order.list }.to raise_error SoapFault
         end
       end
     end
 
     context "with order ID list filter" do
       let(:data) { :valid_order_ids }
-      
+
       describe "not given" do
         it "sends a SOAP request without the OrderIDList element" do
           ChannelAdvisor::Order.list
