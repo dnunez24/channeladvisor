@@ -3,7 +3,7 @@ require 'spec_helper'
 def stub_wsdl
   FakeWeb.register_uri(
     :get,
-    "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx?WSDL",
+    "https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx?WSDL",
     :body => File.expand_path("../../../fixtures/wsdls/order_service.xml", __FILE__)
   )
 end
@@ -16,7 +16,7 @@ def stub_response(method, data, status=nil)
 
   FakeWeb.register_uri(
     :post,
-    "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
+    "https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx",
     response
   )
 end

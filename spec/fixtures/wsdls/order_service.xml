@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="utf-8"?>
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://api.channeladvisor.com/webservices/" xmlns:s1="http://api.channeladvisor.com/datacontracts/orders" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://api.channeladvisor.com/webservices/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
@@ -74,59 +75,6 @@
           <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Data" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="ResultData" type="s1:RefundOrderResponse" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="GetOrderList">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="accountID" nillable="true" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="orderCriteria" nillable="true" type="s1:OrderCriteria" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrderListResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetOrderListResult" type="tns:APIResultOfArrayOfOrderResponseItem" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="APIResultOfArrayOfOrderResponseItem">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Status" type="tns:ResultStatus" />
-          <s:element minOccurs="1" maxOccurs="1" name="MessageCode" type="s:int" />
-          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Data" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="ResultData" type="tns:ArrayOfOrderResponseItem" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="ArrayOfOrderResponseItem">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="OrderResponseItem" nillable="true" type="s1:OrderResponseItem" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="SubmitOrder">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="accountID" nillable="true" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="order" nillable="true" type="s1:OrderSubmit" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="SubmitOrderResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="SubmitOrderResult" type="tns:APIResultOfInt32" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="APIResultOfInt32">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Status" type="tns:ResultStatus" />
-          <s:element minOccurs="1" maxOccurs="1" name="MessageCode" type="s:int" />
-          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Data" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="ResultData" type="s:int" />
         </s:sequence>
       </s:complexType>
       <s:element name="SetSellerOrderID">
@@ -217,7 +165,7 @@
         <s:sequence>
           <s:element minOccurs="1" maxOccurs="1" name="OrderID" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="NewClientOrderIdentifier" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="FlagStyle" nillable="true" type="s1:FlagType" />
+          <s:element minOccurs="0" maxOccurs="1" name="FlagStyle" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="FlagDescription" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="TransactionNotes" type="tns:TransactionNoteSubmit" />
           <s:element minOccurs="0" maxOccurs="1" name="OrderStatusUpdate" type="tns:OrderStatusUpdateSubmit" />
@@ -234,8 +182,8 @@
       </s:complexType>
       <s:complexType name="OrderStatusUpdateSubmit">
         <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="CheckoutPaymentStatus" type="s1:CheckoutPaymentStatusCode" />
-          <s:element minOccurs="1" maxOccurs="1" name="ShippingStatus" type="s1:ShippingStatusCode" />
+          <s:element minOccurs="0" maxOccurs="1" name="CheckoutPaymentStatus" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ShippingStatus" type="s:string" />
         </s:sequence>
       </s:complexType>
       <s:element name="UpdateOrderListResponse">
@@ -312,7 +260,7 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="SubmitOrderWithRecycling">
+      <s:element name="SubmitOrder">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="accountID" nillable="true" type="s:string" />
@@ -320,14 +268,23 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="SubmitOrderWithRecyclingResponse">
+      <s:element name="SubmitOrderResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="SubmitOrderWithRecyclingResult" type="tns:APIResultOfInt32" />
+            <s:element minOccurs="0" maxOccurs="1" name="SubmitOrderResult" type="tns:APIResultOfInt32" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetOrderListWithRecycling">
+      <s:complexType name="APIResultOfInt32">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Status" type="tns:ResultStatus" />
+          <s:element minOccurs="1" maxOccurs="1" name="MessageCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Data" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultData" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetOrderList">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="accountID" nillable="true" type="s:string" />
@@ -335,13 +292,27 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetOrderListWithRecyclingResponse">
+      <s:element name="GetOrderListResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetOrderListWithRecyclingResult" type="tns:APIResultOfArrayOfOrderResponseItem" />
+            <s:element minOccurs="0" maxOccurs="1" name="GetOrderListResult" type="tns:APIResultOfArrayOfOrderResponseItem" />
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:complexType name="APIResultOfArrayOfOrderResponseItem">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Status" type="tns:ResultStatus" />
+          <s:element minOccurs="1" maxOccurs="1" name="MessageCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Data" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ResultData" type="tns:ArrayOfOrderResponseItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfOrderResponseItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="OrderResponseItem" nillable="true" type="s1:OrderResponseItem" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="Ping">
         <s:complexType />
       </s:element>
@@ -368,24 +339,11 @@
           <s:element minOccurs="0" maxOccurs="1" name="ClientOrderIdentifier" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="OrderID" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="Amount" type="s:decimal" />
-          <s:element minOccurs="1" maxOccurs="1" name="AdjustmentReason" type="s1:RefundAdjustmentReason" />
+          <s:element minOccurs="0" maxOccurs="1" name="AdjustmentReason" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="SellerRefundID" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="RefundItems" type="s1:ArrayOfRefundItem" />
         </s:sequence>
       </s:complexType>
-      <s:simpleType name="RefundAdjustmentReason">
-        <s:restriction base="s:string">
-          <s:enumeration value="GeneralAdjustment" />
-          <s:enumeration value="ItemNotAvailable" />
-          <s:enumeration value="CustomerReturnedItem" />
-          <s:enumeration value="CouldNotShip" />
-          <s:enumeration value="AlternateItemProvided" />
-          <s:enumeration value="BuyerCancelled" />
-          <s:enumeration value="CustomerExchange" />
-          <s:enumeration value="MerchandiseNotReceived" />
-          <s:enumeration value="ShippingAddressUndeliverable" />
-        </s:restriction>
-      </s:simpleType>
       <s:complexType name="ArrayOfRefundItem">
         <s:sequence>
           <s:element minOccurs="0" maxOccurs="unbounded" name="RefundItem" nillable="true" type="s1:RefundItem" />
@@ -405,7 +363,7 @@
           <s:element minOccurs="1" maxOccurs="1" name="RefundRequestID" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="RefundRequested" type="s:boolean" />
           <s:element minOccurs="1" maxOccurs="1" name="RestockQuantity" nillable="true" type="s:boolean" />
-          <s:element minOccurs="1" maxOccurs="1" name="AdjustmentReason" type="s1:RefundAdjustmentReason" />
+          <s:element minOccurs="0" maxOccurs="1" name="AdjustmentReason" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="SellerRefundID" type="s:string" />
         </s:sequence>
       </s:complexType>
@@ -414,65 +372,15 @@
           <s:extension base="s1:RefundItem">
             <s:sequence>
               <s:element minOccurs="1" maxOccurs="1" name="InvoiceItemID" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="ItemSaleSource" type="s1:SiteToken" />
-              <s:element minOccurs="1" maxOccurs="1" name="RefundRequestStatus" type="s1:AsyncStatusCode" />
+              <s:element minOccurs="0" maxOccurs="1" name="ItemSaleSource" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="RefundRequestStatus" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="RefundPaymentInfo" type="s1:PaymentInfo" />
-              <s:element minOccurs="1" maxOccurs="1" name="RestockStatus" type="s1:AsyncStatusCode" />
+              <s:element minOccurs="0" maxOccurs="1" name="RestockStatus" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="RefundCreateDateGMT" type="s:dateTime" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
       </s:complexType>
-      <s:simpleType name="SiteToken">
-        <s:restriction base="s:string">
-          <s:enumeration value="UNKNOWN" />
-          <s:enumeration value="EBAY_US" />
-          <s:enumeration value="AMAZON_AUCTIONS" />
-          <s:enumeration value="AMAZON_MARKETPLACE" />
-          <s:enumeration value="AMAZON_MERCHANTSAT" />
-          <s:enumeration value="YAHOO" />
-          <s:enumeration value="EBAY_MOTORS" />
-          <s:enumeration value="EBAY_MOTORS_FIXED_PRICE" />
-          <s:enumeration value="EBAY_STORES" />
-          <s:enumeration value="EBAY_CA" />
-          <s:enumeration value="EBAY_DE" />
-          <s:enumeration value="EBAY_FR" />
-          <s:enumeration value="EBAY_UK" />
-          <s:enumeration value="EBAY_AU" />
-          <s:enumeration value="DIRECT_SALE" />
-          <s:enumeration value="EBAY_ES" />
-          <s:enumeration value="EBAY_IT" />
-          <s:enumeration value="CHANNELADVISOR_STORE" />
-          <s:enumeration value="OVERSTOCK" />
-          <s:enumeration value="EBAY_IE" />
-          <s:enumeration value="DEMANDWARE_STORE" />
-          <s:enumeration value="OVERSTOCK_SHOPPING" />
-          <s:enumeration value="YAHOO_STORES" />
-          <s:enumeration value="AMAZON_US" />
-          <s:enumeration value="AMAZON_UK" />
-          <s:enumeration value="AMAZON_DE" />
-          <s:enumeration value="AMAZON_FR" />
-          <s:enumeration value="STOREADVISOR_PREMIUM" />
-          <s:enumeration value="TRADING_POST" />
-          <s:enumeration value="PIXMANIA" />
-          <s:enumeration value="BUY_DOT_COM" />
-          <s:enumeration value="SELL_ON_SEARS" />
-          <s:enumeration value="NEWEGG" />
-          <s:enumeration value="MAGENTO_ENTERPRISE" />
-          <s:enumeration value="MAGENTO_GO" />
-          <s:enumeration value="AMAZON_WEBSTORE" />
-        </s:restriction>
-      </s:simpleType>
-      <s:simpleType name="AsyncStatusCode">
-        <s:restriction base="s:string">
-          <s:enumeration value="Error" />
-          <s:enumeration value="SubmittedNotProcessed" />
-          <s:enumeration value="ProcessedNotAcknowledged" />
-          <s:enumeration value="AcknowledgedPostProcessingNotComplete" />
-          <s:enumeration value="PostProcessingComplete" />
-          <s:enumeration value="NoChange" />
-        </s:restriction>
-      </s:simpleType>
       <s:complexType name="PaymentInfo">
         <s:sequence>
           <s:element minOccurs="0" maxOccurs="1" name="PaymentType" type="s:string" />
@@ -491,182 +399,31 @@
           <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
         </s:sequence>
       </s:complexType>
-      <s:complexType name="OrderCriteria">
+      <s:complexType name="OrderRefundHistoryResponse">
         <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="OrderCreationFilterBeginTimeGMT" nillable="true" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="OrderCreationFilterEndTimeGMT" nillable="true" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="StatusUpdateFilterBeginTimeGMT" nillable="true" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="StatusUpdateFilterEndTimeGMT" nillable="true" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="JoinDateFiltersWithOr" nillable="true" type="s:boolean" />
-          <s:element minOccurs="1" maxOccurs="1" name="DetailLevel" nillable="true" type="s1:DetailLevelType" />
-          <s:element minOccurs="1" maxOccurs="1" name="ExportState" nillable="true" type="s1:ExportStateType" />
-          <s:element minOccurs="0" maxOccurs="1" name="OrderIDList" type="s1:ArrayOfInt" />
-          <s:element minOccurs="0" maxOccurs="1" name="ClientOrderIdentifierList" type="s1:ArrayOfString" />
-          <s:element minOccurs="1" maxOccurs="1" name="OrderStateFilter" nillable="true" type="s1:OrderStateCode" />
-          <s:element minOccurs="1" maxOccurs="1" name="PaymentStatusFilter" nillable="true" type="s1:PaymentStatusCode" />
-          <s:element minOccurs="1" maxOccurs="1" name="CheckoutStatusFilter" nillable="true" type="s1:CheckoutStatusCode" />
-          <s:element minOccurs="1" maxOccurs="1" name="ShippingStatusFilter" nillable="true" type="s1:ShippingStatusCode" />
-          <s:element minOccurs="1" maxOccurs="1" name="RefundStatusFilter" nillable="true" type="s1:OrderRefundStatusCode" />
-          <s:element minOccurs="0" maxOccurs="1" name="DistributionCenterCode" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="PageNumberFilter" nillable="true" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="PageSize" nillable="true" type="s:int" />
-        </s:sequence>
-      </s:complexType>
-      <s:simpleType name="DetailLevelType">
-        <s:restriction base="s:string">
-          <s:enumeration value="Low" />
-          <s:enumeration value="Medium" />
-          <s:enumeration value="High" />
-          <s:enumeration value="Complete" />
-        </s:restriction>
-      </s:simpleType>
-      <s:simpleType name="ExportStateType">
-        <s:restriction base="s:string">
-          <s:enumeration value="Unknown" />
-          <s:enumeration value="Exported" />
-          <s:enumeration value="NotExported" />
-        </s:restriction>
-      </s:simpleType>
-      <s:complexType name="ArrayOfInt">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="int" type="s:int" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="ArrayOfString">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
-        </s:sequence>
-      </s:complexType>
-      <s:simpleType name="OrderStateCode">
-        <s:restriction base="s:string">
-          <s:enumeration value="Active" />
-          <s:enumeration value="Archived" />
-          <s:enumeration value="Cancelled" />
-        </s:restriction>
-      </s:simpleType>
-      <s:simpleType name="PaymentStatusCode">
-        <s:restriction base="s:string">
-          <s:enumeration value="NoChange" />
-          <s:enumeration value="NotSubmitted" />
-          <s:enumeration value="Cleared" />
-          <s:enumeration value="Submitted" />
-          <s:enumeration value="Failed" />
-          <s:enumeration value="Deposited" />
-        </s:restriction>
-      </s:simpleType>
-      <s:simpleType name="CheckoutStatusCode">
-        <s:restriction base="s:string">
-          <s:enumeration value="NoChange" />
-          <s:enumeration value="NotVisited" />
-          <s:enumeration value="Completed" />
-          <s:enumeration value="Visited" />
-          <s:enumeration value="Cancelled" />
-          <s:enumeration value="CompletedOffline" />
-          <s:enumeration value="OnHold" />
-        </s:restriction>
-      </s:simpleType>
-      <s:simpleType name="ShippingStatusCode">
-        <s:restriction base="s:string">
-          <s:enumeration value="NoChange" />
-          <s:enumeration value="Unshipped" />
-          <s:enumeration value="Shipped" />
-          <s:enumeration value="PartiallyShipped" />
-          <s:enumeration value="PendingShipment" />
-        </s:restriction>
-      </s:simpleType>
-      <s:simpleType name="OrderRefundStatusCode">
-        <s:restriction base="s:string">
-          <s:enumeration value="NoChange" />
-          <s:enumeration value="FailedAttemptsOnly" />
-          <s:enumeration value="NoRefunds" />
-          <s:enumeration value="OrderLevel" />
-          <s:enumeration value="LineItemLevel" />
-          <s:enumeration value="OrderAndLineItemLevel" />
-        </s:restriction>
-      </s:simpleType>
-      <s:complexType name="OrderResponseItem" abstract="true">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="NumberOfMatches" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="OrderTimeGMT" nillable="true" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="LastUpdateDate" nillable="true" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="TotalOrderAmount" type="s:decimal" />
-          <s:element minOccurs="1" maxOccurs="1" name="OrderState" type="s1:OrderStateCode" />
-          <s:element minOccurs="1" maxOccurs="1" name="DateCancelledGMT" nillable="true" type="s:dateTime" />
           <s:element minOccurs="1" maxOccurs="1" name="OrderID" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="ClientOrderIdentifier" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="SellerOrderID" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="FlagStyle" nillable="true" type="s1:FlagType" />
+          <s:element minOccurs="0" maxOccurs="1" name="RefundStatus" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LineItemRefunds" type="s1:ArrayOfOrderLineItemRefundHistoryResponse" />
         </s:sequence>
       </s:complexType>
-      <s:simpleType name="FlagType">
-        <s:restriction base="s:string">
-          <s:enumeration value="ItemCopied" />
-          <s:enumeration value="ExclamationPoint" />
-          <s:enumeration value="NoFlag" />
-          <s:enumeration value="RedFlag" />
-          <s:enumeration value="QuestionMark" />
-          <s:enumeration value="NotAvailable" />
-          <s:enumeration value="Price" />
-          <s:enumeration value="YellowFlag" />
-          <s:enumeration value="GreenFlag" />
-          <s:enumeration value="BlueFlag" />
-        </s:restriction>
-      </s:simpleType>
-      <s:complexType name="OrderResponseDetailLow">
-        <s:complexContent mixed="false">
-          <s:extension base="s1:OrderResponseItem">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="OrderStatus" type="s1:OrderStatus" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="OrderStatus">
+      <s:complexType name="ArrayOfOrderLineItemRefundHistoryResponse">
         <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="CheckoutStatus" type="s1:CheckoutStatusCode" />
-          <s:element minOccurs="1" maxOccurs="1" name="CheckoutDateGMT" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="PaymentStatus" type="s1:PaymentStatusCode" />
-          <s:element minOccurs="1" maxOccurs="1" name="PaymentDateGMT" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="ShippingStatus" type="s1:ShippingStatusCode" />
-          <s:element minOccurs="1" maxOccurs="1" name="ShippingDateGMT" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="OrderRefundStatus" type="s1:OrderRefundStatusCode" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="OrderLineItemRefundHistoryResponse" nillable="true" type="s1:OrderLineItemRefundHistoryResponse" />
         </s:sequence>
       </s:complexType>
-      <s:complexType name="OrderResponseDetailMedium">
+      <s:complexType name="BillingInfoUpdateSubmit">
         <s:complexContent mixed="false">
-          <s:extension base="s1:OrderResponseDetailLow">
+          <s:extension base="s1:BillingInfo">
             <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="ResellerID" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="BuyerEmailAddress" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="EmailOptIn" type="s:boolean" />
-              <s:element minOccurs="0" maxOccurs="1" name="PaymentInfo" type="s1:PaymentInfoResponse" />
-              <s:element minOccurs="0" maxOccurs="1" name="ShippingInfo" type="s1:ShippingInfoResponse" />
-              <s:element minOccurs="0" maxOccurs="1" name="BillingInfo" type="s1:BillingInfo" />
-              <s:element minOccurs="0" maxOccurs="1" name="FlagDescription" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
       </s:complexType>
-      <s:complexType name="PaymentInfoResponse">
+      <s:complexType name="BillingInfo">
         <s:complexContent mixed="false">
-          <s:extension base="s1:PaymentInfo" />
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ShippingInfoResponse">
-        <s:complexContent mixed="false">
-          <s:extension base="s1:ShippingInfo" />
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ShippingInfo" abstract="true">
-        <s:complexContent mixed="false">
-          <s:extension base="s1:ContactComplete">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="ShipmentList" type="s1:ArrayOfShipment" />
-              <s:element minOccurs="0" maxOccurs="1" name="ShippingInstructions" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="EstimatedShipDate" nillable="true" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="DeliveryDate" nillable="true" type="s:dateTime" />
-            </s:sequence>
-          </s:extension>
+          <s:extension base="s1:ContactComplete" />
         </s:complexContent>
       </s:complexType>
       <s:complexType name="ContactComplete">
@@ -696,64 +453,70 @@
           <s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s:string" />
         </s:sequence>
       </s:complexType>
-      <s:complexType name="BillingInfo">
+      <s:complexType name="ShippingInfoUpdateSubmit">
         <s:complexContent mixed="false">
-          <s:extension base="s1:ContactComplete" />
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ArrayOfShipment">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="Shipment" nillable="true" type="s1:Shipment" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="Shipment">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="1" name="ShippingCarrier" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="ShippingClass" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="TrackingNumber" type="s:string" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="OrderResponseDetailHigh">
-        <s:complexContent mixed="false">
-          <s:extension base="s1:OrderResponseDetailMedium">
+          <s:extension base="s1:ContactComplete">
             <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="ShoppingCart" type="s1:OrderCart" />
+              <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ShippingInstructions" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="EstimatedShipDate" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="DeliveryDate" nillable="true" type="s:dateTime" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
       </s:complexType>
+      <s:complexType name="PaymentInfoUpdateSubmit">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:PaymentInfo" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="OrderSubmit">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:Order">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ShippingInfo" type="s1:ShippingInfoSubmit" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="Order" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="OrderTimeGMT" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="ClientOrderIdentifier" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SellerOrderID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OrderStatus" type="s1:OrderStatus" />
+          <s:element minOccurs="0" maxOccurs="1" name="BuyerEmailAddress" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="EmailOptIn" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="ResellerID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="BillingInfo" type="s1:BillingInfo" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentInfo" type="s1:PaymentInfo" />
+          <s:element minOccurs="0" maxOccurs="1" name="ShoppingCart" type="s1:OrderCart" />
+          <s:element minOccurs="0" maxOccurs="1" name="CustomValueList" type="s1:ArrayOfCustomValue" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OrderStatus">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CheckoutStatus" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CheckoutDateGMT" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentStatus" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PaymentDateGMT" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="ShippingStatus" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ShippingDateGMT" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="OrderRefundStatus" type="s:string" />
+        </s:sequence>
+      </s:complexType>
       <s:complexType name="OrderCart">
         <s:sequence>
           <s:element minOccurs="1" maxOccurs="1" name="CartID" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="CheckoutSource" type="s1:CheckoutSourceType" />
-          <s:element minOccurs="1" maxOccurs="1" name="VATTaxCalculationOption" type="s1:VAT_Calculation_Type" />
-          <s:element minOccurs="1" maxOccurs="1" name="VATShippingOption" type="s1:VAT_Calculation_Type" />
-          <s:element minOccurs="1" maxOccurs="1" name="VATGiftWrapOption" type="s1:VAT_Calculation_Type" />
+          <s:element minOccurs="0" maxOccurs="1" name="CheckoutSource" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VATTaxCalculationOption" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VATShippingOption" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VATGiftWrapOption" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="LineItemSKUList" type="s1:ArrayOfOrderLineItemItem" />
           <s:element minOccurs="0" maxOccurs="1" name="LineItemInvoiceList" type="s1:ArrayOfOrderLineItemInvoice" />
           <s:element minOccurs="0" maxOccurs="1" name="LineItemPromoList" type="s1:ArrayOfOrderLineItemPromo" />
         </s:sequence>
       </s:complexType>
-      <s:simpleType name="CheckoutSourceType">
-        <s:restriction base="s:string">
-          <s:enumeration value="Unspecified" />
-          <s:enumeration value="CA_Checkout" />
-          <s:enumeration value="Google_Checkout" />
-          <s:enumeration value="PayPal" />
-          <s:enumeration value="Demandware_Checkout" />
-          <s:enumeration value="Site_Checkout" />
-          <s:enumeration value="YahooStores_Checkout" />
-          <s:enumeration value="Overstock_Shopping" />
-          <s:enumeration value="Sears_Marketplace" />
-        </s:restriction>
-      </s:simpleType>
-      <s:simpleType name="VAT_Calculation_Type">
-        <s:restriction base="s:string">
-          <s:enumeration value="Unspecified" />
-          <s:enumeration value="VAT_INCLUSIVE" />
-          <s:enumeration value="VAT_EXCLUSIVE" />
-        </s:restriction>
-      </s:simpleType>
       <s:complexType name="ArrayOfOrderLineItemItem">
         <s:sequence>
           <s:element minOccurs="0" maxOccurs="unbounded" name="OrderLineItemItem" nillable="true" type="s1:OrderLineItemItem" />
@@ -766,7 +529,7 @@
               <s:element minOccurs="1" maxOccurs="1" name="LineItemID" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="AllowNegativeQuantity" type="s:boolean" />
               <s:element minOccurs="1" maxOccurs="1" name="Quantity" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="ItemSaleSource" type="s1:SiteToken" />
+              <s:element minOccurs="0" maxOccurs="1" name="ItemSaleSource" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="SKU" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="BuyerUserID" type="s:string" />
@@ -788,26 +551,15 @@
       </s:complexType>
       <s:complexType name="OrderLineItemBase" abstract="true">
         <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="LineItemType" type="s1:LineItemTypeCode" />
+          <s:element minOccurs="0" maxOccurs="1" name="LineItemType" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="UnitPrice" type="s:decimal" />
         </s:sequence>
       </s:complexType>
-      <s:simpleType name="LineItemTypeCode">
-        <s:restriction base="s:string">
-          <s:enumeration value="SKU" />
-          <s:enumeration value="Listing" />
-          <s:enumeration value="Promotion" />
-          <s:enumeration value="SalesTax" />
-          <s:enumeration value="Shipping" />
-          <s:enumeration value="VATShipping" />
-          <s:enumeration value="ShippingInsurance" />
-          <s:enumeration value="AdditionalCostOrDiscount" />
-          <s:enumeration value="BuyerOptInIncentive" />
-          <s:enumeration value="GiftWrap" />
-          <s:enumeration value="VATGiftWrap" />
-          <s:enumeration value="RecyclingFee" />
-        </s:restriction>
-      </s:simpleType>
+      <s:complexType name="OrderLineItemInvoice">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:OrderLineItemBase" />
+        </s:complexContent>
+      </s:complexType>
       <s:complexType name="OrderLineItemPromo">
         <s:complexContent mixed="false">
           <s:extension base="s1:OrderLineItemBase">
@@ -824,11 +576,6 @@
               <s:element minOccurs="1" maxOccurs="1" name="ShippingPrice" type="s:decimal" />
             </s:sequence>
           </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="OrderLineItemInvoice">
-        <s:complexContent mixed="false">
-          <s:extension base="s1:OrderLineItemBase" />
         </s:complexContent>
       </s:complexType>
       <s:complexType name="ArrayOfOrderLineItemItemPromo">
@@ -866,17 +613,6 @@
           <s:element minOccurs="0" maxOccurs="unbounded" name="OrderLineItemPromo" nillable="true" type="s1:OrderLineItemPromo" />
         </s:sequence>
       </s:complexType>
-      <s:complexType name="OrderResponseDetailComplete">
-        <s:complexContent mixed="false">
-          <s:extension base="s1:OrderResponseDetailHigh">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="CustomValueList" type="s1:ArrayOfCustomValue" />
-              <s:element minOccurs="0" maxOccurs="1" name="BuyerIpAddress" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="TransactionNotes" type="s:string" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
       <s:complexType name="ArrayOfCustomValue">
         <s:sequence>
           <s:element minOccurs="0" maxOccurs="unbounded" name="CustomValue" nillable="true" type="s1:CustomValue" />
@@ -888,72 +624,16 @@
           <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
         </s:sequence>
       </s:complexType>
-      <s:complexType name="OrderSubmit">
-        <s:complexContent mixed="false">
-          <s:extension base="s1:Order">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="ShippingInfo" type="s1:ShippingInfoSubmit" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="Order" abstract="true">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="OrderTimeGMT" type="s:dateTime" />
-          <s:element minOccurs="0" maxOccurs="1" name="ClientOrderIdentifier" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="SellerOrderID" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="OrderStatus" type="s1:OrderStatus" />
-          <s:element minOccurs="0" maxOccurs="1" name="BuyerEmailAddress" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="EmailOptIn" type="s:boolean" />
-          <s:element minOccurs="0" maxOccurs="1" name="ResellerID" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="BillingInfo" type="s1:BillingInfo" />
-          <s:element minOccurs="0" maxOccurs="1" name="PaymentInfo" type="s1:PaymentInfo" />
-          <s:element minOccurs="0" maxOccurs="1" name="ShoppingCart" type="s1:OrderCart" />
-          <s:element minOccurs="0" maxOccurs="1" name="CustomValueList" type="s1:ArrayOfCustomValue" />
-        </s:sequence>
-      </s:complexType>
       <s:complexType name="ShippingInfoSubmit">
         <s:complexContent mixed="false">
           <s:extension base="s1:ShippingInfo" />
         </s:complexContent>
       </s:complexType>
-      <s:complexType name="OrderRefundHistoryResponse">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="OrderID" type="s:int" />
-          <s:element minOccurs="0" maxOccurs="1" name="ClientOrderIdentifier" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="RefundStatus" type="s1:OrderRefundStatusCode" />
-          <s:element minOccurs="0" maxOccurs="1" name="LineItemRefunds" type="s1:ArrayOfOrderLineItemRefundHistoryResponse" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="ArrayOfOrderLineItemRefundHistoryResponse">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="OrderLineItemRefundHistoryResponse" nillable="true" type="s1:OrderLineItemRefundHistoryResponse" />
-        </s:sequence>
-      </s:complexType>
-      <s:simpleType name="CheckoutPaymentStatusCode">
-        <s:restriction base="s:string">
-          <s:enumeration value="NoChange" />
-          <s:enumeration value="CheckoutSamePaymentSubmitted" />
-          <s:enumeration value="CheckoutSamePaymentDeposited" />
-          <s:enumeration value="CheckoutSamePaymentCleared" />
-          <s:enumeration value="CheckoutCanceledPaymentFailed" />
-          <s:enumeration value="CheckoutReopenedPaymentFailed" />
-        </s:restriction>
-      </s:simpleType>
-      <s:complexType name="BillingInfoUpdateSubmit">
-        <s:complexContent mixed="false">
-          <s:extension base="s1:BillingInfo">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ShippingInfoUpdateSubmit">
+      <s:complexType name="ShippingInfo" abstract="true">
         <s:complexContent mixed="false">
           <s:extension base="s1:ContactComplete">
             <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ShipmentList" type="s1:ArrayOfShipment" />
               <s:element minOccurs="0" maxOccurs="1" name="ShippingInstructions" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="EstimatedShipDate" nillable="true" type="s:dateTime" />
               <s:element minOccurs="1" maxOccurs="1" name="DeliveryDate" nillable="true" type="s:dateTime" />
@@ -961,9 +641,115 @@
           </s:extension>
         </s:complexContent>
       </s:complexType>
-      <s:complexType name="PaymentInfoUpdateSubmit">
+      <s:complexType name="ArrayOfShipment">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Shipment" nillable="true" type="s1:Shipment" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Shipment">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ShippingCarrier" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ShippingClass" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TrackingNumber" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ShippingInfoResponse">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ShippingInfo" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="OrderCriteria">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="OrderCreationFilterBeginTimeGMT" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="OrderCreationFilterEndTimeGMT" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="StatusUpdateFilterBeginTimeGMT" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="StatusUpdateFilterEndTimeGMT" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="JoinDateFiltersWithOr" nillable="true" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="DetailLevel" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ExportState" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OrderIDList" type="s1:ArrayOfInt" />
+          <s:element minOccurs="0" maxOccurs="1" name="ClientOrderIdentifierList" type="s1:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="OrderStateFilter" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentStatusFilter" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CheckoutStatusFilter" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ShippingStatusFilter" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RefundStatusFilter" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DistributionCenterCode" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PageNumberFilter" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PageSize" nillable="true" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfInt">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="int" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OrderResponseItem" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="NumberOfMatches" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="OrderTimeGMT" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastUpdateDate" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="TotalOrderAmount" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="OrderState" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="DateCancelledGMT" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="OrderID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ClientOrderIdentifier" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SellerOrderID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FlagStyle" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OrderResponseDetailLow">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:OrderResponseItem">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="OrderStatus" type="s1:OrderStatus" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="OrderResponseDetailMedium">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:OrderResponseDetailLow">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ResellerID" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BuyerEmailAddress" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="EmailOptIn" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="PaymentInfo" type="s1:PaymentInfoResponse" />
+              <s:element minOccurs="0" maxOccurs="1" name="ShippingInfo" type="s1:ShippingInfoResponse" />
+              <s:element minOccurs="0" maxOccurs="1" name="BillingInfo" type="s1:BillingInfo" />
+              <s:element minOccurs="0" maxOccurs="1" name="FlagDescription" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="PaymentInfoResponse">
         <s:complexContent mixed="false">
           <s:extension base="s1:PaymentInfo" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="OrderResponseDetailHigh">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:OrderResponseDetailMedium">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ShoppingCart" type="s1:OrderCart" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="OrderResponseDetailComplete">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:OrderResponseDetailHigh">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="CustomValueList" type="s1:ArrayOfCustomValue" />
+              <s:element minOccurs="0" maxOccurs="1" name="BuyerIpAddress" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="TransactionNotes" type="s:string" />
+            </s:sequence>
+          </s:extension>
         </s:complexContent>
       </s:complexType>
     </s:schema>
@@ -984,24 +770,6 @@
     <wsdl:part name="parameters" element="tns:SubmitOrderRefundResponse" />
   </wsdl:message>
   <wsdl:message name="SubmitOrderRefundAPICredentials">
-    <wsdl:part name="APICredentials" element="tns:APICredentials" />
-  </wsdl:message>
-  <wsdl:message name="GetOrderListSoapIn">
-    <wsdl:part name="parameters" element="tns:GetOrderList" />
-  </wsdl:message>
-  <wsdl:message name="GetOrderListSoapOut">
-    <wsdl:part name="parameters" element="tns:GetOrderListResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetOrderListAPICredentials">
-    <wsdl:part name="APICredentials" element="tns:APICredentials" />
-  </wsdl:message>
-  <wsdl:message name="SubmitOrderSoapIn">
-    <wsdl:part name="parameters" element="tns:SubmitOrder" />
-  </wsdl:message>
-  <wsdl:message name="SubmitOrderSoapOut">
-    <wsdl:part name="parameters" element="tns:SubmitOrderResponse" />
-  </wsdl:message>
-  <wsdl:message name="SubmitOrderAPICredentials">
     <wsdl:part name="APICredentials" element="tns:APICredentials" />
   </wsdl:message>
   <wsdl:message name="SetSellerOrderIDSoapIn">
@@ -1058,22 +826,22 @@
   <wsdl:message name="OrderSplitAPICredentials">
     <wsdl:part name="APICredentials" element="tns:APICredentials" />
   </wsdl:message>
-  <wsdl:message name="SubmitOrderWithRecyclingSoapIn">
-    <wsdl:part name="parameters" element="tns:SubmitOrderWithRecycling" />
+  <wsdl:message name="SubmitOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:SubmitOrder" />
   </wsdl:message>
-  <wsdl:message name="SubmitOrderWithRecyclingSoapOut">
-    <wsdl:part name="parameters" element="tns:SubmitOrderWithRecyclingResponse" />
+  <wsdl:message name="SubmitOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:SubmitOrderResponse" />
   </wsdl:message>
-  <wsdl:message name="SubmitOrderWithRecyclingAPICredentials">
+  <wsdl:message name="SubmitOrderAPICredentials">
     <wsdl:part name="APICredentials" element="tns:APICredentials" />
   </wsdl:message>
-  <wsdl:message name="GetOrderListWithRecyclingSoapIn">
-    <wsdl:part name="parameters" element="tns:GetOrderListWithRecycling" />
+  <wsdl:message name="GetOrderListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOrderList" />
   </wsdl:message>
-  <wsdl:message name="GetOrderListWithRecyclingSoapOut">
-    <wsdl:part name="parameters" element="tns:GetOrderListWithRecyclingResponse" />
+  <wsdl:message name="GetOrderListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOrderListResponse" />
   </wsdl:message>
-  <wsdl:message name="GetOrderListWithRecyclingAPICredentials">
+  <wsdl:message name="GetOrderListAPICredentials">
     <wsdl:part name="APICredentials" element="tns:APICredentials" />
   </wsdl:message>
   <wsdl:message name="PingSoapIn">
@@ -1093,14 +861,6 @@
     <wsdl:operation name="SubmitOrderRefund">
       <wsdl:input message="tns:SubmitOrderRefundSoapIn" />
       <wsdl:output message="tns:SubmitOrderRefundSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetOrderList">
-      <wsdl:input message="tns:GetOrderListSoapIn" />
-      <wsdl:output message="tns:GetOrderListSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="SubmitOrder">
-      <wsdl:input message="tns:SubmitOrderSoapIn" />
-      <wsdl:output message="tns:SubmitOrderSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SetSellerOrderID">
       <wsdl:input message="tns:SetSellerOrderIDSoapIn" />
@@ -1126,13 +886,13 @@
       <wsdl:input message="tns:OrderSplitSoapIn" />
       <wsdl:output message="tns:OrderSplitSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="SubmitOrderWithRecycling">
-      <wsdl:input message="tns:SubmitOrderWithRecyclingSoapIn" />
-      <wsdl:output message="tns:SubmitOrderWithRecyclingSoapOut" />
+    <wsdl:operation name="SubmitOrder">
+      <wsdl:input message="tns:SubmitOrderSoapIn" />
+      <wsdl:output message="tns:SubmitOrderSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetOrderListWithRecycling">
-      <wsdl:input message="tns:GetOrderListWithRecyclingSoapIn" />
-      <wsdl:output message="tns:GetOrderListWithRecyclingSoapOut" />
+    <wsdl:operation name="GetOrderList">
+      <wsdl:input message="tns:GetOrderListSoapIn" />
+      <wsdl:output message="tns:GetOrderListSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="Ping">
       <wsdl:input message="tns:PingSoapIn" />
@@ -1156,26 +916,6 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:SubmitOrderRefundAPICredentials" part="APICredentials" use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOrderList">
-      <soap:operation soapAction="http://api.channeladvisor.com/webservices/GetOrderList" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-        <soap:header message="tns:GetOrderListAPICredentials" part="APICredentials" use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="SubmitOrder">
-      <soap:operation soapAction="http://api.channeladvisor.com/webservices/SubmitOrder" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-        <soap:header message="tns:SubmitOrderAPICredentials" part="APICredentials" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -1241,21 +981,21 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="SubmitOrderWithRecycling">
-      <soap:operation soapAction="http://api.channeladvisor.com/webservices/SubmitOrderWithRecycling" style="document" />
+    <wsdl:operation name="SubmitOrder">
+      <soap:operation soapAction="http://api.channeladvisor.com/webservices/SubmitOrder" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
-        <soap:header message="tns:SubmitOrderWithRecyclingAPICredentials" part="APICredentials" use="literal" />
+        <soap:header message="tns:SubmitOrderAPICredentials" part="APICredentials" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetOrderListWithRecycling">
-      <soap:operation soapAction="http://api.channeladvisor.com/webservices/GetOrderListWithRecycling" style="document" />
+    <wsdl:operation name="GetOrderList">
+      <soap:operation soapAction="http://api.channeladvisor.com/webservices/GetOrderList" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
-        <soap:header message="tns:GetOrderListWithRecyclingAPICredentials" part="APICredentials" use="literal" />
+        <soap:header message="tns:GetOrderListAPICredentials" part="APICredentials" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -1289,26 +1029,6 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:SubmitOrderRefundAPICredentials" part="APICredentials" use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOrderList">
-      <soap12:operation soapAction="http://api.channeladvisor.com/webservices/GetOrderList" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-        <soap12:header message="tns:GetOrderListAPICredentials" part="APICredentials" use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="SubmitOrder">
-      <soap12:operation soapAction="http://api.channeladvisor.com/webservices/SubmitOrder" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-        <soap12:header message="tns:SubmitOrderAPICredentials" part="APICredentials" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -1374,21 +1094,21 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="SubmitOrderWithRecycling">
-      <soap12:operation soapAction="http://api.channeladvisor.com/webservices/SubmitOrderWithRecycling" style="document" />
+    <wsdl:operation name="SubmitOrder">
+      <soap12:operation soapAction="http://api.channeladvisor.com/webservices/SubmitOrder" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
-        <soap12:header message="tns:SubmitOrderWithRecyclingAPICredentials" part="APICredentials" use="literal" />
+        <soap12:header message="tns:SubmitOrderAPICredentials" part="APICredentials" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetOrderListWithRecycling">
-      <soap12:operation soapAction="http://api.channeladvisor.com/webservices/GetOrderListWithRecycling" style="document" />
+    <wsdl:operation name="GetOrderList">
+      <soap12:operation soapAction="http://api.channeladvisor.com/webservices/GetOrderList" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
-        <soap12:header message="tns:GetOrderListWithRecyclingAPICredentials" part="APICredentials" use="literal" />
+        <soap12:header message="tns:GetOrderListAPICredentials" part="APICredentials" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -1407,10 +1127,10 @@
   </wsdl:binding>
   <wsdl:service name="OrderService">
     <wsdl:port name="OrderServiceSoap" binding="tns:OrderServiceSoap">
-      <soap:address location="https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx" />
+      <soap:address location="https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx" />
     </wsdl:port>
     <wsdl:port name="OrderServiceSoap12" binding="tns:OrderServiceSoap12">
-      <soap12:address location="https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx" />
+      <soap12:address location="https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

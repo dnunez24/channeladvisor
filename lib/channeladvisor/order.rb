@@ -166,7 +166,7 @@ module ChannelAdvisor
     private
 
     def self.client
-      Connection.client "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx?WSDL"
+      Connection.client "https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx?WSDL"
     end
 
     def self.nillable(xml, element, filter)
