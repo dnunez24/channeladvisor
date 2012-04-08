@@ -1,5 +1,7 @@
 module ChannelAdvisor
   class Order
+    WSDL = "https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx?WSDL"
+
     NAMESPACES = {
       "xmlns:soap" => "http://schemas.xmlsoap.org/soap/envelope/",
       "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
@@ -49,8 +51,8 @@ module ChannelAdvisor
           xml.soap :Envelope, Order::NAMESPACES do
             xml.soap :Header do
               xml.web :APICredentials do
-                xml.web :DeveloperKey, ChannelAdvisor.developer_key
-                xml.web :Password, ChannelAdvisor.password
+                xml.web :DeveloperKey, config(:developer_key)
+                xml.web :Password, config(:password)
               end
             end
             xml.soap :Body do
@@ -98,35 +100,39 @@ module ChannelAdvisor
     # @return [Array<Order>, nil] Array of {Order} objects or nil
     def self.list(filters = {})
       response = client.request :get_order_list do
-        soap.xml do |xml|
-          xml.soap :Envelope, Order::NAMESPACES do
-            xml.soap :Header do
-              xml.web :APICredentials do
-                xml.web :DeveloperKey, ChannelAdvisor.developer_key
-                xml.web :Password, ChannelAdvisor.password
+        soap.xml do |root|
+          root.soap :Envelope, Order::NAMESPACES do |envelope|
+            envelope.soap :Header do |header|
+              header.web :APICredentials do |api_credentials|
+                api_credentials.web :DeveloperKey, config(:developer_key)
+                api_credentials.web :Password, config(:password)
               end
             end
-            xml.soap :Body do
-              xml.web :GetOrderList do
-                xml.web :accountID, ChannelAdvisor.account_id
-                xml.web :orderCriteria do
-                  nillable xml, :OrderCreationFilterBeginTimeGMT, filters[:created_from]
-                  nillable xml, :OrderCreationFilterEndTimeGMT, filters[:created_to]
-                  nillable xml, :StatusUpdateFilterBeginTimeGMT, filters[:updated_from]
-                  nillable xml, :StatusUpdateFilterEndTimeGMT, filters[:updated_to]
-                  nillable xml, :JoinDateFiltersWithOr, filters[:join_dates]
-                  nillable xml, :DetailLevel, filters[:detail_level]
-                  nillable xml, :ExportState, filters[:export_state]
-                  optional xml, :OrderIDList, filters[:order_ids]
-                  optional xml, :ClientOrderIdentifierList, filters[:client_order_ids]
-                  nillable xml, :OrderStateFilter, filters[:state]
-                  nillable xml, :PaymentStatusFilter, filters[:payment_status]
-                  nillable xml, :CheckoutStatusFilter, filters[:checkout_status]
-                  nillable xml, :ShippingStatusFilter, filters[:shipping_status]
-                  nillable xml, :RefundStatusFilter, filters[:refund_status]
-                  optional xml, :DistributionCenterCode, filters[:distribution_center]
-                  nillable xml, :PageNumberFilter, filters[:page_number]
-                  nillable xml, :PageSize, filters[:page_size]
+            envelope.soap :Body do |body|
+              body.web :GetOrderList do |get_order_list|
+                get_order_list.web :accountID, config(:account_id)
+                get_order_list.web :orderCriteria do |order_criteria|
+                  order_criteria.ord :OrderCreationFilterBeginTimeGMT, xsi_nil(filters[:created_from])
+                  order_criteria.ord :OrderCreationFilterEndTimeGMT, xsi_nil(filters[:created_to])
+                  order_criteria.ord :StatusUpdateFilterBeginTimeGMT, xsi_nil(filters[:updated_from])
+                  order_criteria.ord :StatusUpdateFilterEndTimeGMT, xsi_nil(filters[:updated_to])
+                  order_criteria.ord :JoinDateFiltersWithOr, xsi_nil(filters[:join_dates])
+                  order_criteria.ord :DetailLevel, xsi_nil(filters[:detail_level])
+                  order_criteria.ord :ExportState, xsi_nil(filters[:export_state])
+                  order_criteria.ord :OrderIDList do |order_id_list|
+                    build_id_list(order_id_list, filters[:order_ids])
+                  end
+                  order_criteria.ord :ClientOrderIdentifierList do |client_order_identifier_list|
+                    build_id_list(client_order_identifier_list, filters[:client_order_ids])
+                  end
+                  order_criteria.ord :OrderStateFilter, xsi_nil(filters[:state])
+                  order_criteria.ord :PaymentStatusFilter, xsi_nil(filters[:payment_status])
+                  order_criteria.ord :CheckoutStatusFilter, xsi_nil(filters[:checkout_status])
+                  order_criteria.ord :ShippingStatusFilter, xsi_nil(filters[:shipping_status])
+                  order_criteria.ord :RefundStatusFilter, xsi_nil(filters[:refund_status])
+                  order_criteria.ord :DistributionCenterCode, xsi_nil(filters[:distribution_center])
+                  order_criteria.ord :PageNumberFilter, xsi_nil(filters[:page_number])
+                  order_criteria.ord :PageSize, xsi_nil(filters[:page_size])
                 end
               end
             end
@@ -151,8 +157,7 @@ module ChannelAdvisor
         order.payment_status = order_node.xpath('./ord:OrderStatus/ord:PaymentStatus', ns_ord).text
         order.shipping_status = order_node.xpath('./ord:OrderStatus/ord:ShippingStatus', ns_ord).text
         order.refund_status = order_node.xpath('./ord:OrderStatus/ord:OrderRefundStatus', ns_ord).text
-        items = order_node.xpath('./ord:ShoppingCart/ord:LineItemSKUList/ord:OrderLineItemItem', ns_ord)
-        order.items = items
+        order.items = order_node.xpath('./ord:ShoppingCart/ord:LineItemSKUList/ord:OrderLineItemItem', ns_ord)
         orders << order
       end
 
@@ -163,36 +168,27 @@ module ChannelAdvisor
       raise SoapFault, fault.to_s
     end
 
-    private
+  private
 
     def self.client
-      Connection.client "https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx?WSDL"
+      @client ||= Client.new WSDL
     end
 
-    def self.nillable(xml, element, filter)
-      if filter.nil?
-        xml.ord element, nil, "xsi:nil" => true
-      else
-        xml.ord element, filter
-      end
+    def self.config(attribute)
+      ChannelAdvisor.configuration.send(attribute.to_sym)
     end
 
-    def self.optional(xml, element, filter)
-      if filter.nil?
-      	nil
-      else
-        case element
-        when :OrderIDList
-          xml.ord element do
-            filter.each { |item| xml.ord(:int, item) }
-          end
-        when :ClientOrderIdentifierList
-          xml.ord element do
-            filter.each { |item| xml.ord(:string, item) }
-          end
-        else
-          xml.ord(element, filter)
+    def self.xsi_nil(filter)
+      filter.nil? ? {"xsi:nil" => true} : filter
+    end
+
+    def self.build_id_list(parent, list)
+      unless list.nil?
+        type = case list.first
+          when Integer then :int
+          when String then :string
         end
+        list.each { |id| parent.ord type, id }
       end
     end
 
