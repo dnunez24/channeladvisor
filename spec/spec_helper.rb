@@ -27,7 +27,7 @@ FakeWeb.allow_net_connect = false
 
 #   FakeWeb.register_uri(
 #     :post,
-#     "https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx",
+#     "https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx",
 #     response
 #   )
 # end
