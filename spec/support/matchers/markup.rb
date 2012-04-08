@@ -1,6 +1,6 @@
 RSpec::Matchers.define :contain_nil_element do |element|
   match do |markup|
-    markup =~ /<#{element} xsi:nil="true"><\/#{element}>/
+    markup =~ /<#{element} xsi:nil="true"\/>/
   end
 
   failure_message_for_should do |markup|
