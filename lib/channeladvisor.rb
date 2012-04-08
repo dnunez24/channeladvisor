@@ -2,13 +2,15 @@ require 'savon'
 require 'channeladvisor/version'
 require 'channeladvisor/error'
 require 'channeladvisor/configuration'
-require 'channeladvisor/connection'
+require 'channeladvisor/client'
 require 'channeladvisor/order'
 
 module ChannelAdvisor
-	extend Configuration
+	def self.configuration
+		@configuration ||= Configuration.new
+	end
 
-	def self.configure(&block)
-		yield self if block_given?
+	def self.configure
+		yield configuration if block_given?
 	end
 end
