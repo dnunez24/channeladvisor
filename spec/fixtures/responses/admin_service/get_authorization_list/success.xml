@@ -1,0 +1,20 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <soap:Body>
+      <GetAuthorizationListResponse xmlns="http://api.channeladvisor.com/webservices/">
+         <GetAuthorizationListResult>
+            <Status>Success</Status>
+            <MessageCode>0</MessageCode>
+            <ResultData>
+               <AuthorizationResponse>
+                  <AccountID>00000000-1111-2222-3333-444444444444</AccountID>
+                  <LocalID>1234567890</LocalID>
+                  <AccountName>ACME</AccountName>
+                  <AccountType>merchant</AccountType>
+                  <ResourceName>/channeladvisorapi</ResourceName>
+                  <Status>Enabled</Status>
+               </AuthorizationResponse>
+            </ResultData>
+         </GetAuthorizationListResult>
+      </GetAuthorizationListResponse>
+   </soap:Body>
+</soap:Envelope>

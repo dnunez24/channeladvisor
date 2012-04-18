@@ -1,5 +1,15 @@
 require 'rubygems'
 require 'bundler/setup'
+
+begin
+  require 'simplecov'
+  SimpleCov.start do
+    add_filter 'spec'
+  end
+rescue => LoadError
+  # not able to load 'simplecov' do nothing
+end
+
 require 'channeladvisor'
 require 'fakeweb'
 
@@ -7,6 +17,11 @@ Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each {|f| require f}
 
 RSpec.configure do |config|
   config.mock_with :rr
+  config.include StubWsdlAndResponse
+
+  config.before(:each) do
+    FakeWeb.clean_registry
+  end
 end
 
 Savon.configure do |config|
@@ -16,18 +31,3 @@ end
 HTTPI.log = false
 
 FakeWeb.allow_net_connect = false
-
-# def stub_response(*args)
-#   service   = args[0].to_s.downcase
-#   method    = args[1].to_s.downcase
-#   result    = args[2].to_s.downcase
-#   status    = args[3]
-#   response = {:body => File.expand_path("../fixtures/responses/#{service}_service/#{method}/#{result}.xml", __FILE__)}
-#   response.update(:status => status) unless status.nil?
-
-#   FakeWeb.register_uri(
-#     :post,
-#     "https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx",
-#     response
-#   )
-# end

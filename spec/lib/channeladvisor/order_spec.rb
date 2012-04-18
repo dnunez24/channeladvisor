@@ -1,30 +1,13 @@
 require 'spec_helper'
 
-def stub_wsdl
-  FakeWeb.register_uri(
-    :get,
-    "https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx?WSDL",
-    :body => File.expand_path("../../../fixtures/wsdls/order_service.xml", __FILE__)
-  )
-end
-
-def stub_response(method, data, status=nil)
-  file_name = data.kind_of?(String) ? data : data.to_s
-  response_xml = File.expand_path("../../../fixtures/responses/order_service/#{method.to_s}/#{file_name}.xml", __FILE__)
-  response = {:body => response_xml}
-  response.update(:status => status) unless status.nil?
-
-  FakeWeb.register_uri(
-    :post,
-    "https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx",
-    response
-  )
-end
-
 module ChannelAdvisor
   describe Order, ".ping" do
-    before(:all)  { stub_wsdl }
-    before(:each) { stub_response :ping, data }
+    let (:wsdl) { ChannelAdvisor::Order::WSDL }
+
+    before(:each) do
+      stub_wsdl(wsdl)
+      stub_response(wsdl, :ping, data)
+    end
     subject { ChannelAdvisor::Order.ping }
 
     context "when successful" do
@@ -43,12 +26,13 @@ module ChannelAdvisor
   end
 
   describe Order, ".list" do
-    before(:all)  { stub_wsdl }
+    let (:wsdl) { ChannelAdvisor::Order::WSDL }
+
     before(:each) do
+      stub_wsdl(wsdl)
       status ||= nil
-      stub_response :get_order_list, data, status
+      stub_response(wsdl, :get_order_list, data, status)
     end
-    after(:all)   { FakeWeb.clean_registry }
 
     let(:request) { FakeWeb.last_request.body }
 

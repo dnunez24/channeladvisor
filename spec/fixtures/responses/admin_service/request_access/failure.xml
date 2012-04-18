@@ -1,0 +1,12 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <soap:Body>
+      <RequestAccessResponse xmlns="http://api.channeladvisor.com/webservices/">
+         <RequestAccessResult>
+            <Status>Failure</Status>
+            <MessageCode>12</MessageCode>
+            <Message>An Authorization for the specified ID [1234567890] already exists!</Message>
+            <ResultData>false</ResultData>
+         </RequestAccessResult>
+      </RequestAccessResponse>
+   </soap:Body>
+</soap:Envelope>
