@@ -119,12 +119,19 @@ module ChannelAdvisor
                   order_criteria.ord :JoinDateFiltersWithOr, xsi_nil(filters[:join_dates])
                   order_criteria.ord :DetailLevel, xsi_nil(filters[:detail_level])
                   order_criteria.ord :ExportState, xsi_nil(filters[:export_state])
-                  order_criteria.ord :OrderIDList do |order_id_list|
-                    build_id_list(order_id_list, filters[:order_ids])
+
+                  if filters[:order_ids]
+                    order_criteria.ord :OrderIDList do |order_id_list|
+                      build_id_list(order_id_list, filters[:order_ids])
+                    end
                   end
-                  order_criteria.ord :ClientOrderIdentifierList do |client_order_identifier_list|
-                    build_id_list(client_order_identifier_list, filters[:client_order_ids])
+
+                  if filters[:client_order_ids]
+                    order_criteria.ord :ClientOrderIdentifierList do |client_order_identifier_list|
+                      build_id_list(client_order_identifier_list, filters[:client_order_ids])
+                    end
                   end
+
                   order_criteria.ord :OrderStateFilter, xsi_nil(filters[:state])
                   order_criteria.ord :PaymentStatusFilter, xsi_nil(filters[:payment_status])
                   order_criteria.ord :CheckoutStatusFilter, xsi_nil(filters[:checkout_status])

@@ -15,9 +15,18 @@ group :test do
   gem 'win32console', :require => false, :platforms => [:mswin, :mingw]
   gem 'rb-fchange',   :require => false, :platforms => [:mswin, :mingw]
   gem 'rb-notifu',    :require => false, :platforms => [:mswin, :mingw]
+
+  platform :ruby_19 do
+    gem 'simplecov'
+  end
 end
 
 group :development do
   gem 'yard'
   gem 'redcarpet'
 end
+
+# platform :ruby_19 do
+#   gem 'ruby-debug19'
+#   gem 'pry'
+# end
