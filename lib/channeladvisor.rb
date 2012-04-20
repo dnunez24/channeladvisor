@@ -4,6 +4,7 @@ require 'channeladvisor/error'
 require 'channeladvisor/configuration'
 require 'channeladvisor/client'
 require 'channeladvisor/order'
+require 'channeladvisor/admin'
 
 module ChannelAdvisor
 	def self.configuration
