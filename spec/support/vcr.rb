@@ -12,6 +12,9 @@ VCR.configure do |config|
   config.filter_sensitive_data("$$ACCOUNT_ID$$")    { ChannelAdvisor.configuration.account_id }
   config.filter_sensitive_data("$$DEVELOPER_KEY$$") { ChannelAdvisor.configuration.developer_key }
   config.filter_sensitive_data("$$PASSWORD$$")      { ChannelAdvisor.configuration.password }
+
+  config.filter_sensitive_data("$$LOCAL_ID$$")       { "00000000" }
+  config.filter_sensitive_data("$$ACCOUNT_NAME$$")   { "ACME" }
 end
 
 RSpec.configure do |config|

@@ -108,7 +108,7 @@ module ChannelAdvisor
 
     private
 
-      def self.build_id_list(parent, list)
+      def build_id_list(parent, list)
         unless list.nil?
           type = case list.first
             when Integer then :int
@@ -116,7 +116,7 @@ module ChannelAdvisor
           end
           list.each { |id| parent.ord type, id }
         end
-      end # self.build_id_list
+      end # build_id_list
     end # OrderService
   end # Services
 end # ChannelAdvisor

@@ -1,11 +1,5 @@
 module ChannelAdvisor
   class Admin < Base
-    WSDL = "https://api.channeladvisor.com/ChannelAdvisorAPI/v6/AdminService.asmx?WSDL"
-
-    NAMESPACES = {
-      "xmlns:soap" => "http://schemas.xmlsoap.org/soap/envelope/"
-    }
-
     AccountAuthorization = Struct.new(:account_id, :local_id, :account_name, :account_type, :resource_name, :status)
 
     # Checks authorization for and availability of the admin service
@@ -13,19 +7,16 @@ module ChannelAdvisor
     # @raise [Savon::SOAP::Fault] Raises an exception when the service returns a failure status
     # @return [String] Status message
     def self.ping
-      response = client.request :ping do
-        soap.xml do |xml|
-          xml.soap :Envelope, NAMESPACES do |envelope|
-            soap_header(envelope)
-            envelope.soap :Body do |body|
-              body.web :Ping
-            end
-          end
-        end
-      end
+      response = admin_service.ping
 
+      status = response.xpath('//web:Status', 'web' => 'http://api.channeladvisor.com/webservices/').text
       message = response.xpath('//web:ResultData', 'web' => 'http://api.channeladvisor.com/webservices/').text
-      return message
+
+      if status == "Failure"
+        raise ServiceFailure, message
+      else
+        message
+      end
     end
 
     # Allows you to request access to a specific CA Complete Account.
@@ -33,18 +24,7 @@ module ChannelAdvisor
     # @raise [ServiceFailure] Raises an exception when the service returns a failure status
     # @return [String] Status message
     def self.request_access(local_id)
-      response = client.request :request_access do
-        soap.xml do |xml|
-          xml.soap :Envelope, NAMESPACES do |envelope|
-            soap_header(envelope)
-            envelope.soap :Body do |body|
-              body.web :RequestAccess do |request_access|
-                request_access.web :localID, local_id
-              end
-            end
-          end
-        end
-      end
+      response = admin_service.request_access(local_id)
 
       status = response.xpath('//web:Status', 'web' => 'http://api.channeladvisor.com/webservices/').text
       message = response.xpath('//web:ResultData', 'web' => 'http://api.channeladvisor.com/webservices/').text
@@ -60,18 +40,7 @@ module ChannelAdvisor
     #
     # @return [Array] Account Authorizations
     def self.get_authorization_list(local_id)
-      response = client.request :request_access do
-        soap.xml do |xml|
-          xml.soap :Envelope, NAMESPACES do |envelope|
-            soap_header(envelope)
-            envelope.soap :Body do |body|
-              body.web :GetAuthorizationList do |get_authorization_list|
-                get_authorization_list.web :localID, local_id
-              end
-            end
-          end
-        end
-      end
+      response = admin_service.get_authorization_list(local_id)
 
       auths = []
       if result_data = response.body[:get_authorization_list_response][:get_authorization_list_result][:result_data]
@@ -87,6 +56,12 @@ module ChannelAdvisor
       else
         auths
       end
+    end
+
+  private
+
+    def self.admin_service
+      @admin_service ||= Services::AdminService.new
     end
   end
 end
