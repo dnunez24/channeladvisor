@@ -1,5 +1,5 @@
 module ChannelAdvisor
-  class Admin
+  class Admin < Base
     WSDL = "https://api.channeladvisor.com/ChannelAdvisorAPI/v6/AdminService.asmx?WSDL"
 
     NAMESPACES = {
@@ -15,15 +15,10 @@ module ChannelAdvisor
     def self.ping
       response = client.request :ping do
         soap.xml do |xml|
-          xml.soap :Envelope, Admin::NAMESPACES do
-            xml.soap :Header do
-              xml.web :APICredentials do
-                xml.web :DeveloperKey, config(:developer_key)
-                xml.web :Password, config(:password)
-              end
-            end
-            xml.soap :Body do
-              xml.web :Ping
+          xml.soap :Envelope, NAMESPACES do |envelope|
+            soap_header(envelope)
+            envelope.soap :Body do |body|
+              body.web :Ping
             end
           end
         end
@@ -40,16 +35,11 @@ module ChannelAdvisor
     def self.request_access(local_id)
       response = client.request :request_access do
         soap.xml do |xml|
-          xml.soap :Envelope, Admin::NAMESPACES do
-            xml.soap :Header do
-              xml.web :APICredentials do
-                xml.web :DeveloperKey, config(:developer_key)
-                xml.web :Password, config(:password)
-              end
-            end
-            xml.soap :Body do
-              xml.web :RequestAccess do
-                xml.web :localID, local_id
+          xml.soap :Envelope, NAMESPACES do |envelope|
+            soap_header(envelope)
+            envelope.soap :Body do |body|
+              body.web :RequestAccess do |request_access|
+                request_access.web :localID, local_id
               end
             end
           end
@@ -72,16 +62,11 @@ module ChannelAdvisor
     def self.get_authorization_list(local_id)
       response = client.request :request_access do
         soap.xml do |xml|
-          xml.soap :Envelope, Admin::NAMESPACES do
-            xml.soap :Header do
-              xml.web :APICredentials do
-                xml.web :DeveloperKey, config(:developer_key)
-                xml.web :Password, config(:password)
-              end
-            end
-            xml.soap :Body do
-              xml.web :GetAuthorizationList do
-                xml.web :localID, local_id
+          xml.soap :Envelope, NAMESPACES do |envelope|
+            soap_header(envelope)
+            envelope.soap :Body do |body|
+              body.web :GetAuthorizationList do |get_authorization_list|
+                get_authorization_list.web :localID, local_id
               end
             end
           end
@@ -102,16 +87,6 @@ module ChannelAdvisor
       else
         auths
       end
-    end
-
-  private
-
-    def self.client
-      @client ||= Client.new WSDL
-    end
-
-    def self.config(attribute)
-      ChannelAdvisor.configuration.send(attribute.to_sym)
     end
   end
 end

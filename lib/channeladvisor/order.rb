@@ -1,14 +1,5 @@
 module ChannelAdvisor
-  class Order
-    WSDL = "https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx?WSDL"
-
-    NAMESPACES = {
-      "xmlns:soap" => "http://schemas.xmlsoap.org/soap/envelope/",
-      "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
-      "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema",
-      "xmlns:web" => "http://api.channeladvisor.com/webservices/",
-      "xmlns:ord" => "http://api.channeladvisor.com/datacontracts/orders"
-    }
+  class Order < Base
 
     attr_accessor(
       :id,
@@ -46,21 +37,7 @@ module ChannelAdvisor
     # @raise [ServiceFailure] Raises an exception when the service returns a failure status
     # @return [String] Status message
     def self.ping
-      response = client.request :ping do
-        soap.xml do |xml|
-          xml.soap :Envelope, Order::NAMESPACES do
-            xml.soap :Header do
-              xml.web :APICredentials do
-                xml.web :DeveloperKey, config(:developer_key)
-                xml.web :Password, config(:password)
-              end
-            end
-            xml.soap :Body do
-              xml.web :Ping
-            end
-          end
-        end
-      end
+      response = order_service.ping
 
       status = response.xpath('//web:Status', 'web' => 'http://api.channeladvisor.com/webservices/').text
       message = response.xpath('//web:ResultData', 'web' => 'http://api.channeladvisor.com/webservices/').text
@@ -99,53 +76,49 @@ module ChannelAdvisor
     #
     # @return [Array<Order>, nil] Array of {Order} objects or nil
     def self.list(filters = {})
-      response = client.request :get_order_list do
-        soap.xml do |root|
-          root.soap :Envelope, Order::NAMESPACES do |envelope|
-            envelope.soap :Header do |header|
-              header.web :APICredentials do |api_credentials|
-                api_credentials.web :DeveloperKey, config(:developer_key)
-                api_credentials.web :Password, config(:password)
-              end
-            end
-            envelope.soap :Body do |body|
-              body.web :GetOrderList do |get_order_list|
-                get_order_list.web :accountID, config(:account_id)
-                get_order_list.web :orderCriteria do |order_criteria|
-                  order_criteria.ord :OrderCreationFilterBeginTimeGMT, xsi_nil(filters[:created_from])
-                  order_criteria.ord :OrderCreationFilterEndTimeGMT, xsi_nil(filters[:created_to])
-                  order_criteria.ord :StatusUpdateFilterBeginTimeGMT, xsi_nil(filters[:updated_from])
-                  order_criteria.ord :StatusUpdateFilterEndTimeGMT, xsi_nil(filters[:updated_to])
-                  order_criteria.ord :JoinDateFiltersWithOr, xsi_nil(filters[:join_dates])
-                  order_criteria.ord :DetailLevel, xsi_nil(filters[:detail_level])
-                  order_criteria.ord :ExportState, xsi_nil(filters[:export_state])
+      response = order_service.get_order_list(filters)
+      # response = client.request :get_order_list do
+      #   soap.xml do |root|
+      #     root.soap :Envelope, NAMESPACES do |envelope|
+      #       soap_header(envelope)
+      #       envelope.soap :Body do |body|
+      #         body.web :GetOrderList do |get_order_list|
+      #           get_order_list.web :accountID, config(:account_id)
+      #           get_order_list.web :orderCriteria do |order_criteria|
+      #             order_criteria.ord :OrderCreationFilterBeginTimeGMT, xsi_nil(filters[:created_from])
+      #             order_criteria.ord :OrderCreationFilterEndTimeGMT, xsi_nil(filters[:created_to])
+      #             order_criteria.ord :StatusUpdateFilterBeginTimeGMT, xsi_nil(filters[:updated_from])
+      #             order_criteria.ord :StatusUpdateFilterEndTimeGMT, xsi_nil(filters[:updated_to])
+      #             order_criteria.ord :JoinDateFiltersWithOr, xsi_nil(filters[:join_dates])
+      #             order_criteria.ord :DetailLevel, xsi_nil(filters[:detail_level])
+      #             order_criteria.ord :ExportState, xsi_nil(filters[:export_state])
 
-                  if filters[:order_ids]
-                    order_criteria.ord :OrderIDList do |order_id_list|
-                      build_id_list(order_id_list, filters[:order_ids])
-                    end
-                  end
+      #             if filters[:order_ids]
+      #               order_criteria.ord :OrderIDList do |order_id_list|
+      #                 build_id_list(order_id_list, filters[:order_ids])
+      #               end
+      #             end
 
-                  if filters[:client_order_ids]
-                    order_criteria.ord :ClientOrderIdentifierList do |client_order_identifier_list|
-                      build_id_list(client_order_identifier_list, filters[:client_order_ids])
-                    end
-                  end
+      #             if filters[:client_order_ids]
+      #               order_criteria.ord :ClientOrderIdentifierList do |client_order_identifier_list|
+      #                 build_id_list(client_order_identifier_list, filters[:client_order_ids])
+      #               end
+      #             end
 
-                  order_criteria.ord :OrderStateFilter, xsi_nil(filters[:state])
-                  order_criteria.ord :PaymentStatusFilter, xsi_nil(filters[:payment_status])
-                  order_criteria.ord :CheckoutStatusFilter, xsi_nil(filters[:checkout_status])
-                  order_criteria.ord :ShippingStatusFilter, xsi_nil(filters[:shipping_status])
-                  order_criteria.ord :RefundStatusFilter, xsi_nil(filters[:refund_status])
-                  order_criteria.ord :DistributionCenterCode, xsi_nil(filters[:distribution_center])
-                  order_criteria.ord :PageNumberFilter, xsi_nil(filters[:page_number])
-                  order_criteria.ord :PageSize, xsi_nil(filters[:page_size])
-                end
-              end
-            end
-          end
-        end
-      end
+      #             order_criteria.ord :OrderStateFilter, xsi_nil(filters[:state])
+      #             order_criteria.ord :PaymentStatusFilter, xsi_nil(filters[:payment_status])
+      #             order_criteria.ord :CheckoutStatusFilter, xsi_nil(filters[:checkout_status])
+      #             order_criteria.ord :ShippingStatusFilter, xsi_nil(filters[:shipping_status])
+      #             order_criteria.ord :RefundStatusFilter, xsi_nil(filters[:refund_status])
+      #             order_criteria.ord :DistributionCenterCode, xsi_nil(filters[:distribution_center])
+      #             order_criteria.ord :PageNumberFilter, xsi_nil(filters[:page_number])
+      #             order_criteria.ord :PageSize, xsi_nil(filters[:page_size])
+      #           end
+      #         end
+      #       end
+      #     end
+      #   end
+      # end
 
       orders = []
       ns_web = {'web' => NAMESPACES['xmlns:web']}
@@ -173,30 +146,6 @@ module ChannelAdvisor
       raise HttpError, error.to_s unless error.to_hash[:code] == 500
     rescue Savon::SOAP::Fault => fault
       raise SoapFault, fault.to_s
-    end
-
-  private
-
-    def self.client
-      @client ||= Client.new WSDL
-    end
-
-    def self.config(attribute)
-      ChannelAdvisor.configuration.send(attribute.to_sym)
-    end
-
-    def self.xsi_nil(filter)
-      filter.nil? ? {"xsi:nil" => true} : filter
-    end
-
-    def self.build_id_list(parent, list)
-      unless list.nil?
-        type = case list.first
-          when Integer then :int
-          when String then :string
-        end
-        list.each { |id| parent.ord type, id }
-      end
     end
 
     class LineItem
@@ -230,7 +179,7 @@ module ChannelAdvisor
       )
 
       def initialize(item)
-        ns = {'ord' => Order::NAMESPACES['xmlns:ord']}
+        ns = {'ord' => NAMESPACES['xmlns:ord']}
         @id                       = item.xpath('./ord:LineItemID', ns).text
         @type                     = item.xpath('./ord:LineItemType', ns).text
         @sku                      = item.xpath('./ord:SKU', ns).text
@@ -257,7 +206,23 @@ module ChannelAdvisor
         @user_name                = item.xpath('./ord:UserName', ns).text
         @distribution_center      = item.xpath('./ord:DistributionCenterCode', ns).text
         @is_fba                   = item.xpath('./ord:IsFBA', ns).text
+      end # initialize
+    end # LineItem
+
+  private
+
+    def self.order_service
+      @order_service ||= Services::OrderService.new
+    end
+
+    def self.build_id_list(parent, list)
+      unless list.nil?
+        type = case list.first
+          when Integer then :int
+          when String then :string
+        end
+        list.each { |id| parent.ord type, id }
       end
     end
-  end
-end
+  end # Order
+end # ChannelAdvisor
