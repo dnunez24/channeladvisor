@@ -9,9 +9,9 @@ VCR.configure do |config|
   }
   config.hook_into :fakeweb
   config.configure_rspec_metadata!
-  config.filter_sensitive_data("$$ACCOUNT_ID$$")    { ChannelAdvisor.account_id }
-  config.filter_sensitive_data("$$DEVELOPER_KEY$$") { ChannelAdvisor.developer_key }
-  config.filter_sensitive_data("$$PASSWORD$$")      { ChannelAdvisor.password }
+  config.filter_sensitive_data("$$ACCOUNT_ID$$")    { ChannelAdvisor.configuration.account_id }
+  config.filter_sensitive_data("$$DEVELOPER_KEY$$") { ChannelAdvisor.configuration.developer_key }
+  config.filter_sensitive_data("$$PASSWORD$$")      { ChannelAdvisor.configuration.password }
 end
 
 RSpec.configure do |config|
