@@ -1,0 +1,53 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:web="http://api.channeladvisor.com/webservices/" xmlns:ord="http://api.channeladvisor.com/datacontracts/orders"><soap:Header><web:APICredentials><web:DeveloperKey>$$DEVELOPER_KEY$$</web:DeveloperKey><web:Password>$$PASSWORD$$</web:Password></web:APICredentials></soap:Header><soap:Body><web:Ping/></soap:Body></soap:Envelope>
+    headers:
+      soapaction:
+      - ! '"http://api.channeladvisor.com/webservices/Ping"'
+      content-type:
+      - text/xml;charset=UTF-8
+      content-length:
+      - '554'
+      accept:
+      - ! '*/*'
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Sun, 22 Apr 2012 19:11:33 GMT
+      server:
+      - Microsoft-IIS/6.0
+      x-servername:
+      - RDU-IISWEB-03
+      x-powered-by:
+      - ASP.NET
+      x-aspnet-version:
+      - 4.0.30319
+      cache-control:
+      - private
+      content-type:
+      - text/xml; charset=utf-8
+      content-length:
+      - '517'
+    body:
+      encoding: US-ASCII
+      string: ! "<soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'>\r\n
+        \                          <soap:Body>\r\n                              <soap:Fault>\r\n
+        \                                <faultcode>soap:Server</faultcode>\r\n                                 <faultstring>Server
+        was unable to process request. Authentication failed.</faultstring>\r\n                                 <detail/>\r\n
+        \                             </soap:Fault>\r\n                           </soap:Body>\r\n
+        \                       </soap:Envelope>"
+    http_version: '1.1'
+  recorded_at: Sun, 22 Apr 2012 19:11:33 GMT
+recorded_with: VCR 2.1.0

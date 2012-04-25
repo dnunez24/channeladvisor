@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.email       = ["dnunez24@gmail.com"]
   s.homepage    = ""
   s.summary     = %q{Ruby wrapper for the ChannelAdvisor API}
-  s.description = %q{Provides an easy-to-use interface for making requests to the ChannelAdvisor API. Includes all methods for requesting and updating data via API version 5.}
+  s.description = %q{Provides an easy-to-use interface for making requests to the ChannelAdvisor API. Includes all methods for requesting and updating data via API version 6.}
 
   s.rubyforge_project = "channeladvisor"
 
@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec"
+  s.add_development_dependency "vcr"
   s.add_development_dependency "fakeweb"
 
   s.add_runtime_dependency "savon"

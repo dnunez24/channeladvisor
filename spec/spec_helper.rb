@@ -17,11 +17,7 @@ Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each {|f| require f}
 
 RSpec.configure do |config|
   config.mock_with :rr
-  config.include StubWsdlAndResponse
-
-  config.before(:each) do
-    FakeWeb.clean_registry
-  end
+  config.treat_symbols_as_metadata_keys_with_true_values = true
 end
 
 Savon.configure do |config|
@@ -29,5 +25,3 @@ Savon.configure do |config|
 end
 
 HTTPI.log = false
-
-FakeWeb.allow_net_connect = false

@@ -1,9 +1,0 @@
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <soap:Body>
-      <soap:Fault>
-         <faultcode>soap:Client</faultcode>
-         <faultstring>Server was unable to read request. ---> There is an error in XML document (16, 62). ---> Input string was not in a correct format.</faultstring>
-         <detail/>
-      </soap:Fault>
-   </soap:Body>
-</soap:Envelope>
