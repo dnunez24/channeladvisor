@@ -1,0 +1,268 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/AdminService.asmx
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:web="http://api.channeladvisor.com/webservices/"><soap:Header><web:APICredentials><web:DeveloperKey>$$DEVELOPER_KEY$$</web:DeveloperKey><web:Password>$$PASSWORD$$</web:Password></web:APICredentials></soap:Header><soap:Body><web:Ping/></soap:Body></soap:Envelope>
+    headers:
+      soapaction:
+      - ! '"http://api.channeladvisor.com/webservices/Ping"'
+      content-type:
+      - text/xml;charset=UTF-8
+      content-length:
+      - '397'
+      accept:
+      - ! '*/*'
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Wed, 25 Apr 2012 19:32:14 GMT
+      server:
+      - Microsoft-IIS/6.0
+      x-servername:
+      - RDU-IISWEB-08
+      x-powered-by:
+      - ASP.NET
+      x-aspnet-version:
+      - 4.0.30319
+      cache-control:
+      - private
+      content-type:
+      - text/xml; charset=utf-8
+      content-length:
+      - '517'
+    body:
+      encoding: US-ASCII
+      string: ! "<soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'>\r\n
+        \                          <soap:Body>\r\n                              <soap:Fault>\r\n
+        \                                <faultcode>soap:Server</faultcode>\r\n                                 <faultstring>Server
+        was unable to process request. Authentication failed.</faultstring>\r\n                                 <detail/>\r\n
+        \                             </soap:Fault>\r\n                           </soap:Body>\r\n
+        \                       </soap:Envelope>"
+    http_version: '1.1'
+  recorded_at: Wed, 25 Apr 2012 19:32:14 GMT
+- request:
+    method: get
+    uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/AdminService.asmx?WSDL
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      accept:
+      - ! '*/*'
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Wed, 25 Apr 2012 21:47:29 GMT
+      server:
+      - Microsoft-IIS/6.0
+      x-servername:
+      - RDU-IISWEB-05
+      x-powered-by:
+      - ASP.NET
+      x-aspnet-version:
+      - 4.0.30319
+      cache-control:
+      - private, max-age=0
+      content-type:
+      - text/xml; charset=utf-8
+      content-length:
+      - '10625'
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<wsdl:definitions xmlns:soap=\"http://schemas.xmlsoap.org/wsdl/soap/\"
+        xmlns:tm=\"http://microsoft.com/wsdl/mime/textMatching/\" xmlns:soapenc=\"http://schemas.xmlsoap.org/soap/encoding/\"
+        xmlns:mime=\"http://schemas.xmlsoap.org/wsdl/mime/\" xmlns:tns=\"http://api.channeladvisor.com/webservices/\"
+        xmlns:s=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://schemas.xmlsoap.org/wsdl/soap12/\"
+        xmlns:http=\"http://schemas.xmlsoap.org/wsdl/http/\" targetNamespace=\"http://api.channeladvisor.com/webservices/\"
+        xmlns:wsdl=\"http://schemas.xmlsoap.org/wsdl/\">\r\n  <wsdl:types>\r\n    <s:schema
+        elementFormDefault=\"qualified\" targetNamespace=\"http://api.channeladvisor.com/webservices/\">\r\n
+        \     <s:element name=\"GetAuthorizationList\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"localID\" type=\"s:integer\" />\r\n          </s:sequence>\r\n        </s:complexType>\r\n
+        \     </s:element>\r\n      <s:element name=\"GetAuthorizationListResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"GetAuthorizationListResult\" type=\"tns:APIResultOfArrayOfAuthorizationResponse\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"APIResultOfArrayOfAuthorizationResponse\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"Status\" type=\"tns:ResultStatus\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"MessageCode\" type=\"s:int\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Message\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Data\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\"
+        type=\"tns:ArrayOfAuthorizationResponse\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:simpleType name=\"ResultStatus\">\r\n        <s:restriction
+        base=\"s:string\">\r\n          <s:enumeration value=\"Success\" />\r\n          <s:enumeration
+        value=\"Failure\" />\r\n        </s:restriction>\r\n      </s:simpleType>\r\n
+        \     <s:complexType name=\"ArrayOfAuthorizationResponse\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"unbounded\" name=\"AuthorizationResponse\"
+        nillable=\"true\" type=\"tns:AuthorizationResponse\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"AuthorizationResponse\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"AccountID\" type=\"s:string\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"LocalID\" type=\"s:int\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"AccountName\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"AccountType\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"ResourceName\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Status\" type=\"s:string\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:element name=\"APICredentials\" type=\"tns:APICredentials\"
+        />\r\n      <s:complexType name=\"APICredentials\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"DeveloperKey\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Password\" type=\"s:string\" />\r\n        </s:sequence>\r\n        <s:anyAttribute
+        />\r\n      </s:complexType>\r\n      <s:element name=\"RequestAccess\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"localID\" type=\"s:int\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"RequestAccessResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"RequestAccessResult\" type=\"tns:APIResultOfBoolean\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"APIResultOfBoolean\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Status\" type=\"tns:ResultStatus\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"MessageCode\"
+        type=\"s:int\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Message\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Data\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"ResultData\" type=\"s:boolean\" />\r\n
+        \       </s:sequence>\r\n      </s:complexType>\r\n      <s:element name=\"Ping\">\r\n
+        \       <s:complexType />\r\n      </s:element>\r\n      <s:element name=\"PingResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"PingResult\" type=\"tns:APIResultOfString\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"APIResultOfString\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Status\" type=\"tns:ResultStatus\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"MessageCode\"
+        type=\"s:int\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Message\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Data\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\" type=\"s:string\" />\r\n
+        \       </s:sequence>\r\n      </s:complexType>\r\n    </s:schema>\r\n  </wsdl:types>\r\n
+        \ <wsdl:message name=\"GetAuthorizationListSoapIn\">\r\n    <wsdl:part name=\"parameters\"
+        element=\"tns:GetAuthorizationList\" />\r\n  </wsdl:message>\r\n  <wsdl:message
+        name=\"GetAuthorizationListSoapOut\">\r\n    <wsdl:part name=\"parameters\"
+        element=\"tns:GetAuthorizationListResponse\" />\r\n  </wsdl:message>\r\n  <wsdl:message
+        name=\"GetAuthorizationListAPICredentials\">\r\n    <wsdl:part name=\"APICredentials\"
+        element=\"tns:APICredentials\" />\r\n  </wsdl:message>\r\n  <wsdl:message
+        name=\"RequestAccessSoapIn\">\r\n    <wsdl:part name=\"parameters\" element=\"tns:RequestAccess\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"RequestAccessSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:RequestAccessResponse\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"RequestAccessAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"PingSoapIn\">\r\n    <wsdl:part
+        name=\"parameters\" element=\"tns:Ping\" />\r\n  </wsdl:message>\r\n  <wsdl:message
+        name=\"PingSoapOut\">\r\n    <wsdl:part name=\"parameters\" element=\"tns:PingResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"PingAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:portType name=\"AdminServiceSoap\">\r\n    <wsdl:operation
+        name=\"GetAuthorizationList\">\r\n      <wsdl:input message=\"tns:GetAuthorizationListSoapIn\"
+        />\r\n      <wsdl:output message=\"tns:GetAuthorizationListSoapOut\" />\r\n
+        \   </wsdl:operation>\r\n    <wsdl:operation name=\"RequestAccess\">\r\n      <wsdl:input
+        message=\"tns:RequestAccessSoapIn\" />\r\n      <wsdl:output message=\"tns:RequestAccessSoapOut\"
+        />\r\n    </wsdl:operation>\r\n    <wsdl:operation name=\"Ping\">\r\n      <wsdl:input
+        message=\"tns:PingSoapIn\" />\r\n      <wsdl:output message=\"tns:PingSoapOut\"
+        />\r\n    </wsdl:operation>\r\n  </wsdl:portType>\r\n  <wsdl:binding name=\"AdminServiceSoap\"
+        type=\"tns:AdminServiceSoap\">\r\n    <soap:binding transport=\"http://schemas.xmlsoap.org/soap/http\"
+        />\r\n    <wsdl:operation name=\"GetAuthorizationList\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetAuthorizationList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:GetAuthorizationListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"RequestAccess\">\r\n      <soap:operation soapAction=\"http://api.channeladvisor.com/webservices/RequestAccess\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:RequestAccessAPICredentials\" part=\"APICredentials\"
+        use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body
+        use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"Ping\">\r\n      <soap:operation soapAction=\"http://api.channeladvisor.com/webservices/Ping\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:PingAPICredentials\" part=\"APICredentials\"
+        use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body
+        use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n  </wsdl:binding>\r\n
+        \ <wsdl:binding name=\"AdminServiceSoap12\" type=\"tns:AdminServiceSoap\">\r\n
+        \   <soap12:binding transport=\"http://schemas.xmlsoap.org/soap/http\" />\r\n
+        \   <wsdl:operation name=\"GetAuthorizationList\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetAuthorizationList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:GetAuthorizationListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"RequestAccess\">\r\n      <soap12:operation soapAction=\"http://api.channeladvisor.com/webservices/RequestAccess\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:RequestAccessAPICredentials\" part=\"APICredentials\"
+        use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body
+        use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"Ping\">\r\n      <soap12:operation soapAction=\"http://api.channeladvisor.com/webservices/Ping\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:PingAPICredentials\" part=\"APICredentials\"
+        use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body
+        use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n  </wsdl:binding>\r\n
+        \ <wsdl:service name=\"AdminService\">\r\n    <wsdl:port name=\"AdminServiceSoap\"
+        binding=\"tns:AdminServiceSoap\">\r\n      <soap:address location=\"https://api.channeladvisor.com/ChannelAdvisorAPI/v6/AdminService.asmx\"
+        />\r\n    </wsdl:port>\r\n    <wsdl:port name=\"AdminServiceSoap12\" binding=\"tns:AdminServiceSoap12\">\r\n
+        \     <soap12:address location=\"https://api.channeladvisor.com/ChannelAdvisorAPI/v6/AdminService.asmx\"
+        />\r\n    </wsdl:port>\r\n  </wsdl:service>\r\n</wsdl:definitions>"
+    http_version: '1.1'
+  recorded_at: Wed, 25 Apr 2012 21:47:29 GMT
+- request:
+    method: post
+    uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/AdminService.asmx
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:web="http://api.channeladvisor.com/webservices/"><soap:Header><web:APICredentials><web:DeveloperKey>$$DEVELOPER_KEY$$</web:DeveloperKey><web:Password>$$PASSWORD$$</web:Password></web:APICredentials></soap:Header><soap:Body><web:RequestAccess><web:localID>50000290</web:localID></web:RequestAccess></soap:Body></soap:Envelope>
+    headers:
+      soapaction:
+      - ! '"http://api.channeladvisor.com/webservices/RequestAccess"'
+      content-type:
+      - text/xml;charset=UTF-8
+      content-length:
+      - '454'
+      accept:
+      - ! '*/*'
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Wed, 25 Apr 2012 21:47:31 GMT
+      server:
+      - Microsoft-IIS/6.0
+      x-servername:
+      - RDU-IISWEB-03
+      x-powered-by:
+      - ASP.NET
+      x-aspnet-version:
+      - 4.0.30319
+      transfer-encoding:
+      - chunked
+      cache-control:
+      - private, max-age=0
+      content-type:
+      - text/xml; charset=utf-8
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><RequestAccessResponse
+        xmlns="http://api.channeladvisor.com/webservices/"><RequestAccessResult><Status>Failure</Status><MessageCode>12</MessageCode><Message>An
+        Authorization for the specified ID [50000290] already exists!</Message><ResultData>false</ResultData></RequestAccessResult></RequestAccessResponse></soap:Body></soap:Envelope>
+    http_version: '1.1'
+  recorded_at: Wed, 25 Apr 2012 21:47:31 GMT
+recorded_with: VCR 2.1.1
