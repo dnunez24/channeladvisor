@@ -1,13 +1,15 @@
 require 'yaml'
 
-creds = YAML.load_file("#{Dir.home}/.config/channeladvisor.yml")
+def sensitive_data
+  @sensitive_data ||= YAML.load_file("#{Dir.home}/.config/channeladvisor.yml")
+end
 
 RSpec.configure do |config|
   config.before(:each) do
     ChannelAdvisor.configure do |c|
-      c.account_id    = creds["account_id"]
-      c.developer_key = creds["developer_key"]
-      c.password      = creds["password"]
+      c.developer_key = sensitive_data["developer_key"]
+      c.password      = sensitive_data["password"]
+      c.account_id    = sensitive_data["account_ids"].first
     end
   end
 end

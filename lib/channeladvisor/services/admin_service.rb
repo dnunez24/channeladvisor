@@ -8,10 +8,9 @@ module ChannelAdvisor
         "xmlns:web" => "http://api.channeladvisor.com/webservices/"
       }
 
-      # Checks authorization for and availability of the admin service
+      # Check authorization for and availability of the admin service
       #
-      # @raise [ServiceFailure] Raises an exception when the service returns a failure status
-      # @return [String] Status message
+      # @return [HTTPI::Response] HTTP response object containing the SOAP XML response
       def ping
         soap_response = client.request :ping do
           soap.xml do |xml|
@@ -24,16 +23,13 @@ module ChannelAdvisor
           end
         end
 
-        # TODO: Handle Savon::SOAP::Response faults and HTTP errors
-
         @last_request = client.http
         @last_response = soap_response.http
       end # ping
 
-      # Allows you to request access to a specific CA Complete Account.
+      # Request access to a ChannelAdvisor account
       #
-      # @raise [ServiceFailure] Raises an exception when the service returns a failure status
-      # @return [Object] SOAP HTTP response
+      # @return [HTTPI::Response] HTTP response object containing the SOAP XML response
       def request_access(local_id)
         soap_response = client.request :request_access do
           soap.xml do |xml|
@@ -48,30 +44,26 @@ module ChannelAdvisor
           end
         end
 
-        # TODO: Handle Savon::SOAP::Response faults and HTTP errors
-
         @last_request = client.http
         @last_response = soap_response.http
       end # request_access
 
-      # Retrieve a list of Account Authorizations for the developer key.
+      # Retrieve a list of account authorizations for the given developer key
       #
-      # @return [Object] SOAP HTTP response
-      def get_authorization_list(local_id)
+      # @return [HTTPI::Response] HTTP response object containing the SOAP XML response
+      def get_authorization_list(local_id=nil)
         soap_response = client.request :get_authorization_list do
           soap.xml do |xml|
             xml.soap :Envelope, NAMESPACES do |envelope|
               soap_header(envelope)
               envelope.soap :Body do |body|
                 body.web :GetAuthorizationList do |get_authorization_list|
-                  get_authorization_list.web :localID, local_id
+                  get_authorization_list.web :localID, local_id if local_id
                 end
               end
             end
           end
         end
-
-        # TODO: Handle Savon::SOAP::Response faults and HTTP errors
 
         @last_request = client.http
         @last_response = soap_response.http

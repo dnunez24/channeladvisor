@@ -17,11 +17,11 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Tue, 15 May 2012 04:03:56 GMT
+      - Wed, 16 May 2012 20:58:48 GMT
       server:
       - Microsoft-IIS/6.0
       x-servername:
-      - RDU-IISWEB-06
+      - RDU-IISWEB-05
       x-powered-by:
       - ASP.NET
       x-aspnet-version:
@@ -816,7 +816,7 @@ http_interactions:
         \     <soap12:address location=\"https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx\"
         />\r\n    </wsdl:port>\r\n  </wsdl:service>\r\n</wsdl:definitions>"
     http_version: '1.1'
-  recorded_at: Tue, 15 May 2012 04:03:57 GMT
+  recorded_at: Wed, 16 May 2012 20:58:49 GMT
 - request:
     method: post
     uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx
@@ -824,15 +824,17 @@ http_interactions:
       encoding: US-ASCII
       string: <?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-        xmlns:web="http://api.channeladvisor.com/webservices/" xmlns:ord="http://api.channeladvisor.com/datacontracts/orders"><soap:Header><web:APICredentials><web:DeveloperKey>$$DEVELOPER_KEY$$</web:DeveloperKey><web:Password>wrong
-        password</web:Password></web:APICredentials></soap:Header><soap:Body><web:Ping/></soap:Body></soap:Envelope>
+        xmlns:web="http://api.channeladvisor.com/webservices/" xmlns:ord="http://api.channeladvisor.com/datacontracts/orders"><soap:Header><web:APICredentials><web:DeveloperKey>$$DEVELOPER_KEY$$</web:DeveloperKey><web:Password>$$PASSWORD$$</web:Password></web:APICredentials></soap:Header><soap:Body><web:GetOrderList><web:accountID>$$ACCOUNT_ID$$</web:accountID><web:orderCriteria><ord:OrderCreationFilterBeginTimeGMT
+        xsi:nil="true"/><ord:OrderCreationFilterEndTimeGMT xsi:nil="true"/><ord:StatusUpdateFilterBeginTimeGMT>2012-05-14T00:00:00+00:00</ord:StatusUpdateFilterBeginTimeGMT><ord:StatusUpdateFilterEndTimeGMT
+        xsi:nil="true"/><ord:JoinDateFiltersWithOr xsi:nil="true"/><ord:PageNumberFilter
+        xsi:nil="true"/><ord:PageSize xsi:nil="true"/></web:orderCriteria></web:GetOrderList></soap:Body></soap:Envelope>
     headers:
       soapaction:
-      - ! '"http://api.channeladvisor.com/webservices/Ping"'
+      - ! '"http://api.channeladvisor.com/webservices/GetOrderList"'
       content-type:
       - text/xml;charset=UTF-8
       content-length:
-      - '559'
+      - '1049'
       accept:
       - ! '*/*'
       user-agent:
@@ -843,29 +845,30 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Tue, 15 May 2012 04:03:59 GMT
+      - Wed, 16 May 2012 20:58:50 GMT
       server:
       - Microsoft-IIS/6.0
       x-servername:
-      - RDU-IISWEB-04
+      - RDU-IISWEB-05
       x-powered-by:
       - ASP.NET
       x-aspnet-version:
       - 4.0.30319
       cache-control:
-      - private
+      - private, max-age=0
       content-type:
       - text/xml; charset=utf-8
       content-length:
-      - '517'
+      - '2408'
     body:
       encoding: US-ASCII
-      string: ! "<soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'>\r\n
-        \                          <soap:Body>\r\n                              <soap:Fault>\r\n
-        \                                <faultcode>soap:Server</faultcode>\r\n                                 <faultstring>Server
-        was unable to process request. Authentication failed.</faultstring>\r\n                                 <detail/>\r\n
-        \                             </soap:Fault>\r\n                           </soap:Body>\r\n
-        \                       </soap:Envelope>"
+      string: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><GetOrderListResponse
+        xmlns="http://api.channeladvisor.com/webservices/"><GetOrderListResult><Status>Success</Status><MessageCode>0</MessageCode><ResultData><OrderResponseItem
+        xmlns:q1="http://api.channeladvisor.com/datacontracts/orders" xsi:type="q1:OrderResponseDetailLow"><q1:NumberOfMatches>2</q1:NumberOfMatches><q1:OrderTimeGMT>2012-05-16T15:44:27.683</q1:OrderTimeGMT><q1:LastUpdateDate>2012-05-16T15:44:27.723</q1:LastUpdateDate><q1:TotalOrderAmount>44.9200</q1:TotalOrderAmount><q1:OrderState>Active</q1:OrderState><q1:DateCancelledGMT
+        xsi:nil="true" /><q1:OrderID>14161613</q1:OrderID><q1:ClientOrderIdentifier>14161613</q1:ClientOrderIdentifier><q1:SellerOrderID>EFGH5678</q1:SellerOrderID><q1:OrderStatus><q1:CheckoutStatus>NotVisited</q1:CheckoutStatus><q1:CheckoutDateGMT>1900-01-01T00:00:00</q1:CheckoutDateGMT><q1:PaymentStatus>NotSubmitted</q1:PaymentStatus><q1:PaymentDateGMT>1900-01-01T00:00:00</q1:PaymentDateGMT><q1:ShippingStatus>Unshipped</q1:ShippingStatus><q1:ShippingDateGMT>1900-01-01T00:00:00</q1:ShippingDateGMT><q1:OrderRefundStatus>NoRefunds</q1:OrderRefundStatus></q1:OrderStatus></OrderResponseItem><OrderResponseItem
+        xmlns:q2="http://api.channeladvisor.com/datacontracts/orders" xsi:type="q2:OrderResponseDetailLow"><q2:NumberOfMatches>2</q2:NumberOfMatches><q2:OrderTimeGMT>2012-05-16T17:34:34.4</q2:OrderTimeGMT><q2:LastUpdateDate>2012-05-16T17:34:34.413</q2:LastUpdateDate><q2:TotalOrderAmount>17.9700</q2:TotalOrderAmount><q2:OrderState>Active</q2:OrderState><q2:DateCancelledGMT
+        xsi:nil="true" /><q2:OrderID>14162751</q2:OrderID><q2:ClientOrderIdentifier>14162751</q2:ClientOrderIdentifier><q2:SellerOrderID>ABCD1234</q2:SellerOrderID><q2:OrderStatus><q2:CheckoutStatus>NotVisited</q2:CheckoutStatus><q2:CheckoutDateGMT>1900-01-01T00:00:00</q2:CheckoutDateGMT><q2:PaymentStatus>NotSubmitted</q2:PaymentStatus><q2:PaymentDateGMT>1900-01-01T00:00:00</q2:PaymentDateGMT><q2:ShippingStatus>Unshipped</q2:ShippingStatus><q2:ShippingDateGMT>1900-01-01T00:00:00</q2:ShippingDateGMT><q2:OrderRefundStatus>NoRefunds</q2:OrderRefundStatus></q2:OrderStatus></OrderResponseItem></ResultData></GetOrderListResult></GetOrderListResponse></soap:Body></soap:Envelope>
     http_version: '1.1'
-  recorded_at: Tue, 15 May 2012 04:03:58 GMT
+  recorded_at: Wed, 16 May 2012 20:58:50 GMT
 recorded_with: VCR 2.1.1

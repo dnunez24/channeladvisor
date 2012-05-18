@@ -17,11 +17,11 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Wed, 25 Apr 2012 22:24:10 GMT
+      - Wed, 09 May 2012 06:01:12 GMT
       server:
       - Microsoft-IIS/6.0
       x-servername:
-      - RDU-IISWEB-09
+      - RDU-IISWEB-07
       x-powered-by:
       - ASP.NET
       x-aspnet-version:
@@ -168,21 +168,21 @@ http_interactions:
         \     <soap12:address location=\"https://api.channeladvisor.com/ChannelAdvisorAPI/v6/AdminService.asmx\"
         />\r\n    </wsdl:port>\r\n  </wsdl:service>\r\n</wsdl:definitions>"
     http_version: '1.1'
-  recorded_at: Wed, 25 Apr 2012 22:24:10 GMT
+  recorded_at: Wed, 09 May 2012 06:01:12 GMT
 - request:
     method: post
     uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/AdminService.asmx
     body:
       encoding: US-ASCII
       string: <?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-        xmlns:web="http://api.channeladvisor.com/webservices/"><soap:Header><web:APICredentials><web:DeveloperKey>$$DEVELOPER_KEY$$</web:DeveloperKey><web:Password>$$PASSWORD$$</web:Password></web:APICredentials></soap:Header><soap:Body><web:GetAuthorizationList><web:localID>$$LOCAL_ID$$</web:localID></web:GetAuthorizationList></soap:Body></soap:Envelope>
+        xmlns:web="http://api.channeladvisor.com/webservices/"><soap:Header><web:APICredentials><web:DeveloperKey>$$DEVELOPER_KEY$$</web:DeveloperKey><web:Password>$$PASSWORD$$</web:Password></web:APICredentials></soap:Header><soap:Body><web:RequestAccess><web:localID>00000000</web:localID></web:RequestAccess></soap:Body></soap:Envelope>
     headers:
       soapaction:
-      - ! '"http://api.channeladvisor.com/webservices/GetAuthorizationList"'
+      - ! '"http://api.channeladvisor.com/webservices/RequestAccess"'
       content-type:
       - text/xml;charset=UTF-8
       content-length:
-      - '468'
+      - '455'
       accept:
       - ! '*/*'
       user-agent:
@@ -193,11 +193,11 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Wed, 25 Apr 2012 22:24:10 GMT
+      - Wed, 09 May 2012 06:01:14 GMT
       server:
       - Microsoft-IIS/6.0
       x-servername:
-      - RDU-IISWEB-10
+      - RDU-IISWEB-04
       x-powered-by:
       - ASP.NET
       x-aspnet-version:
@@ -211,55 +211,9 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><GetAuthorizationListResponse
-        xmlns="http://api.channeladvisor.com/webservices/"><GetAuthorizationListResult><Status>Success</Status><MessageCode>0</MessageCode><ResultData><AuthorizationResponse><AccountID>$$ACCOUNT_ID$$</AccountID><LocalID>$$LOCAL_ID$$</LocalID><AccountName>$$ACCOUNT_NAME$$</AccountName><AccountType>merchant</AccountType><ResourceName>/channeladvisorapi</ResourceName><Status>Enabled</Status></AuthorizationResponse></ResultData></GetAuthorizationListResult></GetAuthorizationListResponse></soap:Body></soap:Envelope>
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><RequestAccessResponse
+        xmlns="http://api.channeladvisor.com/webservices/"><RequestAccessResult><Status>Failure</Status><MessageCode>12</MessageCode><Message>No
+        ChannelAdvisor Account was found for the specified ID [0]!</Message><ResultData>false</ResultData></RequestAccessResult></RequestAccessResponse></soap:Body></soap:Envelope>
     http_version: '1.1'
-  recorded_at: Wed, 25 Apr 2012 22:24:11 GMT
-- request:
-    method: post
-    uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/AdminService.asmx
-    body:
-      encoding: US-ASCII
-      string: <?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-        xmlns:web="http://api.channeladvisor.com/webservices/"><soap:Header><web:APICredentials><web:DeveloperKey>$$DEVELOPER_KEY$$</web:DeveloperKey><web:Password>$$PASSWORD$$</web:Password></web:APICredentials></soap:Header><soap:Body><web:GetAuthorizationList><web:localID>50000303</web:localID></web:GetAuthorizationList></soap:Body></soap:Envelope>
-    headers:
-      soapaction:
-      - ! '"http://api.channeladvisor.com/webservices/GetAuthorizationList"'
-      content-type:
-      - text/xml;charset=UTF-8
-      content-length:
-      - '468'
-      accept:
-      - ! '*/*'
-      user-agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      date:
-      - Wed, 25 Apr 2012 22:29:41 GMT
-      server:
-      - Microsoft-IIS/6.0
-      x-servername:
-      - RDU-IISWEB-08
-      x-powered-by:
-      - ASP.NET
-      x-aspnet-version:
-      - 4.0.30319
-      transfer-encoding:
-      - chunked
-      cache-control:
-      - private, max-age=0
-      content-type:
-      - text/xml; charset=utf-8
-    body:
-      encoding: US-ASCII
-      string: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><GetAuthorizationListResponse
-        xmlns="http://api.channeladvisor.com/webservices/"><GetAuthorizationListResult><Status>Success</Status><MessageCode>0</MessageCode><ResultData><AuthorizationResponse><AccountID>$$ACCOUNT_ID$$</AccountID><LocalID>50000303</LocalID><AccountName>Sheet
-        Music Plus Software Dev Account</AccountName><AccountType>merchant</AccountType><ResourceName>/channeladvisorapi</ResourceName><Status>Enabled</Status></AuthorizationResponse></ResultData></GetAuthorizationListResult></GetAuthorizationListResponse></soap:Body></soap:Envelope>
-    http_version: '1.1'
-  recorded_at: Wed, 25 Apr 2012 22:29:41 GMT
+  recorded_at: Wed, 09 May 2012 06:01:13 GMT
 recorded_with: VCR 2.1.1

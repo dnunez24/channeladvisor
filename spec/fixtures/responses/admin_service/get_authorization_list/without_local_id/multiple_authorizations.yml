@@ -1,0 +1,49 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/AdminService.asmx
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:web="http://api.channeladvisor.com/webservices/"><soap:Header><web:APICredentials><web:DeveloperKey>$$DEVELOPER_KEY$$</web:DeveloperKey><web:Password>$$PASSWORD$$</web:Password></web:APICredentials></soap:Header><soap:Body><web:GetAuthorizationList></web:GetAuthorizationList></soap:Body></soap:Envelope>
+    headers:
+      soapaction:
+      - ! '"http://api.channeladvisor.com/webservices/GetAuthorizationList"'
+      content-type:
+      - text/xml;charset=UTF-8
+      content-length:
+      - '434'
+      accept:
+      - ! '*/*'
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Thu, 10 May 2012 15:13:05 GMT
+      server:
+      - Microsoft-IIS/6.0
+      x-servername:
+      - RDU-IISWEB-06
+      x-powered-by:
+      - ASP.NET
+      x-aspnet-version:
+      - 4.0.30319
+      transfer-encoding:
+      - chunked
+      cache-control:
+      - private, max-age=0
+      content-type:
+      - text/xml; charset=utf-8
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><GetAuthorizationListResponse
+        xmlns="http://api.channeladvisor.com/webservices/"><GetAuthorizationListResult><Status>Success</Status><MessageCode>0</MessageCode><ResultData><AuthorizationResponse><AccountID>$$ACCOUNT_ID$$</AccountID><LocalID>$$LOCAL_ID$$</LocalID><AccountName>$$ACCOUNT_NAME$$</AccountName><AccountType>merchant</AccountType><ResourceName>/channeladvisorapi</ResourceName><Status>Pending</Status></AuthorizationResponse><AuthorizationResponse><AccountID>$$ACCOUNT_ID$$</AccountID><LocalID>$$LOCAL_ID$$</LocalID><AccountName>$$ACCOUNT_NAME$$</AccountName><AccountType>merchant</AccountType><ResourceName>/channeladvisorapi</ResourceName><Status>Pending</Status></AuthorizationResponse></ResultData></GetAuthorizationListResult></GetAuthorizationListResponse></soap:Body></soap:Envelope>
+    http_version: '1.1'
+  recorded_at: Thu, 10 May 2012 15:13:02 GMT
+recorded_with: VCR 2.1.1
