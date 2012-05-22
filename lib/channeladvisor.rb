@@ -7,6 +7,7 @@ require 'channeladvisor/services'
 require 'channeladvisor/base'
 require 'channeladvisor/order'
 require 'channeladvisor/admin'
+require 'channeladvisor/account_authorization'
 
 module ChannelAdvisor
   class << self

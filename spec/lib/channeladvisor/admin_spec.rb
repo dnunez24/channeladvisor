@@ -1,127 +1,216 @@
 require 'spec_helper'
 
 module ChannelAdvisor
-  describe Admin, "AccountAuthorization" do
-  #   context "a new instance" do
-  #     let(:account_authorization) do
-  #       ChannelAdvisor::Admin::AccountAuthorization.new(
-  #         '00000000-1111-2222-3333-444444444444',
-  #         1234567890,
-  #         'ACME',
-  #         'merchant',
-  #         '/channeladvisorapi',
-  #         'Enabled'
-  #       )
-  #     end
+  describe Admin do
+    describe ".ping" do
+      context "when successful" do
+        use_vcr_cassette "responses/admin/ping/success"
 
-  #     describe '#account_id' do
-  #       subject { account_authorization.account_id }
+        it "records the last response" do
+          Admin.ping
+          Admin.last_response[:ping_response].should_not be_nil
+        end
 
-  #       it { should == '00000000-1111-2222-3333-444444444444' }
-  #     end
+        it "returns true" do
+          Admin.ping.should be_true
+        end
+      end
 
-  #     describe '#local_id' do
-  #       subject { account_authorization.local_id }
+      context "when unsuccessful" do
+        failure = {:message => "Service Unavailable"}
+        use_vcr_cassette "responses/admin/ping/failure", :erb => failure
 
-  #       it { should == 1234567890 }
-  #     end
+        it "raises a ServiceFailure error" do
+          expect { Admin.ping }.to raise_error ServiceFailure, failure[:message]
+        end
+      end
 
-  #     describe '#account_name' do
-  #       subject { account_authorization.account_name }
+      context "with a SOAP fault" do
+        use_vcr_cassette "responses/admin/ping/soap_fault"
+        
+        it "raises a SOAP fault error" do
+          ChannelAdvisor.configure { |c| c.developer_key = "WRONG" }
+          expect { Admin.ping }.to raise_error SOAPFault, "Server was unable to process request. Authentication failed."
+        end
 
-  #       it { should == 'ACME' }
-  #     end
+        it "stores the SOAP fault code" do
+          begin
+            Admin.ping
+          rescue SOAPFault => fault
+            fault.code.should == "soap:Server"
+          end
+        end
+      end
 
-  #     describe '#account_type' do
-  #       subject { account_authorization.account_type }
+      context "with an HTTP error" do
+        http_status = {:code => 500, :message => "Internal Server Error"}
+        use_vcr_cassette "responses/admin/ping/http_error", :erb => http_status
+       
+        it "raises an HTTP error" do
+          expect { Admin.ping }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"
+        end
 
-  #       it { should == 'merchant' }
-  #     end
+        it "stores the HTTP status code" do
+          begin
+            Admin.ping
+          rescue HTTPError => error
+            error.code.should == http_status[:code]
+          end
+        end
+      end
+    end
 
-  #     describe '#resource_name' do
-  #       subject { account_authorization.resource_name }
+    describe ".request_access" do
+      let(:local_id) { sensitive_data["local_ids"].first }
 
-  #       it { should == '/channeladvisorapi' }
-  #     end
+      context "when successful" do
+        use_vcr_cassette "responses/admin/request_access/success"
 
-  #     describe '#status' do
-  #       subject { account_authorization.status }
+        it "records the last response" do
+          Admin.request_access(local_id)
+          Admin.last_response[:request_access_response].should_not be_nil
+        end
 
-  #       it { should == 'Enabled' }
-  #     end
-  #   end
-  # end
-  
-  # describe Admin, ".ping" do
-  #   let(:wsdl) { ChannelAdvisor::Admin::WSDL }
+        it "returns true" do
+          Admin.request_access(local_id).should be_true
+        end
+      end
 
-  #   before(:each) do
-  #     stub_wsdl(wsdl)
-  #     stub_response(wsdl, :ping, data)
-  #   end
+      context "when unsuccessful" do
+        use_vcr_cassette "responses/admin/request_access/failure"
 
-  #   subject { ChannelAdvisor::Admin.ping }
+        it "raises a ServiceFailure error" do
+          expect { Admin.request_access(local_id) }.to raise_error ServiceFailure, "An Authorization for the specified ID [$$LOCAL_ID$$] already exists!"
+        end
+      end
 
-  #   context "when successful" do
-  #     let(:data) { :success }
+      context "with a SOAP fault" do
+        use_vcr_cassette "responses/admin/request_access/soap_fault"
+        
+        it "raises a SOAP fault error" do
+          ChannelAdvisor.configure { |c| c.developer_key = "WRONG" }
+          expect { Admin.request_access(local_id) }.to raise_error SOAPFault, "Server was unable to process request. Authentication failed."
+        end
 
-  #     it { should == 'OK' }
-  #   end
+        it "stores the SOAP fault code" do
+          begin
+            Admin.request_access(local_id)
+          rescue SOAPFault => fault
+            fault.code.should == "soap:Server"
+          end
+        end
+      end
 
-  #   context "when unsuccessful" do
-  #     let(:data) { :failure }
+      context "with an HTTP error" do
+        http_status = {:code => 500, :message => "Internal Server Error"}
+        use_vcr_cassette "responses/admin/request_access/http_error", :erb => http_status
+       
+        it "raises an HTTP error" do
+          expect { Admin.request_access(local_id) }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"
+        end
 
-  #     it "raises a Savon SOAP fault" do
-  #       expect { subject }.to raise_error Savon::SOAP::Fault
-  #     end
-  #   end
-  # end # Admin.ping
+        it "stores the HTTP status code" do
+          begin
+            Admin.request_access(local_id)
+          rescue HTTPError => error
+            error.code.should == http_status[:code]
+          end
+        end
+      end
+    end
 
-  # describe Admin, ".request_access" do
-  #   let(:wsdl) { ChannelAdvisor::Admin::WSDL }
+    describe ".get_authorization_list" do
+      let(:local_id) { sensitive_data["local_ids"].first }
 
-  #   before(:each) do
-  #     stub_wsdl(wsdl)
-  #     stub_response(wsdl, :request_access, data)
-  #   end
+      context "when successful" do
+        use_vcr_cassette "responses/admin/get_authorization_list/success"
 
-  #   subject { ChannelAdvisor::Admin.request_access(1234567890) }
+        it "records the last response" do
+          Admin.get_authorization_list(local_id)
+          Admin.last_response[:get_authorization_list_response].should_not be_nil
+        end
 
-  #   context "when successful" do
-  #     let(:data) { :success }
+        context "with no authorizations" do
+          use_vcr_cassette "responses/admin/get_authorization_list/no_authorizations", :exclusive => true
 
-  #     it { should be_true }
-  #   end
+          it "should return an array" do
+            Admin.get_authorization_list(local_id).should be_an Array
+          end
 
-  #   context "when unsuccessful" do
-  #     let(:data) { :failure }
+          it "returns an empty array" do
+            Admin.get_authorization_list(local_id).should be_empty
+          end
+        end
 
-  #     it "raises a Savon SOAP fault" do
-  #       expect { subject }.to raise_error ServiceFailure
-  #     end
-  #   end
-  # end # Admin.request_access
+        context "with one authorization" do
+          use_vcr_cassette "responses/admin/get_authorization_list/one_authorization", :exclusive => true
 
-  # describe Admin, ".get_authorization_list" do
-  #   let(:wsdl) { ChannelAdvisor::Admin::WSDL }
+          it "should be an array with one element" do
+            Admin.get_authorization_list(local_id).count.should == 1
+          end
 
-  #   before(:each) do
-  #     stub_response(wsdl, :get_authorization_list, data)
-  #     stub_wsdl(wsdl)
-  #   end
+          it "should have an array containing an AccountAuthorization object" do
+            Admin.get_authorization_list(local_id).first.should be_an AccountAuthorization
+          end
+        end
 
-  #   subject { ChannelAdvisor::Admin.get_authorization_list(1234567890) }
+        context "with two authorizations" do
+          use_vcr_cassette "responses/admin/get_authorization_list/two_authorizations", :exclusive => true
 
-  #   context "when successful" do
-  #     let(:data) { :success }
+          it "should be an array with two elements" do
+            Admin.get_authorization_list.count.should == 2
+          end
 
-  #     it { should_not be_empty }
-  #   end
+          it "should have an array containing AccountAuthorization objects" do
+            account_authorizations = Admin.get_authorization_list(local_id)
+            account_authorizations.each do |account_authorization|
+              account_authorization.should be_an AccountAuthorization
+            end
+          end
+        end
+      end
 
-  #   context "when unsuccessful" do
-  #     let(:data) { :failure }
+      context "when unsuccessful" do
+        use_vcr_cassette "responses/admin/get_authorization_list/failure"
 
-  #     it { should be_empty }
-  #   end
-  end # Admin.get_authorization_list
+        it "raises a ServiceFailure error" do
+          expect { Admin.get_authorization_list("WRONG") }.to raise_error ServiceFailure, "Input string was not in a correct format."
+        end
+      end
+
+      context "with a SOAP fault" do
+        use_vcr_cassette "responses/admin/get_authorization_list/soap_fault"
+        
+        it "raises a SOAP fault error" do
+          ChannelAdvisor.configure { |c| c.developer_key = "WRONG" }
+          expect { Admin.get_authorization_list(local_id) }.to raise_error SOAPFault, "Server was unable to process request. Authentication failed."
+        end
+
+        it "stores the SOAP fault code" do
+          begin
+            Admin.get_authorization_list(local_id)
+          rescue SOAPFault => fault
+            fault.code.should == "soap:Server"
+          end
+        end
+      end
+
+      context "with an HTTP error" do
+        http_status = {:code => 500, :message => "Internal Server Error"}
+        use_vcr_cassette "responses/admin/get_authorization_list/http_error", :erb => http_status
+       
+        it "raises an HTTP error" do
+          expect { Admin.get_authorization_list(local_id) }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"
+        end
+
+        it "stores the HTTP status code" do
+          begin
+            Admin.get_authorization_list(local_id)
+          rescue HTTPError => error
+            error.code.should == http_status[:code]
+          end
+        end
+      end
+    end # get_authorization_list
+  end # Admin
 end # ChannelAdvisor

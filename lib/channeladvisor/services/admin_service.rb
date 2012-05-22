@@ -24,7 +24,7 @@ module ChannelAdvisor
         end
 
         @last_request = client.http
-        @last_response = soap_response.http
+        @last_response = soap_response
       end # ping
 
       # Request access to a ChannelAdvisor account
@@ -45,7 +45,7 @@ module ChannelAdvisor
         end
 
         @last_request = client.http
-        @last_response = soap_response.http
+        @last_response = soap_response
       end # request_access
 
       # Retrieve a list of account authorizations for the given developer key
@@ -66,7 +66,7 @@ module ChannelAdvisor
         end
 
         @last_request = client.http
-        @last_response = soap_response.http
+        @last_response = soap_response
       end # get_authorization_list
     end
   end

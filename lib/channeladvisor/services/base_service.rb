@@ -5,6 +5,10 @@ module ChannelAdvisor
 
     private
 
+      def client
+        @client ||= ChannelAdvisor::Client.new(self.class::WSDL)
+      end
+
       def soap_header(envelope)
         envelope.soap :Header do |header|
           header.web :APICredentials do |api_credentials|
@@ -12,10 +16,6 @@ module ChannelAdvisor
             api_credentials.web :Password, config(:password)
           end
         end
-      end
-
-      def client
-        @client ||= ChannelAdvisor::Client.new(self.class::WSDL)
       end
 
       def config(attribute)
