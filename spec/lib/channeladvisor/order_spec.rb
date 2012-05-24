@@ -1,437 +1,362 @@
 require 'spec_helper'
 
 module ChannelAdvisor
-  describe Order, ".ping" do
-  #   let (:wsdl) { ChannelAdvisor::Order::WSDL }
-
-  #   before(:each) do
-  #     stub_wsdl(wsdl)
-  #     stub_response(wsdl, :ping, data)
-  #   end
-  #   subject { ChannelAdvisor::Order.ping }
-
-  #   context "when successful" do
-  #     let(:data) { :success }
-
-  #     it { should == 'OK' }
-  #   end
-
-  #   context "when unsuccessful" do
-  #     let(:data) { :failure }
-
-  #     it "raises a Service Failure error" do
-  #       expect { subject }.to raise_error ServiceFailure
-  #     end
-  #   end
-  # end
-
-  # describe Order, ".list" do
-  #   let (:wsdl) { ChannelAdvisor::Order::WSDL }
-
-  #   before(:each) do
-  #     stub_wsdl(wsdl)
-  #     status ||= nil
-  #     stub_response(wsdl, :get_order_list, data, status)
-  #   end
-
-  #   let(:request) { FakeWeb.last_request.body }
-
-  #   shared_examples "a standard filter" do |name|
-  #     context "when not given" do
-  #       let(:data) { :no_criteria }
-
-  #       it "sends a SOAP request with an xsi:nil type #{name.stringify} element" do
-  #         ChannelAdvisor::Order.list
-  #         request.should contain_nil_element element
-  #       end
-  #     end
-
-  #     context "when valid" do
-  #       let(:data) { "valid_#{name}" }
-
-  #       it "sends a SOAP request with a #{name.stringify} element" do
-  #         ChannelAdvisor::Order.list(filters)
-  #         request.should contain_element(element).with(filters.values.first)
-  #       end
-
-  #       it "returns only orders with a matching #{name.stringify}" do
-  #         orders = ChannelAdvisor::Order.list(filters)
-  #         orders.each do |order|
-  #           filters.each do |k, v|
-  #             order.send(k).should == v
-  #           end
-  #         end
-  #       end
-  #     end
-
-  #     context "when invalid" do
-  #       let(:data) { "invalid_#{name}" }
-  #       let(:status) { ['500', 'Internal Server Error'] }
-
-  #       it "raises a SOAP Fault error" do
-  #         expect { ChannelAdvisor::Order.list }.to raise_error SoapFault
-  #       end
-  #     end
-  #   end
-
-  #   shared_examples "a date filter" do |name|
-  #     context "when not given" do
-  #       let(:data) { :no_criteria }
-
-  #       it "sends a SOAP request with an xsi:nil type #{name.stringify} element" do
-  #         ChannelAdvisor::Order.list
-  #         request.should contain_nil_element element
-  #       end
-  #     end
-
-  #     /(_from|_to)/.match(name.to_s) do |m|
-  #       context "when valid" do
-  #         let(:data) { "valid_#{name}_date" }
-  #         let(:date) { DateTime.new(2011, 11, 11) }
-
-  #         it "sends a SOAP request with a #{name.stringify} element" do
-  #           ChannelAdvisor::Order.list name => date
-  #           request.should contain_element(element).with(date.strftime("%Y-%m-%dT%H:%M:%S"))
-  #         end
-
-  #         it "returns only orders bound by the supplied date" do
-  #           orders = ChannelAdvisor::Order.list name => date
-  #           action = "#{$`}_at".clone.to_sym
-  #           case m[1]
-  #           when "from"
-  #             orders.each { |order| order.send(action).should be >= date }
-  #           when "to"
-  #             orders.each { |order| order.send(action).should be <= date }
-  #           end
-  #         end
-  #       end
-  #     end
-
-  #     context "when invalid" do
-  #       let(:data) { :invalid_date_filter }
-  #       let(:status) { ['500', 'Internal Server Error'] }
-
-  #       it "raises a SOAP Fault error" do
-  #         expect { ChannelAdvisor::Order.list }.to raise_error SoapFault
-  #       end
-  #     end
-  #   end
-
-  #   context "with no filters" do
-  #     subject { ChannelAdvisor::Order.list }
-
-  #     context "when receiving no orders" do
-  #       let(:data) { :no_match }
-  #       it { should be_an Array }
-  #       it { should be_empty }
-  #     end
-
-  #     context "when receiving 1 order" do
-  #       let(:data) { :one_match }
-
-  #       it "returns an array of 1 order" do
-  #         subject.size.should == 1
-  #         subject.first.should be_an_instance_of ChannelAdvisor::Order
-  #       end
-  #     end
-
-  #     context "when receiving more than 1 order" do
-  #       let(:data) { :no_criteria }
-
-  #       it "returns an array with more than 1 order" do
-  #         subject.size.should be > 1
-  #         subject.each { |order| order.should be_an_instance_of ChannelAdvisor::Order }
-  #       end
-  #     end
-  #   end
-
-  #   describe "created from filter" do
-  #     let(:element) { 'ord:OrderCreationFilterBeginTimeGMT' }
-  #     it_should_behave_like "a date filter", :created_from
-  #   end
-
-  #   describe "created to filter" do
-  #     let(:element) { 'ord:OrderCreationFilterEndTimeGMT' }
-  #     it_should_behave_like "a date filter", :created_to
-  #   end
-
-  #   describe "updated from filter" do
-  #     let(:element) { 'ord:StatusUpdateFilterBeginTimeGMT' }
-  #     it_should_behave_like "a date filter", :updated_from
-  #   end
-
-  #   describe "updated to filter" do
-  #     let(:element) { 'ord:StatusUpdateFilterEndTimeGMT' }
-  #     it_should_behave_like "a date filter", :updated_to
-  #   end
-
-  #   context "with created to and from filters" do
-  #     let(:data) { :valid_created_between_dates }
-  #     it "returns only orders with a created at date between the two filters" do
-  #       pending
-  #     end
-  #   end
-
-  #   context "with created from and to filters " do
-  #     describe "using 11/11/11 00:00:00 to 11/11/11 02:00:00" do
-  #       let(:data) { :valid_created_between_dates }
-
-  #       it "returns only orders created between 11/11/11 00:00:00 and 11/11/11 02:00:00" do
-  #         orders = ChannelAdvisor::Order.list :created_from => DateTime.new(2011, 11, 11, 00, 00, 00), :created_to => DateTime.new(2011, 11, 11, 02, 00, 00)
-  #         orders.first.created_at.should be >= DateTime.new(2011, 11, 11, 00, 00, 00)
-  #         orders.last.created_at.should be <= DateTime.new(2011, 11, 11, 02, 00, 00)
-  #       end
-  #     end
-  #   end
-
-  #   context "with updated from and to filters" do
-  #     describe "using 11/11/11 00:00:00 to 11/11/11 02:00:00" do
-  #       let(:data) { :valid_updated_between_dates }
-
-  #       it "returns only orders updated between 11/11/11 00:00:00 and 11/11/11 02:00:00" do
-  #         orders = ChannelAdvisor::Order.list(
-  #           :updated_from => DateTime.new(2011, 11, 11, 00, 00, 00),
-  #           :updated_to => DateTime.new(2011, 11, 11, 02, 00, 00)
-  #         )
-  #         sorted_orders = orders.sort_by { |order| order.updated_at }
-  #         sorted_orders.first.updated_at.should be >= DateTime.new(2011, 11, 11, 00, 00, 00)
-  #         sorted_orders.last.updated_at.should be <= DateTime.new(2011, 11, 11, 02, 00, 00)
-  #       end
-  #     end
-  #   end
-
-  #   describe "detail level filter" do
-  #     context "not given" do
-  #       let(:data) { :no_criteria }
-
-  #       it "sends a SOAP request with an xsi:nil DetailLevel element" do
-  #         ChannelAdvisor::Order.list
-  #         request.should contain_nil_element "ord:DetailLevel"
-  #       end
-  #     end
-
-  #   	context "when valid" do
-  #       let(:data) { :valid_detail_level }
-
-  #       it "sends a SOAP request with a DetailLevel element" do
-  #         ChannelAdvisor::Order.list(:detail_level => 'Low')
-  #         request.should contain_element('ord:DetailLevel').with('Low')
-  #       end
-
-  #       it "returns an array of orders" do
-  #         orders = ChannelAdvisor::Order.list(:detail_level => 'Low')
-  #         orders.each { |order| order.should be_an_instance_of ChannelAdvisor::Order }
-  #       end
-  #   	end
-
-  #   	context "when invlaid" do
-  #       let(:data) { :invalid_detail_level }
-  #       let(:status) { ['500', 'Internal Server Error'] }
-
-  #   	  it "raises a SOAP Fault Error" do
-  #         expect { ChannelAdvisor::Order.list }.to raise_error SoapFault
-  #   	  end
-  #   	end
-  #   end
-
-  #   describe "export state filter" do
-  #     context "not given" do
-  #       let(:data) { :no_criteria }
-
-  #       it "sends a SOAP request with an xsi:nil ExportState element" do
-  #         ChannelAdvisor::Order.list
-  #         request.should contain_nil_element "ord:ExportState"
-  #       end
-  #     end
-
-  #     context "when valid" do
-  #       let(:data) { :valid_export_state }
-
-  #       it "sends a SOAP request with an ExportState element" do
-  #         ChannelAdvisor::Order.list(:export_state => 'NotExported')
-  #         request.should contain_element('ord:ExportState').with('NotExported')
-  #       end
-
-  #       it "returns an array of orders" do
-  #         orders = ChannelAdvisor::Order.list(:export_state => 'NotExported')
-  #         orders.each { |order| order.should be_an_instance_of ChannelAdvisor::Order }
-  #       end
-  #     end
-
-  #     context "when invalid" do
-  #       let(:data)    { :invalid_export_state }
-  #       let(:status)  { ['500', 'Internal Server Error'] }
-
-  #       it "raises a SOAP Fault Error" do
-  #         expect { ChannelAdvisor::Order.list }.to raise_error SoapFault
-  #       end
-  #     end
-  #   end
-
-  #   context "with order ID list filter" do
-  #     let(:data) { :valid_order_ids }
-
-  #     describe "not given" do
-  #       it "sends a SOAP request without the OrderIDList element" do
-  #         ChannelAdvisor::Order.list
-  #         request.should_not contain_element('ord:OrderIDList')
-  #       end
-  #     end
-
-  #     describe "containing 3 valid order IDs" do
-  #       it "sends a SOAP request with an order ID list" do
-  #         order_ids = [9505559, 9578802, 9589767]
-  #         ChannelAdvisor::Order.list(:order_ids => order_ids)
-  #         order_ids.each do |id|
-  #           request.should contain_element('ord:OrderIDList').with("<ord:int>#{id}</ord:int>")
-  #         end
-  #       end
-
-  #       it "returns 3 orders with matching order IDs" do
-  #         order_ids = [9505559, 9578802, 9589767]
-  #         orders = ChannelAdvisor::Order.list(:order_ids => order_ids)
-  #         orders.should have(3).items
-  #         orders.each { |order| order_ids.should include order.id.to_i }
-  #       end
-  #     end
-  #   end
-
-  #   context "with client order ID list filter" do
-  #     describe "not given" do
-  #       let(:data) { :no_criteria }
-
-  #       it "sends a SOAP request without the ClientOrderIdentifierList element" do
-  #         ChannelAdvisor::Order.list
-  #         request.should_not contain_element('ord:ClientOrderIdentifierList')
-  #       end
-  #     end
-
-  #     describe "containing 2 valid client order IDs" do
-  #       let(:data) { :valid_client_order_ids }
-
-  #       it "sends a SOAP request with a client order ID list" do
-  #         client_order_ids = ['103-2623013-3383425', '104-3096697-0099456']
-  #         ChannelAdvisor::Order.list(:client_order_ids => client_order_ids)
-  #         client_order_ids.each do |id|
-  #           request.should contain_element("ord:ClientOrderIdentifierList").with("<ord:string>#{id}</ord:string>")
-  #         end
-  #       end
-
-  #       it "returns 2 orders with matching client order IDs" do
-  #         client_order_ids = ['103-2623013-3383425', '104-3096697-0099456']
-  #         orders = ChannelAdvisor::Order.list(:client_order_ids => client_order_ids)
-  #         orders.should have(2).items
-  #         orders.each { |order| client_order_ids.should include order.client_order_id }
-  #       end
-  #     end
-  #   end
-
-  #   describe "order state filter" do
-  #     let(:filters) { {:state => 'Cancelled'} }
-  #     let(:element) { 'ord:OrderStateFilter' }
-  #     it_should_behave_like "a standard filter", :order_state
-  #   end
-
-  #   describe "payment status filter" do
-  #     let(:filters) { {:payment_status => 'Failed'} }
-  #     let(:element) { 'ord:PaymentStatusFilter' }
-  #     it_should_behave_like "a standard filter", :payment_status
-  #   end
-
-  #   describe "checkout status filter" do
-  #     let(:filters) { {:checkout_status => 'NotVisited'} }
-  #     let(:element) { 'ord:CheckoutStatusFilter' }
-  #     it_should_behave_like "a standard filter", :checkout_status
-  #   end
-
-  #   describe "shipping status filter" do
-  #     let(:filters)  { {:shipping_status => 'Unshipped'} }
-  #     let(:element) { 'ord:ShippingStatusFilter' }
-  #     it_should_behave_like "a standard filter", :shipping_status
-  #   end
-
-  #   describe "refund status filter" do
-  #     let(:filters) { {:refund_status => 'OrderLevel'} }
-  #     let(:element) { 'ord:RefundStatusFilter' }
-  #     it_should_behave_like "a standard filter", :refund_status
-  #   end
-
-  #   context "with distribution center filter" do
-  #     describe "not given" do
-  #       let(:data) { :no_criteria }
-
-  #       it "sends a SOAP request without a DistributionCenterCode element" do
-  #         ChannelAdvisor::Order.list
-  #         request.should_not contain_element('ord:DistributionCenterCode')
-  #       end
-  #     end
-
-  #     describe "using a valid value" do
-  #       let(:data) { :valid_distribution_center }
-
-  #       it "sends a SOAP request with a DistributionCenterCode element" do
-  #         ChannelAdvisor::Order.list(:distribution_center => 'Wilsonville')
-  #         request.should contain_element('ord:DistributionCenterCode').with('Wilsonville')
-  #       end
-
-  #       it "returns only orders with a matching distribution center" do
-  #         orders = ChannelAdvisor::Order.list(:distribution_center => 'Wilsonville')
-  #         orders.each do |order|
-  #           order.items.each do |item|
-  #             item.distribution_center == 'Wilsonville'
-  #           end
-  #         end
-  #       end
-  #     end
-
-  #     describe "using an invalid value" do
-  #       let(:data) { :invalid_distribution_center }
-
-  #       it "returns an empty array" do
-  #         orders = ChannelAdvisor::Order.list(:distribution_center => 'Junk')
-  #         orders.should be_empty
-  #       end
-  #     end
-  #   end
-
-  #   context "with page number filter" do
-  #     describe "not given" do
-  #       let(:data) { :no_criteria }
-
-  #       it "sends a SOAP request with an xsi:nil PageNumberFilter element" do
-  #         ChannelAdvisor::Order.list
-  #         request.should contain_nil_element "ord:PageNumberFilter"
-  #       end
-  #     end
-
-  #     describe "using a valid value" do
-  #       let(:data) { :valid_page_number_2 }
-
-  #       it "sends a SOAP request with a PageNumberFilter element" do
-  #         ChannelAdvisor::Order.list(:page_number => 2)
-  #         request.should contain_element('ord:PageNumberFilter').with('2')
-  #       end
-
-  #       it "returns orders from the corresponding page" do
-  #         pending
-  #         stub_response :order, :get_order_list, :valid_page_number_1
-  #         stub_response :order, :get_order_list, :valid_page_number_2
-  #         ChannelAdvisor::Order.list(:page_number => 2)
-  #         request.should contain_element('ord:PageNumberFilter').with(2)
-  #       end
-
-  #       it "does not return records from another page" do
-
-  #       end
-  #     end
-
-  #     describe "using an invalid value" do
-  #       let(:data) { :invalid_page_number }
-  #       it "returns a SOAP Fault error" do
-  #         pending
-  #         # Input string was not in a correct format.
-  #       end
-  #     end
-  #   end
+  describe Order do
+    describe ".ping" do
+      use_vcr_cassette "responses/order/ping"
+
+      it "sends a ping request to the Order Service" do
+        mock.proxy(Services::OrderService).ping
+        Order.ping
+      end
+
+      context "with a success status" do
+        use_vcr_cassette "responses/order/ping/success"
+
+        it "returns true" do
+          Order.ping.should be_true
+        end
+      end
+
+      context "with a failure status" do
+        failure = {:code => 1, :message => "Service Unavailable"}
+        use_vcr_cassette "responses/order/ping/failure", :erb => failure
+
+        it "raises a ServiceFailure error" do
+          expect { Order.ping }.to raise_error ServiceFailure, failure[:message]
+        end
+      end
+
+      context "with a SOAP fault" do
+        use_vcr_cassette "responses/soap_fault", :match_requests_on => [:method]
+        
+        it "raises a SOAP fault error" do
+          ChannelAdvisor.configure { |c| c.developer_key = "WRONG" }
+          expect { Order.ping }.to raise_error SOAPFault, "Server was unable to process request. Authentication failed."
+        end
+
+        it "stores the SOAP fault code" do
+          begin
+            Order.ping
+          rescue SOAPFault => fault
+            fault.code.should == "soap:Server"
+          end
+        end
+      end
+
+      context "with an HTTP error" do
+        http_status = {:code => 500, :message => "Internal Server Error"}
+        use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status
+       
+        it "raises an HTTP error" do
+          expect { Order.ping }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"
+        end
+
+        it "stores the HTTP status code" do
+          begin
+            Order.ping
+          rescue HTTPError => error
+            error.code.should == http_status[:code]
+          end
+        end
+      end
+    end
+
+    describe ".list" do
+      context "with a success status" do
+        context "with no matching orders" do
+          use_vcr_cassette "responses/order/list/no_matching_orders"
+
+          it "returns a collection with zero orders" do
+            orders = Order.list(:order_ids => [00000000])
+            orders.should have(0).orders
+          end
+        end
+
+        context "with one matching order" do
+          use_vcr_cassette "responses/order/list/one_matching_order"
+          before { @orders = Order.list(:order_ids => [14161613]) }
+
+          it "returns a collection with one order" do
+            @orders.should have(1).order
+          end
+
+          it "contains only order objects" do
+            @orders.each do |order|
+              order.should be_an Order
+            end
+          end
+        end
+        
+        context "with two matching orders" do
+          use_vcr_cassette "responses/order/list/two_matching_orders"
+          before {@orders = Order.list(:order_ids => [14161613, 14162751]) }
+
+          it "returns a collection with two orders" do
+            @orders.should have(2).orders
+          end
+
+          it "contains only order objects" do
+            @orders.each do |order|
+              order.should be_an Order
+            end
+          end
+        end
+      end
+
+      context "with a failure status" do
+        use_vcr_cassette "responses/order/list/failure"
+
+        it "raises a ServiceFailure error" do
+          message = "Extreme is not a valid value for DetailLevel"
+          expect { Order.list(:detail_level => "Extreme") }.to raise_error ServiceFailure, message
+        end
+      end
+
+      context "with a SOAP fault" do
+        use_vcr_cassette "responses/soap_fault", :match_requests_on => [:method]
+
+        it "raises a SOAP fault error" do
+          ChannelAdvisor.configure { |c| c.developer_key = "WRONG" }
+          expect { Order.list }.to raise_error SOAPFault, "Server was unable to process request. Authentication failed."
+        end
+
+        it "stores the SOAP fault code" do
+          begin
+            Order.list
+          rescue SOAPFault => fault
+            fault.code.should == "soap:Server"
+          end
+        end
+      end
+
+      context "with an HTTP error" do
+        http_status = {:code => 500, :message => "Internal Server Error"}
+        use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status
+       
+        it "raises an HTTP error" do
+          expect { Order.list }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"
+        end
+
+        it "stores the HTTP status code" do
+          begin
+            Order.list
+          rescue HTTPError => error
+            error.code.should == http_status[:code]
+          end
+        end
+      end
+
+      context "with no criteria" do
+        use_vcr_cassette "responses/order/list/with_no_criteria"
+
+        it "sends a list request to the Order Service without criteria" do
+          mock.proxy(Services::OrderService).get_order_list({})
+          Order.list
+        end
+      end
+
+      context "with criteria" do
+        use_vcr_cassette "responses/order/list/with_criteria"
+
+        before(:each) do
+          @criteria = {
+            :created_from         => DateTime.new(2012,05,15),
+            :created_to           => DateTime.new(2012,05,17),
+            :updated_from         => DateTime.new(2012,05,15),
+            :updated_to           => DateTime.new(2012,05,17),
+            :join_dates           => false,
+            :detail_level         => "Low",
+            :export_state         => "NotExported",
+            :order_ids            => [123456, 567890],
+            :client_order_ids     => ["ABCD1234", "EFGH5678"],
+            :state                => "Active",
+            :payment_status       => "Cleared",
+            :checkout_status      => "Completed",
+            :shipping_status      => "Unshipped",
+            :refund_status        => "NoRefunds",
+            :distribution_center  => "ABC",
+            :page_number          => 1,
+            :page_size            => 25
+          }
+        end
+
+        it "sends criteria to OrderService.get_order_list" do
+          mock.proxy(Services::OrderService).get_order_list(@criteria)
+          Order.list(@criteria)
+        end
+
+        context "with created_between date range criteria" do
+          it "sends only created_from and created_to criteria to OrderService.get_order_list" do
+            date_range = DateTime.new(2012,05,20)..DateTime.new(2012,05,25)
+            new_criteria = @criteria.merge(:created_between => date_range)
+            @criteria.merge!(:created_from => date_range.first, :created_to => date_range.last)
+
+            mock.proxy(Services::OrderService).get_order_list(@criteria)
+            Order.list(new_criteria)
+          end
+        end
+
+        context "with updated_between date range criteria" do
+          it "sends only updated_from and updated_to criteria to OrderService.get_order_list" do
+            date_range = DateTime.new(2012,05,20)..DateTime.new(2012,05,25)
+            new_criteria = @criteria.merge(:updated_between => date_range)
+            @criteria.merge!(:updated_from => date_range.first, :updated_to => date_range.last)
+
+            mock.proxy(Services::OrderService).get_order_list(@criteria)
+            Order.list(new_criteria)
+          end
+        end
+      end
+    end # list
+
+    describe "#set_export_status" do
+      use_vcr_cassette "responses/order/instance_set_export_status"
+      before { @order = Order.new(14162751, :client_order_id => "14162751") }
+
+      it "sends the client order ID and export status to OrderService.set_orders_export_status" do
+        mock.proxy(Services::OrderService).set_orders_export_status(["14162751"], false)
+        @order.set_export_status(false)
+      end
+
+      context "with a success status" do
+        context "with a result of true" do
+          use_vcr_cassette "responses/order/instance_set_export_status/success/result_true", :exclusive => true
+
+          it "returns true" do
+            result = @order.set_export_status(false)
+            result.should == true
+          end
+        end
+
+        context "with a result of false" do
+          use_vcr_cassette "responses/order/instance_set_export_status/success/result_false", :exclusive => true
+
+          it "returns false" do
+            order = Order.new(12345678, :client_order_id => "12345678")
+            result = order.set_export_status(false)
+            result.should == false
+          end
+        end
+      end
+
+      context "with a failure status" do
+        failure = {:code => 1, :message => "Service Unavailable"}
+        use_vcr_cassette "responses/order/instance_set_export_status/failure", :erb => failure
+
+        it "raises a ServiceFailure error" do
+          expect { @order.set_export_status(false) }.to raise_error ServiceFailure, failure[:message]
+        end
+      end
+
+      context "with a SOAP fault" do
+        use_vcr_cassette "responses/soap_fault", :match_requests_on => [:method]
+
+        it "raises a SOAP fault error" do
+          ChannelAdvisor.configure { |c| c.developer_key = "WRONG" }
+          expect { Order.list }.to raise_error SOAPFault, "Server was unable to process request. Authentication failed."
+        end
+
+        it "stores the SOAP fault code" do
+          begin
+            @order.set_export_status(false)
+          rescue SOAPFault => fault
+            fault.code.should == "soap:Server"
+          end
+        end
+      end
+
+      context "with an HTTP error" do
+        http_status = {:code => 500, :message => "Internal Server Error"}
+        use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status
+       
+        it "raises an HTTP error" do
+          expect { @order.set_export_status(false) }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"
+        end
+
+        it "stores the HTTP status code" do
+          begin
+            @order.set_export_status(false)
+          rescue HTTPError => error
+            error.code.should == http_status[:code]
+          end
+        end
+      end
+    end # #set_export_status
+
+    describe ".set_export_status" do
+      context "with a success status" do
+        context "with one client order ID" do
+          use_vcr_cassette "responses/order/set_export_status/success/with_one_client_order_id"
+
+          it "sends the client order ID and export status to OrderService.set_orders_export_status" do
+            mock.proxy(Services::OrderService).set_orders_export_status(["14162751"], false)
+            Order.set_export_status(["14162751"], false)
+          end
+
+          it "returns a hash with one client order ID and boolean result" do
+            result = Order.set_export_status(["14162751"], false)
+            result.should == {"14162751" => true}
+          end
+        end
+
+        context "with two client order IDs" do
+          use_vcr_cassette "responses/order/set_export_status/success/with_two_client_order_ids"
+
+          it "sends the client order IDs and export statuses to OrderService.set_orders_export_status" do
+            mock.proxy(Services::OrderService).set_orders_export_status(["14162751", "14161613"], false)
+            Order.set_export_status(["14162751", "14161613"], false)
+          end
+
+          it "returns a hash with two client order IDs and boolean results" do
+            result = Order.set_export_status(["14162751", "14161613"], false)
+            result.should == {"14162751" => true, "14161613" => true}
+          end
+        end
+      end
+
+      context "with a failure status" do
+        failure = {:code => 1, :message => "Service Unavailable"}
+        use_vcr_cassette "responses/order/set_export_status/failure", :erb => failure
+
+        it "raises a ServiceFailure error" do
+          expect { Order.set_export_status(["14162751"], false) }.to raise_error ServiceFailure, failure[:message]
+        end
+      end
+
+      context "with a SOAP fault" do
+        use_vcr_cassette "responses/soap_fault", :match_requests_on => [:method]
+
+        it "raises a SOAP fault error" do
+          ChannelAdvisor.configure { |c| c.developer_key = "WRONG" }
+          expect { Order.list }.to raise_error SOAPFault, "Server was unable to process request. Authentication failed."
+        end
+
+        it "stores the SOAP fault code" do
+          begin
+            Order.set_export_status(["14162751"], false)
+          rescue SOAPFault => fault
+            fault.code.should == "soap:Server"
+          end
+        end
+      end
+
+      context "with an HTTP error" do
+        http_status = {:code => 500, :message => "Internal Server Error"}
+        use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status
+       
+        it "raises an HTTP error" do
+          expect { Order.set_export_status(["14162751"], false) }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"
+        end
+
+        it "stores the HTTP status code" do
+          begin
+            Order.set_export_status(["14162751"], false)
+          rescue HTTPError => error
+            error.code.should == http_status[:code]
+          end
+        end
+      end
+    end # .set_export_status
   end # Order
 end # ChannelAdvisor

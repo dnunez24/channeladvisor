@@ -5,8 +5,9 @@ require 'channeladvisor/configuration'
 require 'channeladvisor/client'
 require 'channeladvisor/services'
 require 'channeladvisor/base'
-require 'channeladvisor/order'
 require 'channeladvisor/admin'
+require 'channeladvisor/order'
+require 'channeladvisor/line_item'
 require 'channeladvisor/account_authorization'
 
 module ChannelAdvisor

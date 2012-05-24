@@ -1,31 +1,3 @@
-RSpec::Matchers.define :succeed do
-  match do |response|
-    response.body.match /<Status>Success<\/Status>/
-  end
-
-  failure_message_for_should do |response|
-    "expected response to be successful but received:\n#{response.body}"
-  end
-
-  failure_message_for_should_not do |response|
-    "expected response not to be successful but received:\n#{response.body}"
-  end
-end
-
-RSpec::Matchers.define :fail do
-  match do |response|
-    response.body.match /<Status>Failure<\/Status>/
-  end
-
-  failure_message_for_should do |response|
-    "expected response to fail but received:\n#{response.body}"
-  end
-
-  failure_message_for_should_not do |response|
-    "expected response not to fail but received:\n#{response.body}"
-  end
-end
-
 RSpec::Matchers.define :match_valid_xml_body_for do |example_name|
   def example_path(example_name)
     service_name = described_class.name.split("::").last.gsub!(/(.)([A-Z])/, '\1_\2').downcase
@@ -73,4 +45,6 @@ RSpec::Matchers.define :match_valid_xml_body_for do |example_name|
   failure_message_for_should_not do |request|
     "expected request not to match:\n\n#{example_request(example_name)}\n\nbut received:\n\n#{filter_request(request)}"
   end
+
+  diffable
 end

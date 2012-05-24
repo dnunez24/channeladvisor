@@ -1,6 +1,5 @@
 module ChannelAdvisor
   class Order < Base
-
     attr_accessor(
       :id,
       :client_order_id,
@@ -25,203 +24,149 @@ module ChannelAdvisor
     )
     attr_reader :items
 
+    def initialize(id, attributes={})
+      @id = id
+      @client_order_id = attributes[:client_order_id]
+    end
+
     def items=(items)
       @items = []
       items.each do |item|
-        @items << Order::LineItem.new(item)
+        @items << LineItem.new(item)
       end
     end
 
-    # Checks authorization for and availability of the order service
+    # Set the export status for a given order instance
     #
-    # @raise [ServiceFailure] Raises an exception when the service returns a failure status
-    # @return [String] Status message
-    def self.ping
-      response = order_service.ping
-
-      status = response.xpath('//web:Status', 'web' => 'http://api.channeladvisor.com/webservices/').text
-      message = response.xpath('//web:ResultData', 'web' => 'http://api.channeladvisor.com/webservices/').text
-
-      if status == "Failure"
-        raise ServiceFailure, message
-      else
-        message
+    # @param [Boolean] mark_as_exported `true` (`Exported`) or `false` (`NotExported`)
+    #
+    # @raise [ServiceFailure] If the service returns a Failure status
+    # @raise [SOAPFault] If the service responds with a SOAP fault
+    # @raise [HTTPError] If the service responds with an HTTP error
+    #
+    # @return [Boolean] Returns the boolean result for changing the export status
+    def set_export_status(mark_as_exported)
+      handle_errors do
+        response = Services::OrderService.set_orders_export_status([@client_order_id], mark_as_exported)
+        result = response[:set_orders_export_status_response][:set_orders_export_status_result]
+        check_status_of result
+        return result[:result_data][:boolean]
       end
     end
 
-    # Lists all orders restricted by the provided filters
-    #
-    # @example List orders created between 11/11/2011 and 11/15/2011
-    # 	ChannelAdvisor::Order.list(:created_from => DateTime.new(2011,11,11), :created_to => DateTime.new(2011,11,15))
-    #
-    # @param [optional, Hash] filters Criteria used to filter the order list
-    # @option filters [DateTime] :created_from Order creation start time in GMT/UTC
-    # @option filters [DateTime] :created_to Order creation end time in GMT/UTC
-    # @option filters [DateTime] :updated_from Order update start time in GMT/UTC
-    # @option filters [DateTime] :updated_to Order update end time in GMT/UTC
-    # @option filters [Boolean] :join_dates `true` indicates that orders can satisfy either
-    # 	the created date range or the updated date range
-    # @option filters [String] :detail_level `Low`, `Medium`, `High` or `Complete`
-    # @option filters [String] :export_state `Unknown`, `NotExported` or `Exported`
-    # @option filters [Array<Integer>] :order_ids Array of order IDs
-    # @option filters [Array<String>] :client_order_ids Array of client order IDs
-    # @option filters [String] :state `Active`, `Archived`, or `Cancelled`
-    # @option filters [String] :payment_status `NoChange`, `NotSubmitted`, `Cleared`, `Submitted`, `Failed`, or `Deposited`
-    # @option filters [String] :checkout_status `NoChange`, `NotVisited`, `Completed`, `Visited`, `Cancelled`, `CompletedOffline`, or `OnHold`
-    # @option filters [String] :shipping_status `NoChange`, `Unshipped`, `PendingShipment`, `PartiallyShipped`, or `Shipped`
-    # @option filters [String] :refund_status `NoRefunds`, `OrderLevel`, `LineItemLevel`, `OrderAndLineItemLevel`, or `FailedAttemptsOnly`
-    # @option filters [String] :distribution_center Only orders containing at least one item from the specified distribution center
-    # @option filters [Integer] :page_number Page number of result set
-    # @option filters [Integer] :page_size Size of each page in result set
-    #
-    # @return [Array<Order>, nil] Array of {Order} objects or nil
-    def self.list(filters = {})
-      response = order_service.get_order_list(filters)
-      # response = client.request :get_order_list do
-      #   soap.xml do |root|
-      #     root.soap :Envelope, NAMESPACES do |envelope|
-      #       soap_header(envelope)
-      #       envelope.soap :Body do |body|
-      #         body.web :GetOrderList do |get_order_list|
-      #           get_order_list.web :accountID, config(:account_id)
-      #           get_order_list.web :orderCriteria do |order_criteria|
-      #             order_criteria.ord :OrderCreationFilterBeginTimeGMT, xsi_nil(filters[:created_from])
-      #             order_criteria.ord :OrderCreationFilterEndTimeGMT, xsi_nil(filters[:created_to])
-      #             order_criteria.ord :StatusUpdateFilterBeginTimeGMT, xsi_nil(filters[:updated_from])
-      #             order_criteria.ord :StatusUpdateFilterEndTimeGMT, xsi_nil(filters[:updated_to])
-      #             order_criteria.ord :JoinDateFiltersWithOr, xsi_nil(filters[:join_dates])
-      #             order_criteria.ord :DetailLevel, xsi_nil(filters[:detail_level])
-      #             order_criteria.ord :ExportState, xsi_nil(filters[:export_state])
-
-      #             if filters[:order_ids]
-      #               order_criteria.ord :OrderIDList do |order_id_list|
-      #                 build_id_list(order_id_list, filters[:order_ids])
-      #               end
-      #             end
-
-      #             if filters[:client_order_ids]
-      #               order_criteria.ord :ClientOrderIdentifierList do |client_order_identifier_list|
-      #                 build_id_list(client_order_identifier_list, filters[:client_order_ids])
-      #               end
-      #             end
-
-      #             order_criteria.ord :OrderStateFilter, xsi_nil(filters[:state])
-      #             order_criteria.ord :PaymentStatusFilter, xsi_nil(filters[:payment_status])
-      #             order_criteria.ord :CheckoutStatusFilter, xsi_nil(filters[:checkout_status])
-      #             order_criteria.ord :ShippingStatusFilter, xsi_nil(filters[:shipping_status])
-      #             order_criteria.ord :RefundStatusFilter, xsi_nil(filters[:refund_status])
-      #             order_criteria.ord :DistributionCenterCode, xsi_nil(filters[:distribution_center])
-      #             order_criteria.ord :PageNumberFilter, xsi_nil(filters[:page_number])
-      #             order_criteria.ord :PageSize, xsi_nil(filters[:page_size])
-      #           end
-      #         end
-      #       end
-      #     end
-      #   end
-      # end
-
-      orders = []
-      ns_web = {'web' => NAMESPACES['xmlns:web']}
-      ns_ord = {'ord' => NAMESPACES['xmlns:ord']}
-      order_nodes = response.xpath('//web:OrderResponseItem', ns_web)
-      return orders if order_nodes.empty?
-
-      order_nodes.each do |order_node|
-        order = Order.new
-        order.id = order_node.xpath('./ord:OrderID', ns_ord).text
-        order.client_order_id = order_node.xpath('./ord:ClientOrderIdentifier', ns_ord).text
-        order.state = order_node.xpath('./ord:OrderState', ns_ord).text
-        order.created_at = DateTime.parse(order_node.xpath('./ord:OrderTimeGMT', ns_ord).text + " UTC")
-        order.updated_at = DateTime.parse(order_node.xpath('./ord:LastUpdateDate', ns_ord).text + " UTC")
-        order.checkout_status = order_node.xpath('./ord:OrderStatus/ord:CheckoutStatus', ns_ord).text
-        order.payment_status = order_node.xpath('./ord:OrderStatus/ord:PaymentStatus', ns_ord).text
-        order.shipping_status = order_node.xpath('./ord:OrderStatus/ord:ShippingStatus', ns_ord).text
-        order.refund_status = order_node.xpath('./ord:OrderStatus/ord:OrderRefundStatus', ns_ord).text
-        order.items = order_node.xpath('./ord:ShoppingCart/ord:LineItemSKUList/ord:OrderLineItemItem', ns_ord)
-        orders << order
-      end
-
-      return orders
-    rescue Savon::HTTP::Error => error
-      raise HttpError, error.to_s unless error.to_hash[:code] == 500
-    rescue Savon::SOAP::Fault => fault
-      raise SoapFault, fault.to_s
-    end
-
-    class LineItem
-      attr_reader(
-        :id,
-        :type,
-        :sku,
-        :title,
-        :unit_price,
-        :quantity,
-        :allow_negative_quantity,
-        :sale_source,
-        :buyer_user_id,
-        :buyer_feedback_rating,
-        :sales_source_id,
-        :vat_rate,
-        :tax_cost,
-        :shipping_cost,
-        :shipping_tax_cost,
-        :gift_wrap_cost,
-        :gift_wrap_tax_cost,
-        :gift_message,
-        :gift_wrap_level,
-        :recycling_fee,
-        :unit_weight,
-        :unit_of_measure,
-        :warehouse_location,
-        :user_name,
-        :distribution_center,
-        :is_fba
-      )
-
-      def initialize(item)
-        ns = {'ord' => NAMESPACES['xmlns:ord']}
-        @id                       = item.xpath('./ord:LineItemID', ns).text
-        @type                     = item.xpath('./ord:LineItemType', ns).text
-        @sku                      = item.xpath('./ord:SKU', ns).text
-        @title                    = item.xpath('./ord:Title', ns).text
-        @unit_price               = item.xpath('./ord:UnitPrice', ns).text
-        @quantity                 = item.xpath('./ord:Quantity', ns).text
-        @allow_negative_quantity  = item.xpath('./ord:AllowNegativeQuantity', ns).text
-        @sale_source              = item.xpath('./ord:ItemSaleSource', ns).text
-        @buyer_user_id            = item.xpath('./ord:BuyerUserID', ns).text
-        @buyer_feedback_rating    = item.xpath('./ord:BuyerFeedbackRating', ns).text
-        @sales_source_id          = item.xpath('./ord:SalesSourceID', ns).text
-        @vat_rate                 = item.xpath('./ord:VATRate', ns).text
-        @tax_cost                 = item.xpath('./ord:TaxCost', ns).text
-        @shipping_cost            = item.xpath('./ord:ShippingCost', ns).text
-        @shipping_tax_cost        = item.xpath('./ord:ShippingTaxCost', ns).text
-        @gift_wrap_cost           = item.xpath('./ord:GiftWrapCost', ns).text
-        @gift_wrap_tax_cost       = item.xpath('./ord:GiftWrapTaxCost', ns).text
-        @gift_message             = item.xpath('./ord:GiftMessage', ns).text
-        @gift_wrap_level          = item.xpath('./ord:GiftWrapLevel', ns).text
-        @recycling_fee            = item.xpath('./ord:RecyclingFee', ns).text
-        @unit_weight              = item.xpath('./ord:UnitWeight', ns).text
-        @unit_of_measure          = item.xpath('./ord:UnitWeight', ns).attribute('UnitOfMeasure').text
-        @warehouse_location       = item.xpath('./ord:WarehouseLocation', ns).text
-        @user_name                = item.xpath('./ord:UserName', ns).text
-        @distribution_center      = item.xpath('./ord:DistributionCenterCode', ns).text
-        @is_fba                   = item.xpath('./ord:IsFBA', ns).text
-      end # initialize
-    end # LineItem
-
-  private
-
-    def self.order_service
-      @order_service ||= Services::OrderService.new
-    end
-
-    def self.build_id_list(parent, list)
-      unless list.nil?
-        type = case list.first
-          when Integer then :int
-          when String then :string
+    class << self
+      # Check authorization for and availability of the order service
+      #
+      # @raise [ServiceFailure] If the service returns a Failure status
+      # @raise [SOAPFault] If the service responds with a SOAP fault
+      # @raise [HTTPError] If the service responds with an HTTP error
+      #
+      # @return [Boolean] Returns `true` if SOAP response status is `Success`
+      def ping
+        handle_errors do
+          response = Services::OrderService.ping
+          result = response[:ping_response][:ping_result]
+          check_status_of result
         end
-        list.each { |id| parent.ord type, id }
+      end
+
+      # Retrieve a list of orders, restricted by the provided criteria
+      #
+      # @example List orders created between 11/11/2011 and 11/15/2011
+      # 	ChannelAdvisor::Order.list(:created_between => DateTime.new(2011,11,11)..DateTime.new(2011,11,15))
+      #
+      # @param [Hash] criteria Criteria used to filter the order list
+      # @option criteria [Range<DateTime>] :created_between Range of order creation date-times in UTC (instead of `created_from` and `created_to`)
+      # @option criteria [Range<DateTime>] :updated_between Range of order update date-times in UTC (instead of `updated_from` and `updated_to`)
+      # @option criteria [DateTime] :created_from Order creation begin time in UTC
+      # @option criteria [DateTime] :created_to Order creation end time in UTC
+      # @option criteria [DateTime] :updated_from Order update begin time in UTC
+      # @option criteria [DateTime] :updated_to Order update end time in UTC
+      # @option criteria [Boolean] :join_dates `true` indicates that orders can satisfy either
+      # 	the created date range or the updated date range
+      # @option criteria [String] :detail_level `Low`, `Medium`, `High` or `Complete`
+      # @option criteria [String] :export_state `Unknown`, `NotExported` or `Exported`
+      # @option criteria [Array<Integer>] :order_ids Array of order IDs
+      # @option criteria [Array<String>] :client_order_ids Array of client order IDs
+      # @option criteria [String] :state `Active`, `Archived`, or `Cancelled`
+      # @option criteria [String] :payment_status `NoChange`, `NotSubmitted`, `Cleared`, `Submitted`, `Failed`, or `Deposited`
+      # @option criteria [String] :checkout_status `NoChange`, `NotVisited`, `Completed`, `Visited`, `Cancelled`, `CompletedOffline`, or `OnHold`
+      # @option criteria [String] :shipping_status `NoChange`, `Unshipped`, `PendingShipment`, `PartiallyShipped`, or `Shipped`
+      # @option criteria [String] :refund_status `NoRefunds`, `OrderLevel`, `LineItemLevel`, `OrderAndLineItemLevel`, or `FailedAttemptsOnly`
+      # @option criteria [String] :distribution_center Only orders containing at least one item from the specified distribution center
+      # @option criteria [Integer] :page_number Page number of result set
+      # @option criteria [Integer] :page_size Size of each page in result set
+      #
+      # @raise [ServiceFailure] If the service returns a Failure status
+      # @raise [SOAPFault] If the service responds with a SOAP fault
+      # @raise [HTTPError] If the service responds with an HTTP error
+      #
+      # @return [Array<Order>] Returns an array of {Order} objects or an empty array
+      def list(criteria = {})
+        handle_errors do
+          if created_between = criteria.delete(:created_between)
+            criteria[:created_from]  = created_between.first
+            criteria[:created_to]    = created_between.last
+          end
+
+          if updated_between = criteria.delete(:updated_between)
+            criteria[:updated_from]  = updated_between.first
+            criteria[:updated_to]    = updated_between.last
+          end
+
+          response = Services::OrderService.get_order_list(criteria)
+          result = response[:get_order_list_response][:get_order_list_result]
+          check_status_of result
+          orders = []
+
+          if data = result[:result_data]
+            ords = arrayify data[:order_response_item]
+
+            ords.each do |ord|
+              order = new(ord[:order_id])
+              order.client_order_id = ord[:client_order_identifier]
+              order.state           = ord[:order_state]
+              order.created_at      = DateTime.parse("#{ord[:order_time_gmt]} UTC")
+              order.updated_at      = DateTime.parse("#{ord[:last_update_date]} UTC")
+              order.checkout_status = ord[:order_status][:checkout_status]
+              order.payment_status  = ord[:order_status][:payment_status]
+              order.shipping_status = ord[:order_status][:shipping_status]
+              order.refund_status   = ord[:order_status][:refund_status]
+              # order.items         = ord[:shopping_cart][:line_item_sku_list][:order_line_item_item]
+              orders << order
+            end
+          end
+
+          return orders
+        end
+      end
+
+      # Set the export status for the provided client order identifiers
+      #
+      # @param [Boolean] mark_as_exported `true` (`Exported`) or `false` (`NotExported`)
+      #
+      # @raise [ServiceFailure] If the service returns a Failure status
+      # @raise [SOAPFault] If the service responds with a SOAP fault
+      # @raise [HTTPError] If the service responds with an HTTP error
+      #
+      # @return [Hash] Returns a hash of client order IDs and their corresponding boolean results
+      def set_export_status(client_order_ids, mark_as_exported)
+        handle_errors do
+          response = Services::OrderService.set_orders_export_status(client_order_ids, mark_as_exported)
+          result = response[:set_orders_export_status_response][:set_orders_export_status_result]
+          check_status_of result
+
+          bools = arrayify result[:result_data][:boolean]
+          result_hash = {}
+
+          bools.each do |bool|
+            client_order_ids.each do |client_order_id|
+              result_hash[client_order_id] = bool
+            end
+          end
+
+          return result_hash
+        end
       end
     end
   end # Order

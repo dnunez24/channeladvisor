@@ -1,30 +1,26 @@
 module ChannelAdvisor
   module Services
     class BaseService
-      attr_reader :last_request, :last_response
+      extend Savon::Model
 
-    private
+      class << self
+        attr_reader :last_request, :last_response
 
-      def client
-        @client ||= ChannelAdvisor::Client.new(self.class::WSDL)
-      end
+      private
 
-      def soap_header(envelope)
-        envelope.soap :Header do |header|
-          header.web :APICredentials do |api_credentials|
-            api_credentials.web :DeveloperKey, config(:developer_key)
-            api_credentials.web :Password, config(:password)
-          end
+        def soap_header
+          {
+            "ins0:APICredentials" => {
+              "ins0:DeveloperKey" => config(:developer_key),
+              "ins0:Password"     => config(:password)
+            }
+          }
         end
-      end
 
-      def config(attribute)
-        ChannelAdvisor.configuration.send(attribute.to_sym)
-      end
-
-      def xsi_nil(value)
-        value.nil? ? {"xsi:nil" => true} : value
-      end
+        def config(attribute)
+          ChannelAdvisor.configuration.send(attribute.to_sym)
+        end
+      end # self
     end # BaseService
   end # Services
 end # ChannelAdvisor

@@ -3,17 +3,16 @@ require 'spec_helper'
 module ChannelAdvisor
 	module Services
 		describe OrderService do
-			let!(:order_service) { ChannelAdvisor::Services::OrderService.new }
-			subject { order_service }
-
+			subject { OrderService }
+			
 			describe "#ping" do
 				context "when successful" do
 					use_vcr_cassette "responses/order_service/ping/success"
-					before(:each) { order_service.ping }
+					before(:each) { OrderService.ping }
 
 	        its(:last_request)  { should match_valid_xml_body_for :ping }
 	        its(:last_request)  { should be_an HTTPI::Request }
-	        its(:last_response) { should be_an HTTPI::Response }
+	        its(:last_response) { should be_a Savon::SOAP::Response }
 				end
 
 				context "when unsuccessful" do
@@ -21,7 +20,7 @@ module ChannelAdvisor
 
 					it "should raise a SOAP Fault error" do
 						ChannelAdvisor.configure { |config| config.password = "wrong password" }
-						expect { order_service.ping }.to raise_error Savon::SOAP::Fault
+						expect { OrderService.ping }.to raise_error Savon::SOAP::Fault
 					end
 				end
 			end # ping
@@ -29,13 +28,13 @@ module ChannelAdvisor
 			describe "#get_order_list" do
 				context "without order criteria" do
 					use_vcr_cassette "responses/order_service/get_order_list/without_order_criteria"
-					before(:each) { order_service.get_order_list }
+					before(:each) { OrderService.get_order_list }
 
 	        its(:last_request)  { should be_an HTTPI::Request }
-					its(:last_response) { should be_an HTTPI::Response }
+	        its(:last_response) { should be_a Savon::SOAP::Response }
 				
 					it "sends a valid SOAP request with no order criteria" do
-						order_service.last_request.should match_valid_xml_body_for 'get_order_list/without_order_criteria'
+						OrderService.last_request.should match_valid_xml_body_for 'get_order_list/without_order_criteria'
 					end
 				end
 
@@ -44,8 +43,8 @@ module ChannelAdvisor
 
 				  it "sends a valid SOAP request with the created from date" do
 				  	order_criteria = {created_from: DateTime.new(2012,05,14)}
-				  	order_service.get_order_list(order_criteria)
-				  	order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_created_from_date'
+				  	OrderService.get_order_list(order_criteria)
+				  	OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_created_from_date'
 				  end
 				end
 
@@ -54,8 +53,8 @@ module ChannelAdvisor
 
 				  it "sends a valid SOAP request with the created to date" do
 				  	order_criteria = {created_to: DateTime.new(2012,05,15)}
-				  	order_service.get_order_list(order_criteria)
-				  	order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_created_to_date'
+				  	OrderService.get_order_list(order_criteria)
+				  	OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_created_to_date'
 				  end
 				end
 
@@ -64,8 +63,8 @@ module ChannelAdvisor
 
 					it "sends a valid SOAP request with the updated from date" do
 					  order_criteria = {updated_from: DateTime.new(2012,05,14)}
-					  order_service.get_order_list(order_criteria)
-						order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_updated_from_date'				  
+					  OrderService.get_order_list(order_criteria)
+						OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_updated_from_date'				  
 					end
 				end
 
@@ -74,8 +73,8 @@ module ChannelAdvisor
 
 					it "sends a valid SOAP request with the updated to date" do
 					  order_criteria = {updated_to: DateTime.new(2012,05,15)}
-					  order_service.get_order_list(order_criteria)
-						order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_updated_to_date'				  
+					  OrderService.get_order_list(order_criteria)
+						OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_updated_to_date'				  
 					end
 				end
 
@@ -91,8 +90,8 @@ module ChannelAdvisor
 				  		join_dates: true
 				  	}
 				    
-				    order_service.get_order_list(order_criteria)
-				    order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_join_dates'
+				    OrderService.get_order_list(order_criteria)
+				    OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_join_dates'
 				  end
 				end
 
@@ -101,8 +100,8 @@ module ChannelAdvisor
 
 				  it "sends a valid SOAP request with a detail level" do
 				  	order_criteria = {detail_level: "Low"}
-				  	order_service.get_order_list(order_criteria)
-				  	order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_detail_level'
+				  	OrderService.get_order_list(order_criteria)
+				  	OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_detail_level'
 				  end
 				end
 
@@ -111,8 +110,8 @@ module ChannelAdvisor
 
 				  it "sends a valid SOAP request with an export state" do
 				  	order_criteria = {export_state: "NotExported"}
-				  	order_service.get_order_list(order_criteria)
-				  	order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_export_state'
+				  	OrderService.get_order_list(order_criteria)
+				  	OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_export_state'
 				  end
 				end
 
@@ -121,8 +120,8 @@ module ChannelAdvisor
 
 					it "sends a valid SOAP request with one Order ID" do
 						order_criteria = {order_ids: [14162751]}
-						order_service.get_order_list(order_criteria)
-						order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_one_order_id'
+						OrderService.get_order_list(order_criteria)
+						OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_one_order_id'
 					end
 				end
 
@@ -131,8 +130,8 @@ module ChannelAdvisor
 
 					it "sends a valid SOAP request with two Order IDs" do
 						order_criteria = {order_ids: [14162751, 14161613]}
-						order_service.get_order_list(order_criteria)
-						order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_two_order_ids'
+						OrderService.get_order_list(order_criteria)
+						OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_two_order_ids'
 					end
 				end
 
@@ -141,8 +140,8 @@ module ChannelAdvisor
 
 					it "sends a valid SOAP request with one Client ID" do
 						order_criteria = {client_order_ids: ['ABCD1234']}
-						order_service.get_order_list(order_criteria)
-						order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_one_client_order_id'
+						OrderService.get_order_list(order_criteria)
+						OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_one_client_order_id'
 					end
 				end
 
@@ -151,8 +150,8 @@ module ChannelAdvisor
 
 					it "sends a valid SOAP request with one Client ID" do
 						order_criteria = {client_order_ids: ['ABCD1234', 'EFGH5678']}
-						order_service.get_order_list(order_criteria)
-						order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_two_client_order_ids'
+						OrderService.get_order_list(order_criteria)
+						OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_two_client_order_ids'
 					end
 				end
 
@@ -161,8 +160,8 @@ module ChannelAdvisor
 
 				  it "sends a valid SOAP request with an order state" do
 				  	order_criteria = {state: "Active"}
-				  	order_service.get_order_list(order_criteria)
-				  	order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_order_state_filter'
+				  	OrderService.get_order_list(order_criteria)
+				  	OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_order_state_filter'
 				  end
 				end
 
@@ -171,8 +170,8 @@ module ChannelAdvisor
 
 				  it "sends a valid SOAP request with a payment status" do
 				  	order_criteria = {payment_status: "NoChange"}
-				  	order_service.get_order_list(order_criteria)
-				  	order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_payment_status_filter'
+				  	OrderService.get_order_list(order_criteria)
+				  	OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_payment_status_filter'
 				  end
 				end
 
@@ -181,8 +180,8 @@ module ChannelAdvisor
 
 				  it "sends a valid SOAP request with an checkout status" do
 				  	order_criteria = {checkout_status: "NoChange"}
-				  	order_service.get_order_list(order_criteria)
-				  	order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_checkout_status_filter'
+				  	OrderService.get_order_list(order_criteria)
+				  	OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_checkout_status_filter'
 				  end
 				end
 
@@ -191,8 +190,8 @@ module ChannelAdvisor
 
 				  it "sends a valid SOAP request with a shipping status" do
 				  	order_criteria = {shipping_status: "NoChange"}
-				  	order_service.get_order_list(order_criteria)
-				  	order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_shipping_status_filter'
+				  	OrderService.get_order_list(order_criteria)
+				  	OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_shipping_status_filter'
 				  end
 				end
 
@@ -201,8 +200,8 @@ module ChannelAdvisor
 
 				  it "sends a valid SOAP request with an refund status" do
 				  	order_criteria = {refund_status: "NoChange"}
-				  	order_service.get_order_list(order_criteria)
-				  	order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_refund_status_filter'
+				  	OrderService.get_order_list(order_criteria)
+				  	OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_refund_status_filter'
 				  end
 				end
 
@@ -211,8 +210,8 @@ module ChannelAdvisor
 
 				  it "sends a valid SOAP request with a distribution center code" do
 				  	order_criteria = {distribution_center: "ABC"}
-				  	order_service.get_order_list(order_criteria)
-				  	order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_distribution_center_code'
+				  	OrderService.get_order_list(order_criteria)
+				  	OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_distribution_center_code'
 				  end
 				end
 
@@ -221,8 +220,8 @@ module ChannelAdvisor
 
 				  it "sends a valid SOAP request with a page number" do
 				  	order_criteria = {page_number: 1}
-				  	order_service.get_order_list(order_criteria)
-				  	order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_page_number_filter'
+				  	OrderService.get_order_list(order_criteria)
+				  	OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_page_number_filter'
 				  end
 				end
 
@@ -231,8 +230,8 @@ module ChannelAdvisor
 
 				  it "sends a valid SOAP request with a page size" do
 				  	order_criteria = {page_size: 20}
-				  	order_service.get_order_list(order_criteria)
-				  	order_service.last_request.should match_valid_xml_body_for 'get_order_list/with_page_size'
+				  	OrderService.get_order_list(order_criteria)
+				  	OrderService.last_request.should match_valid_xml_body_for 'get_order_list/with_page_size'
 				  end
 				end
 			end # get_order_list
@@ -242,14 +241,14 @@ module ChannelAdvisor
 					use_vcr_cassette "responses/order_service/set_orders_export_status/with_one_client_order_id"
 					before(:each) do
 				  	client_order_ids = ["ABCD1234"]
-				    order_service.set_orders_export_status(client_order_ids, true)
+				    OrderService.set_orders_export_status(client_order_ids, true)
 					end
 
 				  its(:last_request)  { should be_an HTTPI::Request }
-				  its(:last_response) { should be_an HTTPI::Response }
+					its(:last_response) { should be_an Savon::SOAP::Response }
 
 				  it "sends a valid SOAP request with one Client Order ID" do
-				    order_service.last_request.should match_valid_xml_body_for "set_orders_export_status/with_one_client_order_id"
+				    OrderService.last_request.should match_valid_xml_body_for "set_orders_export_status/with_one_client_order_id"
 				  end
 				end
 
@@ -258,8 +257,8 @@ module ChannelAdvisor
 
 				  it "sends a valid SOAP request with two Client Order IDs" do
 				    client_order_ids = ["ABCD1234", "EFGH5678"]
-				    order_service.set_orders_export_status(client_order_ids, true)
-				    order_service.last_request.should match_valid_xml_body_for "set_orders_export_status/with_two_client_order_ids"
+				    OrderService.set_orders_export_status(client_order_ids, true)
+				    OrderService.last_request.should match_valid_xml_body_for "set_orders_export_status/with_two_client_order_ids"
 				  end
 				end
 			end # set_orders_export_status

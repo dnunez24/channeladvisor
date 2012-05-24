@@ -2,18 +2,19 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/AdminService.asmx
+    uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx
     body:
       encoding: US-ASCII
       string: <?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-        xmlns:web="http://api.channeladvisor.com/webservices/"><soap:Header><web:APICredentials><web:DeveloperKey>$$DEVELOPER_KEY$$</web:DeveloperKey><web:Password>$$PASSWORD$$</web:Password></web:APICredentials></soap:Header><soap:Body><web:GetAuthorizationList><web:localID>$$LOCAL_ID$$</web:localID></web:GetAuthorizationList></soap:Body></soap:Envelope>
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:web="http://api.channeladvisor.com/webservices/" xmlns:ord="http://api.channeladvisor.com/datacontracts/orders"><soap:Header><web:APICredentials><web:DeveloperKey>$$DEVELOPER_KEY$$</web:DeveloperKey><web:Password>$$PASSWORD$$</web:Password></web:APICredentials></soap:Header><soap:Body><web:Ping/></soap:Body></soap:Envelope>
     headers:
       soapaction:
-      - ! '"http://api.channeladvisor.com/webservices/GetAuthorizationList"'
+      - ! '"http://api.channeladvisor.com/webservices/Ping"'
       content-type:
       - text/xml;charset=UTF-8
       content-length:
-      - '469'
+      - '554'
       accept:
       - ! '*/*'
       user-agent:
@@ -24,24 +25,24 @@ http_interactions:
       message: <%= message %>
     headers:
       date:
-      - Mon, 21 May 2012 23:43:14 GMT
+      - Tue, 22 May 2012 06:07:17 GMT
       server:
       - Microsoft-IIS/6.0
       x-servername:
-      - RDU-IISWEB-03
+      - RDU-IISWEB-07
       x-powered-by:
       - ASP.NET
       x-aspnet-version:
       - 4.0.30319
-      transfer-encoding:
-      - chunked
       cache-control:
       - private, max-age=0
       content-type:
       - text/xml; charset=utf-8
+      content-length:
+      - '430'
     body:
       encoding: US-ASCII
       string: <html><head><title><%= message %></title></head><body><%= message %></body></html>
     http_version: '1.1'
-  recorded_at: Mon, 21 May 2012 23:43:14 GMT
+  recorded_at: Tue, 22 May 2012 06:07:17 GMT
 recorded_with: VCR 2.1.1

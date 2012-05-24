@@ -3,7 +3,7 @@ require 'spec_helper'
 module ChannelAdvisor
   describe Admin do
     describe ".ping" do
-      context "when successful" do
+      context "with a success status" do
         use_vcr_cassette "responses/admin/ping/success"
 
         it "records the last response" do
@@ -16,7 +16,7 @@ module ChannelAdvisor
         end
       end
 
-      context "when unsuccessful" do
+      context "with a failure status" do
         failure = {:message => "Service Unavailable"}
         use_vcr_cassette "responses/admin/ping/failure", :erb => failure
 
@@ -63,7 +63,7 @@ module ChannelAdvisor
     describe ".request_access" do
       let(:local_id) { sensitive_data["local_ids"].first }
 
-      context "when successful" do
+      context "with a success status" do
         use_vcr_cassette "responses/admin/request_access/success"
 
         it "records the last response" do
@@ -76,7 +76,7 @@ module ChannelAdvisor
         end
       end
 
-      context "when unsuccessful" do
+      context "with a failure status" do
         use_vcr_cassette "responses/admin/request_access/failure"
 
         it "raises a ServiceFailure error" do
@@ -122,7 +122,7 @@ module ChannelAdvisor
     describe ".get_authorization_list" do
       let(:local_id) { sensitive_data["local_ids"].first }
 
-      context "when successful" do
+      context "with a success status" do
         use_vcr_cassette "responses/admin/get_authorization_list/success"
 
         it "records the last response" do
@@ -138,7 +138,7 @@ module ChannelAdvisor
           end
 
           it "returns an empty array" do
-            Admin.get_authorization_list(local_id).should be_empty
+            Admin.get_authorization_list(local_id).should have(0).items
           end
         end
 
@@ -146,7 +146,7 @@ module ChannelAdvisor
           use_vcr_cassette "responses/admin/get_authorization_list/one_authorization", :exclusive => true
 
           it "should be an array with one element" do
-            Admin.get_authorization_list(local_id).count.should == 1
+            Admin.get_authorization_list(local_id).should have(1).item
           end
 
           it "should have an array containing an AccountAuthorization object" do
@@ -158,7 +158,7 @@ module ChannelAdvisor
           use_vcr_cassette "responses/admin/get_authorization_list/two_authorizations", :exclusive => true
 
           it "should be an array with two elements" do
-            Admin.get_authorization_list.count.should == 2
+            Admin.get_authorization_list.should have(2).items
           end
 
           it "should have an array containing AccountAuthorization objects" do
@@ -170,7 +170,7 @@ module ChannelAdvisor
         end
       end
 
-      context "when unsuccessful" do
+      context "with a failure status" do
         use_vcr_cassette "responses/admin/get_authorization_list/failure"
 
         it "raises a ServiceFailure error" do
@@ -179,7 +179,7 @@ module ChannelAdvisor
       end
 
       context "with a SOAP fault" do
-        use_vcr_cassette "responses/admin/get_authorization_list/soap_fault"
+        use_vcr_cassette "responses/soap_fault", :match_requests_on => [:method]
         
         it "raises a SOAP fault error" do
           ChannelAdvisor.configure { |c| c.developer_key = "WRONG" }
@@ -197,7 +197,7 @@ module ChannelAdvisor
 
       context "with an HTTP error" do
         http_status = {:code => 500, :message => "Internal Server Error"}
-        use_vcr_cassette "responses/admin/get_authorization_list/http_error", :erb => http_status
+        use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status, :erb => http_status
        
         it "raises an HTTP error" do
           expect { Admin.get_authorization_list(local_id) }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"

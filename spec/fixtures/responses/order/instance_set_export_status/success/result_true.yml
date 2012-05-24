@@ -1,0 +1,51 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="UTF-8"?><env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wsdl="http://api.channeladvisor.com/webservices/"
+        xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ins0="http://api.channeladvisor.com/webservices/"
+        xmlns:ins1="http://api.channeladvisor.com/datacontracts/orders"><env:Header><ins0:APICredentials><ins0:DeveloperKey>$$DEVELOPER_KEY$$</ins0:DeveloperKey><ins0:Password>$$PASSWORD$$</ins0:Password></ins0:APICredentials></env:Header><env:Body><ins0:SetOrdersExportStatus><ins0:accountID>$$ACCOUNT_ID$$</ins0:accountID><ins0:clientOrderIdentifiers><ins0:string>14162751</ins0:string></ins0:clientOrderIdentifiers><ins0:markAsExported>false</ins0:markAsExported></ins0:SetOrdersExportStatus></env:Body></env:Envelope>
+    headers:
+      soapaction:
+      - ! '"http://api.channeladvisor.com/webservices/SetOrdersExportStatus"'
+      content-type:
+      - text/xml;charset=UTF-8
+      content-length:
+      - '868'
+      accept:
+      - ! '*/*'
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Thu, 24 May 2012 15:20:36 GMT
+      server:
+      - Microsoft-IIS/6.0
+      x-servername:
+      - RDU-IISWEB-04
+      x-powered-by:
+      - ASP.NET
+      x-aspnet-version:
+      - 4.0.30319
+      cache-control:
+      - private, max-age=0
+      content-type:
+      - text/xml; charset=utf-8
+      content-length:
+      - '519'
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><SetOrdersExportStatusResponse
+        xmlns="http://api.channeladvisor.com/webservices/"><SetOrdersExportStatusResult><Status>Success</Status><MessageCode>0</MessageCode><ResultData><boolean>true</boolean></ResultData></SetOrdersExportStatusResult></SetOrdersExportStatusResponse></soap:Body></soap:Envelope>
+    http_version: '1.1'
+  recorded_at: Thu, 24 May 2012 15:20:36 GMT
+recorded_with: VCR 2.1.1

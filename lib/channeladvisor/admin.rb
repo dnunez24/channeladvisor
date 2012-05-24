@@ -8,10 +8,11 @@ module ChannelAdvisor
       # @raise [ServiceFailure] If the SOAP response status is `Failure`
       # @raise [SOAPFault] If the service responds with a SOAP fault
       # @raise [HTTPError] If the service responds with an HTTP error
+      #
       # @return [Boolean] Returns `true` if the SOAP response status is `Success`
       def ping
         handle_errors do
-          @last_response = service.ping
+          @last_response = Services::AdminService.ping
           result = @last_response[:ping_response][:ping_result]
           check_status_of result
         end
@@ -24,10 +25,11 @@ module ChannelAdvisor
       # @raise [ServiceFailure] If the SOAP response status is `Failure`
       # @raise [SOAPFault] If the service responds with a SOAP fault
       # @raise [HTTPError] If the service responds with an HTTP error
+      #
       # @return [Boolean] Returns `true` if the SOAP response status is `Success`
       def request_access(local_id)
         handle_errors do
-          @last_response = service.request_access(local_id)
+          @last_response = Services::AdminService.request_access(local_id)
           result = @last_response[:request_access_response][:request_access_result]
           check_status_of result
         end
@@ -40,10 +42,11 @@ module ChannelAdvisor
       # @raise [ServiceFailure] If the SOAP response status is `Failure`
       # @raise [SOAPFault] If the service responds with a SOAP fault
       # @raise [HTTPError] If the service responds with an HTTP error
+      #
       # @return [Array<AccountAuthorization>] An array of account authorizations
       def get_authorization_list(local_id=nil)
         handle_errors do
-          @last_response = service.get_authorization_list(local_id)
+          @last_response = Services::AdminService.get_authorization_list(local_id)
           result = @last_response[:get_authorization_list_response][:get_authorization_list_result]
           check_status_of result
 
@@ -77,24 +80,6 @@ module ChannelAdvisor
           return account_authorizations
         end
       end
-
-    private
-
-      def service
-        @service ||= Services::AdminService.new
-      end
-
-      def check_status_of(result)
-        result[:status] == "Success" || raise(ServiceFailure, result[:message])
-      end
-
-      def handle_errors
-        yield
-      rescue Savon::SOAP::Fault => fault
-        raise SOAPFault, fault
-      rescue Savon::HTTP::Error => error
-        raise HTTPError, error
-      end
-    end
+    end # self
   end # Admin
 end # ChannelAdvisor

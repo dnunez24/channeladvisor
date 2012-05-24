@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="UTF-8"?><env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wsdl="http://api.channeladvisor.com/webservices/"
+        xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ins0="http://api.channeladvisor.com/webservices/"
+        xmlns:ins1="http://api.channeladvisor.com/datacontracts/orders"><env:Header><ins0:APICredentials><ins0:DeveloperKey>$$DEVELOPER_KEY$$</ins0:DeveloperKey><ins0:Password>$$PASSWORD$$</ins0:Password></ins0:APICredentials></env:Header><env:Body><ins0:GetOrderList><ins0:accountID>$$ACCOUNT_ID$$</ins0:accountID><ins0:orderCriteria><ins1:OrderCreationFilterBeginTimeGMT>2012-05-15T00:00:00+00:00</ins1:OrderCreationFilterBeginTimeGMT><ins1:OrderCreationFilterEndTimeGMT>2012-05-17T00:00:00+00:00</ins1:OrderCreationFilterEndTimeGMT><ins1:StatusUpdateFilterBeginTimeGMT>2012-05-15T00:00:00+00:00</ins1:StatusUpdateFilterBeginTimeGMT><ins1:StatusUpdateFilterEndTimeGMT>2012-05-17T00:00:00+00:00</ins1:StatusUpdateFilterEndTimeGMT><ins1:JoinDateFiltersWithOr>false</ins1:JoinDateFiltersWithOr><ins1:OrderIDList><ins1:int>123456</ins1:int><ins1:int>567890</ins1:int></ins1:OrderIDList><ins1:ClientOrderIdentifierList><ins1:string>ABCD1234</ins1:string><ins1:string>EFGH5678</ins1:string></ins1:ClientOrderIdentifierList><ins1:DetailLevel>Low</ins1:DetailLevel><ins1:ExportState>NotExported</ins1:ExportState><ins1:OrderStateFilter>Active</ins1:OrderStateFilter><ins1:PaymentStatusFilter>Cleared</ins1:PaymentStatusFilter><ins1:CheckoutStatusFilter>Completed</ins1:CheckoutStatusFilter><ins1:ShippingStatusFilter>Unshipped</ins1:ShippingStatusFilter><ins1:RefundStatusFilter>NoRefunds</ins1:RefundStatusFilter><ins1:DistributionCenterCode>ABC</ins1:DistributionCenterCode><ins1:PageNumberFilter>1</ins1:PageNumberFilter><ins1:PageSize>25</ins1:PageSize></ins0:orderCriteria></ins0:GetOrderList></env:Body></env:Envelope>
+    headers:
+      soapaction:
+      - ! '"http://api.channeladvisor.com/webservices/GetOrderList"'
+      content-type:
+      - text/xml;charset=UTF-8
+      content-length:
+      - '1965'
+      accept:
+      - ! '*/*'
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Wed, 23 May 2012 20:43:31 GMT
+      server:
+      - Microsoft-IIS/6.0
+      x-servername:
+      - RDU-IISWEB-08
+      x-powered-by:
+      - ASP.NET
+      x-aspnet-version:
+      - 4.0.30319
+      cache-control:
+      - private, max-age=0
+      content-type:
+      - text/xml; charset=utf-8
+      content-length:
+      - '449'
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><GetOrderListResponse
+        xmlns="http://api.channeladvisor.com/webservices/"><GetOrderListResult><Status>Success</Status><MessageCode>0</MessageCode><ResultData
+        /></GetOrderListResult></GetOrderListResponse></soap:Body></soap:Envelope>
+    http_version: '1.1'
+  recorded_at: Wed, 23 May 2012 20:43:31 GMT
+recorded_with: VCR 2.1.1

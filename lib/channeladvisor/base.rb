@@ -1,25 +1,34 @@
 module ChannelAdvisor
   class Base
-    # class << self
-      
-    # private
 
-    #   def soap_header(envelope)
-    #     envelope.soap :Header do |header|
-    #       header.web :APICredentials do |api_credentials|
-    #         api_credentials.web :DeveloperKey, config(:developer_key)
-    #         api_credentials.web :Password, config(:password)
-    #       end
-    #     end
-    #   end
+  private
 
-    #   def client
-    #     @client ||= Client.new(const_get(:WSDL))
-    #   end
+    def arrayify(data)
+      self.class.arrayify(data)
+    end
 
-    #   def config(attribute)
-    #     ChannelAdvisor.configuration.send(attribute.to_sym)
-    #   end
-    # end # self
+    def check_status_of(result)
+      self.class.check_status_of result
+    end
+
+    def handle_errors
+      self.class.handle_errors { yield }
+    end
+
+    def self.arrayify(data)
+      data.is_a?(Array) ? data : [data]
+    end
+
+    def self.check_status_of(result)
+      result[:status] == "Success" || raise(ServiceFailure, result[:message])
+    end
+
+    def self.handle_errors
+      yield
+    rescue Savon::SOAP::Fault => fault
+      raise SOAPFault.new(fault)
+    rescue Savon::HTTP::Error => error
+      raise HTTPError.new(error)
+    end
   end # Base
 end # ChannelAdvisor
