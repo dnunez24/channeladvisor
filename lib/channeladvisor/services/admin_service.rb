@@ -1,7 +1,7 @@
 module ChannelAdvisor
   module Services
     class AdminService < BaseService
-      document "https://api.channeladvisor.com/ChannelAdvisorAPI/v6/AdminService.asmx?WSDL"
+      document "http://api.channeladvisor.com/ChannelAdvisorAPI/v6/AdminService.asmx?WSDL"
 
       class << self
         # Check authorization for and availability of the admin service
