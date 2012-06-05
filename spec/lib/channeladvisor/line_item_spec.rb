@@ -60,7 +60,7 @@ module ChannelAdvisor
 		  end
 
 		  it "sets @sale_source" do
-		    @line_item.sale_source.should == attrs[:sale_source]
+		    @line_item.sale_source.should == attrs[:item_sale_source]
 		  end
 
 		  it "sets @sku" do

@@ -14,7 +14,7 @@ module ChannelAdvisor
         @unit_price = attrs[:unit_price].to_f
         @quantity = attrs[:quantity].to_i
         @allow_negative_quantity = attrs[:allow_negative_quantity]
-        @sale_source = attrs[:sale_source]
+        @sale_source = attrs[:item_sale_source]
         @buyer_user_id = attrs[:buyer_user_id]
         @buyer_feedback_rating = attrs[:buyer_feedback_rating]
         @sales_source_id = attrs[:sales_source_id]
