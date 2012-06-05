@@ -51,28 +51,18 @@ module ChannelAdvisor
           check_status_of result
 
           account_authorizations = []
+          
           if result_data = result[:result_data]
-            authorizations = result_data[:authorization_response]
+            authorizations = arrayify result_data[:authorization_response]
 
-            if authorizations.is_a? Array
-              authorizations.each do |authorization|
-                account_authorizations << AccountAuthorization.new(
-                  authorization[:account_id],
-                  authorization[:local_id],
-                  authorization[:account_name],
-                  authorization[:account_type],
-                  authorization[:resource_name],
-                  authorization[:status]
-                )
-              end
-            else
+            authorizations.each do |authorization|
               account_authorizations << AccountAuthorization.new(
-                authorizations[:account_id],
-                authorizations[:local_id],
-                authorizations[:account_name],
-                authorizations[:account_type],
-                authorizations[:resource_name],
-                authorizations[:status]
+                authorization[:account_id],
+                authorization[:local_id],
+                authorization[:account_name],
+                authorization[:account_type],
+                authorization[:resource_name],
+                authorization[:status]
               )
             end
           end

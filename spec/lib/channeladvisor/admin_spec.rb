@@ -44,7 +44,7 @@ module ChannelAdvisor
 
       context "with an HTTP error" do
         http_status = {:code => 500, :message => "Internal Server Error"}
-        use_vcr_cassette "responses/admin/ping/http_error", :erb => http_status
+        use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status
        
         it "raises an HTTP error" do
           expect { Admin.ping }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"
@@ -103,7 +103,7 @@ module ChannelAdvisor
 
       context "with an HTTP error" do
         http_status = {:code => 500, :message => "Internal Server Error"}
-        use_vcr_cassette "responses/admin/request_access/http_error", :erb => http_status
+        use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status
        
         it "raises an HTTP error" do
           expect { Admin.request_access(local_id) }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"

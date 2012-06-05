@@ -1,38 +1,38 @@
 module ChannelAdvisor
   class Order < Base
-    attr_accessor(
-      :id,
-      :client_order_id,
-      :seller_order_id,
-      :state,
-      :created_at,
-      :updated_at,
-      :checkout_status,
-      :checkout_date,
-      :payment_status,
-      :payment_date,
-      :shipping_status,
-      :shipping_date,
-      :refund_status,
-      :total,
-      :cancelled_at,
-      :flag_style,
-      :flag_description,
-      :reseller_id,
-      :buyer_email,
-      :email_opt_in
-    )
-    attr_reader :items
+    attr_accessor :id, :client_order_id, :seller_order_id, :state, :created_at, :updated_at, :total, :cancelled_on, :flag_description,
+    :reseller_id, :buyer_email, :buyer_ip_address, :email_opt_in, :shipping_instructions, :delivery_date, :estimated_ship_date,
+    :transaction_notes, :status, :billing_address, :shipping_address, :payment, :shipments, :shopping_cart, :custom_values
 
-    def initialize(id, attributes={})
-      @id = id
-      @client_order_id = attributes[:client_order_id]
-    end
+    def initialize(attrs={})
+      unless attrs.nil?
+        @id                 = attrs[:order_id].to_i
+        @client_order_id    = attrs[:client_order_id]
+        @seller_order_id    = attrs[:seller_order_id]
+        @state              = attrs[:order_state]
+        @created_at         = attrs[:order_time_gmt]
+        @updated_at         = attrs[:last_update_date]
+        @cancelled_on       = attrs[:date_cancelled_gmt]
+        @total              = attrs[:total_order_amount].to_f
+        @reseller_id        = attrs[:reseller_id]
+        @flag_description   = attrs[:flag_description]
+        @email_opt_in       = attrs[:email_opt_in]
+        @buyer_ip_address   = attrs[:buyer_ip_address]
 
-    def items=(items)
-      @items = []
-      items.each do |item|
-        @items << LineItem.new(item)
+        if shipping_info = attrs[:shipping_info]
+          @shipping_instructions  = shipping_info[:shipping_instructions]
+          @estimated_ship_date    = shipping_info[:estimated_ship_date]
+          @delivery_date          = shipping_info[:delivery_date]
+          @shipments = arrayify(shipping_info[:shipment_list][:shipment]).map { |s| Shipment.new(s) }
+        end
+
+        @transaction_notes  = attrs[:transaction_notes]
+        @custom_values      = attrs[:custom_value_list]
+        @status             = OrderStatus.new(attrs[:order_status])
+        @payment            = Payment.new(attrs[:payment_info])
+        @billing_address    = Address.new(attrs[:billing_info])
+        @shipping_address   = Address.new(attrs[:shipping_info])
+        @shopping_cart      = ShoppingCart.new(attrs[:shopping_cart])
       end
     end
 
@@ -120,21 +120,7 @@ module ChannelAdvisor
           orders = []
 
           if data = result[:result_data]
-            ords = arrayify data[:order_response_item]
-
-            ords.each do |ord|
-              order = new(ord[:order_id])
-              order.client_order_id = ord[:client_order_identifier]
-              order.state           = ord[:order_state]
-              order.created_at      = DateTime.parse("#{ord[:order_time_gmt]} UTC")
-              order.updated_at      = DateTime.parse("#{ord[:last_update_date]} UTC")
-              order.checkout_status = ord[:order_status][:checkout_status]
-              order.payment_status  = ord[:order_status][:payment_status]
-              order.shipping_status = ord[:order_status][:shipping_status]
-              order.refund_status   = ord[:order_status][:refund_status]
-              # order.items         = ord[:shopping_cart][:line_item_sku_list][:order_line_item_item]
-              orders << order
-            end
+            arrayify(data[:order_response_item]).each { |o| orders << new(o) }
           end
 
           return orders
