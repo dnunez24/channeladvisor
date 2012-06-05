@@ -1,7 +1,7 @@
 module ChannelAdvisor
   module Services
     class OrderService < BaseService
-      document "http://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx?WSDL"
+      document "https://api.channeladvisor.com/ChannelAdvisorAPI/v6/OrderService.asmx?WSDL"
 
       class << self
         # Check authorization for and availability of the order service

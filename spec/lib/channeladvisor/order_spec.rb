@@ -250,6 +250,27 @@ module ChannelAdvisor
       end
     end
 
+    describe "#shipping_method" do
+      let(:attrs) do
+        {
+          :shipping_info => {
+            :shipment_list =>
+            {
+              :shipment => {:shipping_carrier=>"UPS", :shipping_class=>"GND", :tracking_number=>nil}
+            } 
+          }
+        }
+      end
+
+      it "returns a concatenated string of the shipping carrier and class on the first shipment" do
+        shipment = attrs[:shipping_info][:shipment_list][:shipment]
+        shipping_carrier = shipment[:shipping_carrier]
+        shipping_class = shipment[:shipping_class]
+        order = Order.new(attrs)
+        order.shipping_method.should == "#{shipping_carrier}_#{shipping_class}"
+      end
+    end
+
     describe ".ping" do
       use_vcr_cassette "responses/order/ping"
 
