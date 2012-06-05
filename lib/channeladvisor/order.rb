@@ -1,6 +1,5 @@
 module ChannelAdvisor
   class Order < Base
-    attr_reader :shipping_method
     attr_accessor :id, :client_order_id, :seller_order_id, :state, :created_at, :updated_at, :total, :cancelled_on, :flag_description,
     :reseller_id, :buyer_email, :buyer_ip_address, :email_opt_in, :shipping_instructions, :delivery_date, :estimated_ship_date,
     :transaction_notes, :status, :billing_address, :shipping_address, :payment, :shipments, :shopping_cart, :custom_values
@@ -24,12 +23,8 @@ module ChannelAdvisor
           @shipping_instructions  = shipping_info[:shipping_instructions]
           @estimated_ship_date    = shipping_info[:estimated_ship_date]
           @delivery_date          = shipping_info[:delivery_date]
-
-          shipments  = arrayify(shipping_info[:shipment_list][:shipment])
-          @shipments = shipments.map { |s| Shipment.new(s) }
-          shipping_carrier = shipments.first[:shipping_carrier]
-          shipping_class   = shipments.first[:shipping_class]
-          @shipping_method = "#{shipping_carrier}_#{shipping_class}"
+          @shipments = arrayify(shipping_info[:shipment_list][:shipment]).map { |s| Shipment.new(s) }
+          @shipping_method = shipping_info[:shipment_list]
         end
 
         @transaction_notes  = attrs[:transaction_notes]
