@@ -7,7 +7,7 @@ module ChannelAdvisor
     def initialize(attrs={})
       unless attrs.nil?
         @id                 = attrs[:order_id].to_i
-        @client_order_id    = attrs[:client_order_id]
+        @client_order_id    = attrs[:client_order_identifier]
         @seller_order_id    = attrs[:seller_order_id]
         @state              = attrs[:order_state]
         @created_at         = attrs[:order_time_gmt]

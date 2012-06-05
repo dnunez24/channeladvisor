@@ -153,7 +153,7 @@ module ChannelAdvisor
       subject { Order.new(attrs) }
 
       its(:id)                    { should == attrs[:order_id].to_i           }
-      its(:client_order_id)       { should == attrs[:client_order_id]         }
+      its(:client_order_id)       { should == attrs[:client_order_identifier] }
       its(:seller_order_id)       { should == attrs[:seller_order_id]         }
       its(:state)                 { should == attrs[:order_state]             }
       its(:created_at)            { should == attrs[:order_time_gmt]          }
@@ -460,7 +460,7 @@ module ChannelAdvisor
 
     describe "#set_export_status" do
       use_vcr_cassette "responses/order/instance_set_export_status"
-      before { @order = Order.new(:order_id => 14162751, :client_order_id => "14162751") }
+      before { @order = Order.new(:order_id => 14162751, :client_order_identifier => "14162751") }
 
       it "sends the client order ID and export status to OrderService.set_orders_export_status" do
         mock.proxy(Services::OrderService).set_orders_export_status(["14162751"], false)
