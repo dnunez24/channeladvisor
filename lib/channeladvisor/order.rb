@@ -1,39 +1,39 @@
 module ChannelAdvisor
   class Order < Base
-    attr_accessor :id, :client_order_id, :seller_order_id, :state, :created_at, :updated_at, :total, :cancelled_on, :flag_description,
+    attr_accessor :id, :client_id, :seller_id, :state, :created_at, :updated_at, :total, :cancelled_on, :flag_description,
     :reseller_id, :buyer_email, :buyer_ip_address, :email_opt_in, :shipping_instructions, :delivery_date, :estimated_ship_date,
     :transaction_notes, :status, :billing_address, :shipping_address, :payment, :shipments, :shopping_cart, :custom_values
 
     def initialize(attrs={})
-      unless attrs.nil?
-        @id                 = attrs[:order_id].to_i
-        @client_order_id    = attrs[:client_order_identifier]
-        @seller_order_id    = attrs[:seller_order_id]
-        @state              = attrs[:order_state]
-        @created_at         = attrs[:order_time_gmt]
-        @updated_at         = attrs[:last_update_date]
-        @cancelled_on       = attrs[:date_cancelled_gmt]
-        @total              = attrs[:total_order_amount].to_f
-        @reseller_id        = attrs[:reseller_id]
-        @flag_description   = attrs[:flag_description]
-        @email_opt_in       = attrs[:email_opt_in]
-        @buyer_ip_address   = attrs[:buyer_ip_address]
+      @id                 = attrs[:order_id].to_i
+      @client_id          = attrs[:client_order_identifier]
+      @seller_id          = attrs[:seller_order_id]
+      @state              = attrs[:order_state]
+      @created_at         = attrs[:order_time_gmt]
+      @updated_at         = attrs[:last_update_date]
+      @cancelled_on       = attrs[:date_cancelled_gmt]
+      @total              = attrs[:total_order_amount].to_f
+      @reseller_id        = attrs[:reseller_id]
+      @flag_description   = attrs[:flag_description]
+      @buyer_email        = attrs[:buyer_email_address]
+      @email_opt_in       = attrs[:email_opt_in]
+      @buyer_ip_address   = attrs[:buyer_ip_address]
+      @transaction_notes  = attrs[:transaction_notes]
+      @custom_values      = attrs[:custom_value_list]
+      @status             = OrderStatus.new(attrs[:order_status])   if attrs[:order_status]
+      @payment            = Payment.new(attrs[:payment_info])       if attrs[:payment_info]
+      @billing_address    = Address.new(attrs[:billing_info])       if attrs[:billing_info]
+      @shipping_address   = Address.new(attrs[:shipping_info])      if attrs[:shipping_info]
+      @shopping_cart      = ShoppingCart.new(attrs[:shopping_cart]) if attrs[:shopping_cart]
 
-        if shipping_info = attrs[:shipping_info]
-          @shipping_instructions  = shipping_info[:shipping_instructions]
-          @estimated_ship_date    = shipping_info[:estimated_ship_date]
-          @delivery_date          = shipping_info[:delivery_date]
-          @shipments = arrayify(shipping_info[:shipment_list][:shipment]).map { |s| Shipment.new(s) }
-          @shipping_method = shipping_info[:shipment_list]
+      if shipping_info = attrs[:shipping_info]
+        @shipping_instructions  = shipping_info[:shipping_instructions]
+        @estimated_ship_date    = shipping_info[:estimated_ship_date]
+        @delivery_date          = shipping_info[:delivery_date]
+        
+        if shipment_list = shipping_info[:shipment_list]
+          @shipments = arrayify(shipment_list[:shipment]).map { |s| Shipment.new(s) }
         end
-
-        @transaction_notes  = attrs[:transaction_notes]
-        @custom_values      = attrs[:custom_value_list]
-        @status             = OrderStatus.new(attrs[:order_status])
-        @payment            = Payment.new(attrs[:payment_info])
-        @billing_address    = Address.new(attrs[:billing_info])
-        @shipping_address   = Address.new(attrs[:shipping_info])
-        @shopping_cart      = ShoppingCart.new(attrs[:shopping_cart])
       end
     end
 
@@ -48,7 +48,7 @@ module ChannelAdvisor
     # @return [Boolean] Returns the boolean result for changing the export status
     def set_export_status(mark_as_exported)
       handle_errors do
-        response = Services::OrderService.set_orders_export_status([@client_order_id], mark_as_exported)
+        response = Services::OrderService.set_orders_export_status([@client_id], mark_as_exported)
         result = response[:set_orders_export_status_response][:set_orders_export_status_result]
         check_status_of result
         return result[:result_data][:boolean]

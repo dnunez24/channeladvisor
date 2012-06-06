@@ -4,249 +4,178 @@ module ChannelAdvisor
   describe Order do
     describe ".new" do
       let(:attrs) do
-        {:number_of_matches=>"2",
-        :order_time_gmt=> DateTime.parse("2012-05-16T15:44:27+00:00 ((2456064j,56667s,683000000n),+0s,2299161j)"),
-        :last_update_date=> DateTime.parse("2012-05-16T15:44:27+00:00 ((2456064j,56667s,723000000n),+0s,2299161j)"),
-        :total_order_amount=>"44.9200",
-        :order_state=>"Active",
-        :date_cancelled_gmt=>DateTime.new(2012,05,17),
-        :order_id=>"14161613",
-        :client_order_identifier=>"14161613",
-        :seller_order_id=>"EFGH5678",
-        :order_status=>
-        {:checkout_status=>"NotVisited",
-         :checkout_date_gmt=> DateTime.parse("1900-01-01T00:00:00+00:00 ((2415021j,0s,0n),+0s,2299161j)"),
-         :payment_status=>"NotSubmitted",
-         :payment_date_gmt=> DateTime.parse("1900-01-01T00:00:00+00:00 ((2415021j,0s,0n),+0s,2299161j)"),
-         :shipping_status=>"Unshipped",
-         :shipping_date_gmt=> DateTime.parse("1900-01-01T00:00:00+00:00 ((2415021j,0s,0n),+0s,2299161j)"),
-         :order_refund_status=>"NoRefunds"},
-        :reseller_id=>"999999",
-        :buyer_email_address=>"test@example.com",
-        :email_opt_in=>false,
-        :payment_info=>
-        {:payment_type=>nil,
-         :credit_card_last4=>nil,
-         :pay_pal_id=>nil,
-         :merchant_reference_number=>nil,
-         :payment_transaction_id=>nil},
-        :shipping_info=>
-        {:address_line1=>nil,
-         :address_line2=>nil,
-         :city=>nil,
-         :region=>nil,
-         :region_description=>nil,
-         :postal_code=>nil,
-         :country_code=>"US",
-         :company_name=>nil,
-         :job_title=>nil,
-         :title=>nil,
-         :first_name=>nil,
-         :last_name=>nil,
-         :suffix=>nil,
-         :phone_number_day=>nil,
-         :phone_number_evening=>nil,
-         :shipment_list=>
-          {:shipment=>
-            {:shipping_carrier=>nil, :shipping_class=>nil, :tracking_number=>nil}},
-         :shipping_instructions=>"None",
-         :estimated_ship_date=>DateTime.new(2012,05,19),
-         :delivery_date=>DateTime.new(2012,05,24)},
-        :billing_info=>
-        {:address_line1=>nil,
-         :address_line2=>nil,
-         :city=>nil,
-         :region=>nil,
-         :region_description=>nil,
-         :postal_code=>nil,
-         :country_code=>nil,
-         :company_name=>nil,
-         :title=>nil,
-         :first_name=>nil,
-         :last_name=>nil,
-         :suffix=>nil,
-         :phone_number_day=>nil,
-         :phone_number_evening=>nil},
-        :flag_description=>nil,
-        :shopping_cart=>
-        {:cart_id=>"14161613",
-         :checkout_source=>"Unspecified",
-         :vat_tax_calculation_option=>"Unspecified",
-         :vat_shipping_option=>"Unspecified",
-         :vat_gift_wrap_option=>"Unspecified",
-         :line_item_sku_list=>
-          {:order_line_item_item=>
-            [{:line_item_type=>"SKU",
-              :unit_price=>"6.9900",
-              :line_item_id=>"17293910",
-              :allow_negative_quantity=>false,
-              :quantity=>"5",
-              :item_sale_source=>"DIRECT_SALE",
-              :sku=>"FAKE001",
-              :title=>"Fake Item No. 1",
-              :buyer_user_id=>"test@example.com",
-              :buyer_feedback_rating=>"0",
-              :sales_source_id=>"37081357",
-              :vat_rate=>"0",
-              :tax_cost=>"0.0000",
-              :shipping_cost=>"0.0000",
-              :shipping_tax_cost=>"0.0000",
-              :gift_wrap_cost=>"0.0000",
-              :gift_wrap_tax_cost=>"0.0000",
-              :gift_message=>nil,
-              :gift_wrap_level=>nil,
-              :recycling_fee=>"0.0000",
-              :unit_weight=>"0",
-              :warehouse_location=>nil,
-              :user_name=>nil,
-              :distribution_center_code=>"Wilsonville",
-              :is_fba=>false,
-              :"@xsi:type"=>"q1:OrderLineItemItemResponse"},
-             {:line_item_type=>"SKU",
-              :unit_price=>"3.9900",
-              :line_item_id=>"17293911",
-              :allow_negative_quantity=>false,
-              :quantity=>"2",
-              :item_sale_source=>"DIRECT_SALE",
-              :sku=>"FAKE002",
-              :title=>"Fake Item No. 2",
-              :buyer_user_id=>"test@example.com",
-              :buyer_feedback_rating=>"0",
-              :sales_source_id=>"37081358",
-              :vat_rate=>"0",
-              :tax_cost=>"0.0000",
-              :shipping_cost=>"0.0000",
-              :shipping_tax_cost=>"0.0000",
-              :gift_wrap_cost=>"0.0000",
-              :gift_wrap_tax_cost=>"0.0000",
-              :gift_message=>nil,
-              :gift_wrap_level=>nil,
-              :recycling_fee=>"0.0000",
-              :unit_weight=>"0",
-              :warehouse_location=>nil,
-              :user_name=>nil,
-              :distribution_center_code=>"Wilsonville",
-              :is_fba=>false,
-              :"@xsi:type"=>"q1:OrderLineItemItemResponse"}]},
-         :line_item_invoice_list=>
-          {:order_line_item_invoice=>
-            [{:line_item_type=>"SalesTax", :unit_price=>"0.0000"},
-             {:line_item_type=>"Shipping", :unit_price=>"0.0000"},
-             {:line_item_type=>"ShippingInsurance", :unit_price=>"0.0000"},
-             {:line_item_type=>"VATShipping", :unit_price=>"0.0000"},
-             {:line_item_type=>"GiftWrap", :unit_price=>"0.0000"},
-             {:line_item_type=>"VATGiftWrap", :unit_price=>"0.0000"},
-             {:line_item_type=>"RecyclingFee", :unit_price=>"0.0000"}]},
-         :line_item_promo_list=>
-          {:order_line_item_promo=>
-            [{:line_item_type=>"Promotion", :unit_price=>"0.0000", :promo_code=>nil},
-             {:line_item_type=>"AdditionalCostOrDiscount",
-              :unit_price=>"1.9900",
-              :promo_code=>nil}]}},
-        :custom_value_list=>{:id_1 => "value 1", :id_2 => "value 2"},
-        :buyer_ip_address=>"50.29.99.129",
-        :transaction_notes=>"Example notes",
-        :"@xmlns:q1"=>"http://api.channeladvisor.com/datacontracts/orders",
-        :"@xsi:type"=>"q1:OrderResponseDetailComplete"}
+        {
+          :number_of_matches=>"2",
+          :order_time_gmt=> DateTime.parse("2012-05-16T15:44:27+00:00 ((2456064j,56667s,683000000n),+0s,2299161j)"),
+          :last_update_date=> DateTime.parse("2012-05-16T15:44:27+00:00 ((2456064j,56667s,723000000n),+0s,2299161j)"),
+          :total_order_amount=>"44.9200",
+          :order_state=>"Active",
+          :date_cancelled_gmt=>DateTime.new(2012,05,17),
+          :order_id=>"14161613",
+          :client_order_identifier=>"14161613",
+          :seller_order_id=>"EFGH5678",
+          :reseller_id=>"999999",
+          :buyer_email_address=>"test@example.com",
+          :email_opt_in=>false,
+          :flag_description=>nil,
+          :custom_value_list=>{},
+          :buyer_ip_address=>"50.29.99.129",
+          :transaction_notes=>"Example notes",
+          :"@xmlns:q1"=>"http://api.channeladvisor.com/datacontracts/orders",
+          :"@xsi:type"=>"q1:OrderResponseDetailComplete"
+        }
       end
 
       subject { Order.new(attrs) }
 
-      its(:id)                    { should == attrs[:order_id].to_i           }
-      its(:client_order_id)       { should == attrs[:client_order_identifier] }
-      its(:seller_order_id)       { should == attrs[:seller_order_id]         }
-      its(:state)                 { should == attrs[:order_state]             }
       its(:created_at)            { should == attrs[:order_time_gmt]          }
       its(:updated_at)            { should == attrs[:last_update_date]        }
       its(:total)                 { should == attrs[:total_order_amount].to_f }
+      its(:state)                 { should == attrs[:order_state]             }
       its(:cancelled_on)          { should == attrs[:date_cancelled_gmt]      }
-      its(:flag_description)      { should == attrs[:flag_description]        }
+      its(:id)                    { should == attrs[:order_id].to_i           }
+      its(:client_id)             { should == attrs[:client_order_identifier] }
+      its(:seller_id)             { should == attrs[:seller_order_id]         }
       its(:reseller_id)           { should == attrs[:reseller_id]             }
-      its(:buyer_email)           { should == attrs[:buyer_email]             }
+      its(:buyer_email)           { should == attrs[:buyer_email_address]     }
       its(:email_opt_in)          { should == attrs[:email_opt_in]            }
-      its(:shipping_instructions) { should == attrs[:shipping_info][:shipping_instructions]   }
-      its(:estimated_ship_date)   { should == attrs[:shipping_info][:estimated_ship_date]     }
-      its(:delivery_date)         { should == attrs[:shipping_info][:delivery_date]           }
+      its(:flag_description)      { should == attrs[:flag_description]        }
+      its(:custom_values)         { should == attrs[:custom_value_list]       }
       its(:buyer_ip_address)      { should == attrs[:buyer_ip_address]        }
       its(:transaction_notes)     { should == attrs[:transaction_notes]       }
-      its(:custom_values)         { should == attrs[:custom_value_list]       }
-      its(:status)                { should be_an OrderStatus                  }
-      its(:payment)               { should be_a  Payment                      }
-      its(:billing_address)       { should be_an Address                      }
-      its(:shipping_address)      { should be_an Address                      }
-      its(:shopping_cart)         { should be_a  ShoppingCart                 }
 
-      context "with one shipment" do
-        before(:each) do
-          stub.proxy(Shipment).new
-          @order = Order.new(attrs)
-        end
-
-        it "creates a new shipment object from the attributes hash" do
-          shipment = attrs[:shipping_info][:shipment_list][:shipment]
-          Shipment.should have_received.new(shipment)
-        end
-
-        it "creates a @shipments collection with one shipment" do
-          @order.shipments.should have(1).shipment
-          @order.shipments.first.should be_a Shipment
-        end
-      end
-
-      context "with two shipments" do
-        before(:each) do
-          @shipments = attrs[:shipping_info][:shipment_list] = {
-            :shipment => [
-              {:shipping_carrier => "FedEx", :shipping_class => "Home Delivery", :tracking_number => "999999"},
-              {:shipping_carrier => "UPS", :shipping_class => "Ground", :tracking_number => "1234567"}
-            ]
+      context "with shipping info" do
+        let(:attrs) do
+          {
+            :shipping_info=> {
+              :shipping_instructions => "do some stuff",
+              :estimated_ship_date => DateTime.new(2012,05,18),
+              :delivery_date => DateTime.new(2012,05,21),
+              :shipment_list => {
+                :shipment => {:shipping_carrier => "UPS", :shipping_class => "GND", :tracking_number => "1234567890"}
+              }
+            }
           }
-          stub.proxy(Shipment).new
-          @order = Order.new(attrs)
         end
 
-        it "creates a @shipments collection with two shipments" do
-          @order.shipments.should have(2).shipments
-          @order.shipments.each do |shipment|
-            shipment.should be_a Shipment
+        its(:shipping_instructions) { should == attrs[:shipping_info][:shipping_instructions]   }
+        its(:estimated_ship_date)   { should == attrs[:shipping_info][:estimated_ship_date]     }
+        its(:delivery_date)         { should == attrs[:shipping_info][:delivery_date]           }
+
+        context "with one shipment" do
+          before(:each) do
+            stub.proxy(Shipment).new
+            @order = Order.new(attrs)
           end
-        end
 
-        it "creates a new shipment object for each shipment in the attribute hash" do
-          @shipments[:shipment].each do |shipment|
+          it "creates a new shipment object from the attributes hash" do
+            shipment = attrs[:shipping_info][:shipment_list][:shipment]
             Shipment.should have_received.new(shipment)
           end
+
+          it "creates a @shipments collection with one shipment" do
+            @order.shipments.should have(1).shipment
+            @order.shipments.first.should be_a Shipment
+          end
+        end
+
+        context "with two shipments" do
+          before(:each) do
+            @shipments = attrs[:shipping_info][:shipment_list] = {
+              :shipment => [
+                {:shipping_carrier => "FedEx", :shipping_class => "Home Delivery", :tracking_number => "999999"},
+                {:shipping_carrier => "UPS", :shipping_class => "Ground", :tracking_number => "1234567"}
+              ]
+            }
+            stub.proxy(Shipment).new
+            @order = Order.new(attrs)
+          end
+
+          it "creates a @shipments collection with two shipments" do
+            @order.shipments.should have(2).shipments
+            @order.shipments.each do |shipment|
+              shipment.should be_a Shipment
+            end
+          end
+
+          it "creates a new shipment object for each shipment in the attribute hash" do
+            @shipments[:shipment].each do |shipment|
+              Shipment.should have_received.new(shipment)
+            end
+          end
         end
       end
 
-      it "sets @status to an OrderStatus object" do
-        stub(OrderStatus).new
-        Order.new(attrs)
-        OrderStatus.should have_received.new(attrs[:order_status])
+
+      context "with order_status in the attributes hash" do
+        let(:attrs) do
+          {:order_status => {}}
+        end
+
+        its(:status) { should be_an OrderStatus }
+
+        it "sets @status to an OrderStatus object" do
+          stub(OrderStatus).new
+          Order.new(attrs)
+          OrderStatus.should have_received.new(attrs[:order_status])
+        end
       end
 
-      it "sets @payment to a Payment object" do
-        stub(Payment).new
-        Order.new(attrs)
-        Payment.should have_received.new(attrs[:payment_info])
+      context "with payment_info in the attributes hash" do
+        let(:attrs) do
+          {:payment_info => {}}
+        end
+
+        its(:payment) { should be_a Payment }
+
+        it "sets @payment to a Payment object" do
+          stub(Payment).new
+          Order.new(attrs)
+          Payment.should have_received.new(attrs[:payment_info])
+        end
       end
 
-      it "sets @billing_address to an Address object" do
-        stub(Address).new
-        Order.new(attrs)
-        Address.should have_received.new(attrs[:billing_info])
+
+      context "with billing_address in the attributes hash" do
+        let(:attrs) do
+          {:billing_info => {:billing_stuff => nil}}
+        end
+
+        its(:billing_address) { should be_an Address }
+
+        it "sets @billing_address to an Address object" do
+          stub(Address).new
+          order = Order.new(attrs)
+          Address.should have_received.new(attrs[:billing_info])
+        end
       end
 
-      it "sets @shipping_address to an Address object" do
-        stub(Address).new
-        Order.new(attrs)
-        Address.should have_received.new(attrs[:shipping_info])
+      context "with shipping_address in the attributes hash" do
+        let(:attrs) do
+          {:shipping_info => {:shipping_stuff => nil}}
+        end
+
+        its(:shipping_address) { should be_an Address }
+
+        it "sets @shipping_address to an Address object" do
+          stub(Address).new
+          order = Order.new(attrs)
+          Address.should have_received.new(attrs[:shipping_info])
+        end
       end
 
-      it "sets @shopping_cart to a ShoppingCart object" do
-        stub(ShoppingCart).new
-        Order.new(attrs)
-        ShoppingCart.should have_received.new(attrs[:shopping_cart])
+      context "with shopping_cart in the attributes hash" do
+        let(:attrs) do
+          {:shopping_cart => {}}
+        end
+
+        its(:shopping_cart) { should be_a ShoppingCart }
+
+        it "sets @shopping_cart to a ShoppingCart object" do
+          stub(ShoppingCart).new
+          Order.new(attrs)
+          ShoppingCart.should have_received.new(attrs[:shopping_cart])
+        end
       end
     end
 

@@ -30,7 +30,7 @@ end
 Make a request to the service:
 
 ```ruby
-date_range = (DateTime.new(2012,05,01)..DateTime.new(2012,06,01))
+date_range = DateTime.new(2012,05,01)..DateTime.new(2012,06,01)
 
 orders = ChannelAdvisor::Order.list(:created_between => date_range)
 # => [<ChannelAdvisor::Order>, <ChannelAdvisor::Order>, ...]
