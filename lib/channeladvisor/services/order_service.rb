@@ -61,21 +61,21 @@ module ChannelAdvisor
             order_criteria["ins1:ClientOrderIdentifierList"] = {"ins1:string" => client_order_ids}
           end
 
-          order_criteria["ins1:DetailLevel"]                     = criteria[:detail_level]        if criteria[:detail_level]
-          order_criteria["ins1:ExportState"]                     = criteria[:export_state]        if criteria[:export_state]
-          order_criteria["ins1:OrderStateFilter"]                = criteria[:state]               if criteria[:state]
-          order_criteria["ins1:PaymentStatusFilter"]             = criteria[:payment_status]      if criteria[:payment_status]
-          order_criteria["ins1:CheckoutStatusFilter"]            = criteria[:checkout_status]     if criteria[:checkout_status]
-          order_criteria["ins1:ShippingStatusFilter"]            = criteria[:shipping_status]     if criteria[:shipping_status]
-          order_criteria["ins1:RefundStatusFilter"]              = criteria[:refund_status]       if criteria[:refund_status]
-          order_criteria["ins1:DistributionCenterCode"]          = criteria[:distribution_center] if criteria[:distribution_center]
-          order_criteria["ins1:PageNumberFilter"]                = criteria[:page_number]
-          order_criteria["ins1:PageSize"]                        = criteria[:page_size]
+          order_criteria["ins1:DetailLevel"]            = criteria[:detail_level]        if criteria[:detail_level]
+          order_criteria["ins1:ExportState"]            = criteria[:export_state]        if criteria[:export_state]
+          order_criteria["ins1:OrderStateFilter"]       = criteria[:state]               if criteria[:state]
+          order_criteria["ins1:PaymentStatusFilter"]    = criteria[:payment_status]      if criteria[:payment_status]
+          order_criteria["ins1:CheckoutStatusFilter"]   = criteria[:checkout_status]     if criteria[:checkout_status]
+          order_criteria["ins1:ShippingStatusFilter"]   = criteria[:shipping_status]     if criteria[:shipping_status]
+          order_criteria["ins1:RefundStatusFilter"]     = criteria[:refund_status]       if criteria[:refund_status]
+          order_criteria["ins1:DistributionCenterCode"] = criteria[:distribution_center] if criteria[:distribution_center]
+          order_criteria["ins1:PageNumberFilter"]       = criteria[:page_number]
+          order_criteria["ins1:PageSize"]               = criteria[:page_size]
 
           soap_response = client.request :get_order_list do
             soap.header = soap_header
             soap.body = {
-              "ins0:accountID" => config(:account_id),
+              "ins0:accountID" => creds(:account_id),
               "ins0:orderCriteria" => order_criteria
             }
           end
@@ -100,7 +100,7 @@ module ChannelAdvisor
           soap_response = client.request :set_orders_export_status do
             soap.header = soap_header
             soap.body = {
-              "ins0:accountID" => config(:account_id),
+              "ins0:accountID" => creds(:account_id),
               "ins0:clientOrderIdentifiers" => {
                 "ins0:string" => client_order_ids
               },

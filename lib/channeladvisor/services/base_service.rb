@@ -11,13 +11,13 @@ module ChannelAdvisor
         def soap_header
           {
             "ins0:APICredentials" => {
-              "ins0:DeveloperKey" => config(:developer_key),
-              "ins0:Password"     => config(:password)
+              "ins0:DeveloperKey" => creds(:developer_key),
+              "ins0:Password"     => creds(:password)
             }
           }
         end
 
-        def config(attribute)
+        def creds(attribute)
           ChannelAdvisor.configuration.send(attribute.to_sym)
         end
       end # self
