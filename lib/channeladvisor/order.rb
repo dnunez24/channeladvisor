@@ -55,6 +55,27 @@ module ChannelAdvisor
       end
     end
 
+    def total_ship_cost
+      invoice_ship_cost || items_ship_cost
+    end
+
+    def invoice_ship_cost
+      shopping_cart.invoices.each do |invoice|
+        if invoice.type == 'Shipping'
+          return invoice.unit_price.to_f
+        end
+      end
+      nil
+    end
+
+    def items_ship_cost
+      shipping_cost = 0.0
+      shopping_cart.items.each do |item|
+        shipping_cost += item.shipping_cost
+      end
+      shipping_cost
+    end
+
     class << self
       # Check authorization for and availability of the order service
       #
