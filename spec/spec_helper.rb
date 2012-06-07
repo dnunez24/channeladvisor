@@ -24,4 +24,7 @@ Savon.configure do |config|
 	config.log = false
 end
 
+ChannelAdvisor::Services::OrderService.client.config.log = false
+ChannelAdvisor::Services::AdminService.client.config.log = false
+
 HTTPI.log = false

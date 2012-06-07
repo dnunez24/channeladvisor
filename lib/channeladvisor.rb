@@ -16,13 +16,12 @@ require 'channeladvisor/line_item'
 require 'channeladvisor/account_authorization'
 
 module ChannelAdvisor
-  class << self
-    def configuration
-      @configuration ||= Configuration.new
-    end
+  def self.configuration
+    @configuration ||= Configuration.new
+  end
 
-    def configure
-      yield configuration if block_given?
-    end
+  def self.configure
+    yield configuration if block_given?
   end
 end
+

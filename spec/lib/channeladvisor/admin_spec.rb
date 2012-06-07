@@ -26,7 +26,7 @@ module ChannelAdvisor
       end
 
       context "with a SOAP fault" do
-        use_vcr_cassette "responses/admin/ping/soap_fault"
+        use_vcr_cassette "responses/soap_fault", :match_requests_on => [:method]
         
         it "raises a SOAP fault error" do
           ChannelAdvisor.configure { |c| c.developer_key = "WRONG" }
@@ -85,7 +85,7 @@ module ChannelAdvisor
       end
 
       context "with a SOAP fault" do
-        use_vcr_cassette "responses/admin/request_access/soap_fault"
+        use_vcr_cassette "responses/soap_fault", :match_requests_on => [:method]
         
         it "raises a SOAP fault error" do
           ChannelAdvisor.configure { |c| c.developer_key = "WRONG" }
