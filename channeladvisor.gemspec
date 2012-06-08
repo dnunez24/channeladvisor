@@ -20,8 +20,8 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec"
-  s.add_development_dependency "vcr"
-  s.add_development_dependency "fakeweb"
+  s.add_development_dependency "vcr", "~> 2.2.0"
+  s.add_development_dependency "fakeweb", "~> 1.3.0"
 
-  s.add_runtime_dependency "savon"
+  s.add_runtime_dependency "savon", ">= 0.9.14", "<= 1.0.0"
 end
