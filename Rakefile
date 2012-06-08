@@ -23,6 +23,9 @@ task :version do
 end
 
 namespace :version do
+  desc "Bump version (defaults to patch)"
+  task :bump => "bump:patch"
+
   namespace :bump do
     desc "Bump major version"
     task :major => :version do |t|
@@ -42,17 +45,20 @@ namespace :version do
 end
 
 def bump_version(segment)
-  index = case segment
+  segments = ChannelAdvisor::VERSION.split(".").map(&:to_i)
+
+  case segment
   when "major"
-    0
+    segments[0] = segments[0] + 1 
+    segments[1] = 0
+    segments[2] = 0
   when "minor"
-    1
+    segments[1] = segments[1] + 1 
+    segments[2] = 0
   when "patch"
-    2
+    segments[2] = segments[2] + 1 
   end
 
-  segments = ChannelAdvisor::VERSION.split(".").map(&:to_i)
-  segments[index] = segments[index] + 1 
   new_version = segments.join(".")
 
   file_name = "lib/channeladvisor/version.rb"
