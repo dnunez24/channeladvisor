@@ -20,10 +20,7 @@ RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
 end
 
-Savon.configure do |config|
-	config.log = false
-end
-
+Savon.config.log = false
 ChannelAdvisor::Services::OrderService.client.config.log = false
 ChannelAdvisor::Services::AdminService.client.config.log = false
 
