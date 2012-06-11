@@ -30,7 +30,7 @@ module ChannelAdvisor
         @shipping_instructions  = shipping_info[:shipping_instructions]
         @estimated_ship_date    = shipping_info[:estimated_ship_date]
         @delivery_date          = shipping_info[:delivery_date]
-        
+
         if shipment_list = shipping_info[:shipment_list]
           @shipments = arrayify(shipment_list[:shipment]).map { |s| Shipment.new(s) }
         end
@@ -53,6 +53,18 @@ module ChannelAdvisor
         check_status_of result
         return result[:result_data][:boolean]
       end
+    end
+
+    def total_ship_cost
+      invoice_ship_cost || items_ship_cost
+    end
+
+    def invoice_ship_cost
+      shopping_cart.invoices.select { |i| i.type == "Shipping" }.first.unit_price.nonzero?
+    end
+
+    def items_ship_cost
+      shopping_cart.items.collect { |i| i.shipping_cost }.inject(:+)
     end
 
     class << self

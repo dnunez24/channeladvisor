@@ -179,6 +179,84 @@ module ChannelAdvisor
       end
     end
 
+    describe "#items_ship_cost" do
+      let(:items) { [@item] }
+
+      before(:each) do
+        @order = Order.new
+        @item = Object.new
+        stub(@item).shipping_cost { 1.50 }
+        stub(@order).shopping_cart.stub!.items { items }
+      end
+
+      context "with one item" do
+        it "returns the shipping cost of the order item" do
+          @order.items_ship_cost.should == 1.50
+        end
+
+        context "when item shipping cost is 0.00" do
+          it "returns 0.00" do
+            stub(@item).shipping_cost { 0.00 }
+            @order.items_ship_cost.should == 0.00
+          end
+        end
+      end
+
+      context "with two items" do
+        let(:items) { [@item, @item] }
+
+        it "returns the cumulative shipping cost of all order items" do
+          @order.items_ship_cost.should == 3.00
+        end
+      end
+    end
+
+    describe "#invoice_ship_cost" do
+      before(:each) do
+        @order = Order.new
+        invoice = Object.new
+        stub(invoice).type { "Shipping" }
+        stub(invoice).unit_price { unit_price }
+        stub(@order).shopping_cart.stub!.invoices { [invoice] }
+      end
+
+      context "when shipping cost is 0" do
+        let(:unit_price) { 0.00 }
+
+        it "returns nil" do
+          @order.invoice_ship_cost.should == nil
+        end
+      end
+
+      context "when shipping cost is not 0" do
+        let(:unit_price) { 5.99 }
+
+        it "returns the shipping cost from the shipping invoice" do
+          @order.invoice_ship_cost.should == 5.99
+        end
+      end
+    end
+
+    describe "#total_ship_cost" do
+      before(:each) do
+        @order = Order.new
+      end
+      context "when the invoice shipping cost is nil" do
+        it "returns the items shipping cost" do
+          stub(@order).invoice_ship_cost { nil }
+          stub(@order).items_ship_cost { 5.99 }
+          @order.total_ship_cost.should == 5.99
+        end
+      end
+
+      context "when the invoice shipping cost is not nil" do
+        it "returns the invoice shipping cost" do
+          stub(@order).invoice_ship_cost { 2.99 }
+          @order.total_ship_cost.should == 2.99
+        end
+      end
+    end
+
     describe ".ping" do
       use_vcr_cassette "responses/order/ping"
 
@@ -206,7 +284,7 @@ module ChannelAdvisor
 
       context "with a SOAP fault" do
         use_vcr_cassette "responses/soap_fault", :match_requests_on => [:method]
-        
+
         it "raises a SOAP fault error" do
           ChannelAdvisor.configure { |c| c.developer_key = "WRONG" }
           expect { Order.ping }.to raise_error SOAPFault, "Server was unable to process request. Authentication failed."
@@ -224,7 +302,7 @@ module ChannelAdvisor
       context "with an HTTP error" do
         http_status = {:code => 500, :message => "Internal Server Error"}
         use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status
-       
+
         it "raises an HTTP error" do
           expect { Order.ping }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"
         end
@@ -264,7 +342,7 @@ module ChannelAdvisor
             end
           end
         end
-        
+
         context "with two matching orders" do
           use_vcr_cassette "responses/order/list/two_matching_orders"
           before { @orders = Order.list(:order_ids => [14161613, 14162751]) }
@@ -310,7 +388,7 @@ module ChannelAdvisor
       context "with an HTTP error" do
         http_status = {:code => 500, :message => "Internal Server Error"}
         use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status
-       
+
         it "raises an HTTP error" do
           expect { Order.list }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"
         end
@@ -446,7 +524,7 @@ module ChannelAdvisor
       context "with an HTTP error" do
         http_status = {:code => 500, :message => "Internal Server Error"}
         use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status
-       
+
         it "raises an HTTP error" do
           expect { @order.set_export_status(false) }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"
         end
@@ -521,7 +599,7 @@ module ChannelAdvisor
       context "with an HTTP error" do
         http_status = {:code => 500, :message => "Internal Server Error"}
         use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status
-       
+
         it "raises an HTTP error" do
           expect { Order.set_export_status(["14162751"], false) }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"
         end
