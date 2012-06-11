@@ -30,7 +30,7 @@ module ChannelAdvisor
         @shipping_instructions  = shipping_info[:shipping_instructions]
         @estimated_ship_date    = shipping_info[:estimated_ship_date]
         @delivery_date          = shipping_info[:delivery_date]
-        
+
         if shipment_list = shipping_info[:shipment_list]
           @shipments = arrayify(shipment_list[:shipment]).map { |s| Shipment.new(s) }
         end
@@ -60,20 +60,11 @@ module ChannelAdvisor
     end
 
     def invoice_ship_cost
-      shopping_cart.invoices.each do |invoice|
-        if invoice.type == 'Shipping'
-          return invoice.unit_price.to_f
-        end
-      end
-      nil
+      shopping_cart.invoices.select { |i| i.type == "Shipping" }.first.unit_price.nonzero?
     end
 
     def items_ship_cost
-      shipping_cost = 0.0
-      shopping_cart.items.each do |item|
-        shipping_cost += item.shipping_cost
-      end
-      shipping_cost
+      shopping_cart.items.collect { |i| i.shipping_cost }.inject(:+)
     end
 
     class << self
