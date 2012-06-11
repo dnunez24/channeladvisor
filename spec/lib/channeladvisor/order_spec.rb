@@ -180,6 +180,8 @@ module ChannelAdvisor
     end
 
     describe "#items_ship_cost" do
+      let(:items) { [@item] }
+
       before(:each) do
         @order = Order.new
         @item = Object.new
@@ -188,10 +190,15 @@ module ChannelAdvisor
       end
 
       context "with one item" do
-        let(:items) { [@item] }
-
         it "returns the shipping cost of the order item" do
           @order.items_ship_cost.should == 1.50
+        end
+
+        context "when item shipping cost is 0.00" do
+          it "returns 0.00" do
+            stub(@item).shipping_cost { 0.00 }
+            @order.items_ship_cost.should == 0.00
+          end
         end
       end
 
