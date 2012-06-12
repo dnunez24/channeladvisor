@@ -94,7 +94,7 @@ module ChannelAdvisor
               @last_request.should match_valid_xml_body_for "submit_order_shipment_list/full_shipment/without_carrier_code"
             end
           end
-          
+
           context "without a class code" do
             it "sends a valid SOAP request without the class code" do
               full_shipment.delete(:class)
@@ -121,31 +121,45 @@ module ChannelAdvisor
         end # with a full shipment
 
         context "with a partial shipment" do
-          it "sends a SOAP request with partial shipment data" do
-            pending
-            partial_shipment = {
+          let(:partial_shipment) do
+            {
               :order_id => 123456,
-              :client_order_id => "123456",
+              :client_order_id => "ABCD1234",
               :type => "Partial",
-              :line_items => [
-                {:sku => "ABCD", :quantity => 5},
-                {:sku => "EFGH", :quantity => 3}
-              ],
+              :line_items => [{:sku => "ABCD", :quantity => 5}],
               :date => DateTime.new(2012,05,19),
               :carrier => "UPS",
               :class => "GND",
               :tracking_number => "1ZABCE09813473497",
-              :seller_id => "",
-              :tax_cost => 1.99,
-              :insurance_cost => 5.99
+              :seller_id => "999999",
+              :cost => 5.99,
+              :tax => 1.99,
+              :insurance => 2.99
             }
+          end
+
+          context "with one line item" do
+            use_vcr_cassette "responses/shipping_service/submit_order_shipment_list/partial_shipment/with_one_line_item"
+
+            it "sends a valid SOAP request with one line item" do
+              ShippingService.submit_order_shipment_list(partial_shipment)
+              @last_request.should match_valid_xml_body_for "submit_order_shipment_list/partial_shipment/with_one_line_item"
+            end
+          end
+
+          context "with two line items" do
+
+          end
+
+          it "sends a SOAP request with partial shipment data" do
+            pending
             ShippingService.submit_order_shipment_list(partial_shipment)
             ShippingService.last_request.should match_valid_xml_body_for 'submit_order_shipment_list/partial_shipment'
           end
         end # with a partial shipment
 
         context "with two full shipments" do
-          
+
         end # with two full shipments
 
         context "when unsuccessful" do
