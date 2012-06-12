@@ -6,7 +6,7 @@ gemspec
 group :test do
   gem 'guard-rspec'
   gem 'guard-bundler'
-  gem 'guard-yard',   :platforms => [:ruby] if RUBY_VERSION >= "1.9.2"
+  gem 'guard-yard', "~> 2.0.0", :platforms => [:ruby] if RUBY_VERSION >= "1.9.2"
   gem 'rb-inotify',   :require => false if RUBY_PLATFORM =~ /linux/i
   gem 'libnotify',    :require => false if RUBY_PLATFORM =~ /linux/i
   gem 'rb-fsevent',   :require => false if RUBY_PLATFORM =~ /darwin/i
