@@ -26,11 +26,11 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Mon, 11 Jun 2012 23:39:14 GMT
+      - Tue, 12 Jun 2012 20:24:11 GMT
       server:
       - Microsoft-IIS/6.0
       x-servername:
-      - RDU-IISWEB-07
+      - RDU-IISWEB-04
       x-powered-by:
       - ASP.NET
       x-aspnet-version:
@@ -51,5 +51,5 @@ http_interactions:
         error occurred involving Order 123456.  Please make sure sufficient unshipped
         quantity exists on the order and that the Carrier and Class Codes are valid.</Message></ShipmentResponse></ResultData></SubmitOrderShipmentListResult></SubmitOrderShipmentListResponse></soap:Body></soap:Envelope>
     http_version: '1.1'
-  recorded_at: Mon, 11 Jun 2012 23:39:15 GMT
+  recorded_at: Tue, 12 Jun 2012 20:24:11 GMT
 recorded_with: VCR 2.2.0
