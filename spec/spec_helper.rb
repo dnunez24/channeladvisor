@@ -21,7 +21,8 @@ RSpec.configure do |config|
 end
 
 Savon.config.log = false
-ChannelAdvisor::Services::OrderService.client.config.log = false
 ChannelAdvisor::Services::AdminService.client.config.log = false
+ChannelAdvisor::Services::OrderService.client.config.log = false
+ChannelAdvisor::Services::ShippingService.client.config.log = false
 
 HTTPI.log = false

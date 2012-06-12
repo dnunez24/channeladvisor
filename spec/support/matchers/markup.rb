@@ -46,5 +46,5 @@ RSpec::Matchers.define :match_valid_xml_body_for do |example_name|
     "expected request not to match:\n\n#{example_request(example_name)}\n\nbut received:\n\n#{filter_request(request)}"
   end
 
-  diffable
+  # diffable
 end

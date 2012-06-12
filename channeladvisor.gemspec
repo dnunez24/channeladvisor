@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rr", "~> 1.0.0"
   s.add_development_dependency "vcr", "~> 2.2.0"
   s.add_development_dependency "fakeweb", "~> 1.3.0"
+  s.add_development_dependency "timecop"
 
   s.add_runtime_dependency "savon", "~> 1.0.0"
 end

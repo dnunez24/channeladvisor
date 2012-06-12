@@ -1,0 +1,55 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/ShippingService.asmx
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="UTF-8"?><env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://api.channeladvisor.com/webservices/"
+        xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ins0="http://api.channeladvisor.com/webservices/"
+        xmlns:ins1="http://api.channeladvisor.com/datacontracts/ShippingService"><env:Header><ins0:APICredentials><ins0:DeveloperKey>$$DEVELOPER_KEY$$</ins0:DeveloperKey><ins0:Password>wrong
+        password</ins0:Password></ins0:APICredentials></env:Header><env:Body><ins0:SubmitOrderShipmentList></ins0:SubmitOrderShipmentList></env:Body></env:Envelope>
+    headers:
+      soapaction:
+      - ! '"http://api.channeladvisor.com/webservices/SubmitOrderShipmentList"'
+      content-type:
+      - text/xml;charset=UTF-8
+      content-length:
+      - '674'
+      accept:
+      - ! '*/*'
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Mon, 11 Jun 2012 21:37:51 GMT
+      server:
+      - Microsoft-IIS/6.0
+      x-servername:
+      - RDU-IISWEB-08
+      x-powered-by:
+      - ASP.NET
+      x-aspnet-version:
+      - 4.0.30319
+      cache-control:
+      - private
+      content-type:
+      - text/xml; charset=utf-8
+      content-length:
+      - '517'
+    body:
+      encoding: US-ASCII
+      string: ! "<soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'>\r\n
+        \                          <soap:Body>\r\n                              <soap:Fault>\r\n
+        \                                <faultcode>soap:Server</faultcode>\r\n                                 <faultstring>Server
+        was unable to process request. Authentication failed.</faultstring>\r\n                                 <detail/>\r\n
+        \                             </soap:Fault>\r\n                           </soap:Body>\r\n
+        \                       </soap:Envelope>"
+    http_version: '1.1'
+  recorded_at: Mon, 11 Jun 2012 21:37:51 GMT
+recorded_with: VCR 2.2.0
