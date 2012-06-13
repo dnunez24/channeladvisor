@@ -27,7 +27,10 @@ module ChannelAdvisor
     end # .new
 
     describe ".submit" do
-      let(:old_shipment) do
+      use_vcr_cassette "responses/shipment/submit"
+      before { stub.proxy(Services::ShippingService).submit_order_shipment_list }
+
+      let(:original_shipment) do
         {
           :order_id => 123456,
           :client_order_id => "ABCD1234",
@@ -42,80 +45,148 @@ module ChannelAdvisor
         }
       end
 
-      before { stub(Services::ShippingService).submit_order_shipment_list }
-
       context "with one shipment" do
-        let(:new_shipment) { old_shipment.dup }
+        use_vcr_cassette "responses/shipment/submit/one_shipment"
+
+        let(:actual_shipment) { original_shipment.dup }
         before do
-          new_shipment[:type]       = "Full"
-          new_shipment[:cost]       = "%.2f" % new_shipment[:cost]
-          new_shipment[:tax]        = "%.2f" % new_shipment[:tax]
-          new_shipment[:insurance]  = "%.2f" % new_shipment[:insurance]
+          actual_shipment[:type]       = "Full"
+          actual_shipment[:cost]       = "%.2f" % actual_shipment[:cost]
+          actual_shipment[:tax]        = "%.2f" % actual_shipment[:tax]
+          actual_shipment[:insurance]  = "%.2f" % actual_shipment[:insurance]
         end
 
         it "sends one shipment to the shipping service" do
-          Shipment.submit(old_shipment)
-          Services::ShippingService.should have_received.submit_order_shipment_list([new_shipment])
+          Shipment.submit(original_shipment)
+          Services::ShippingService.should have_received.submit_order_shipment_list([actual_shipment])
+        end
+
+        it "returns a boolean result" do
+          response = Shipment.submit(original_shipment)
+          response.should be_a_boolean
         end
 
         context "without a ship date" do
           it "sends a shipment with the current date" do
-            old_shipment.delete(:date)
+            original_shipment.delete(:date)
             ::Timecop.freeze(DateTime.now) do
-              new_shipment[:date] = DateTime.now
-              Shipment.submit(old_shipment)
-              Services::ShippingService.should have_received.submit_order_shipment_list([new_shipment])
+              actual_shipment[:date] = DateTime.now
+              Shipment.submit(original_shipment)
+              Services::ShippingService.should have_received.submit_order_shipment_list([actual_shipment])
             end
           end
         end
 
         context "without a ship cost" do
           it "sends a shipment with a shipping cost of 0.00" do
-            old_shipment.delete(:cost)
-            new_shipment[:cost] = "0.00"
-            Shipment.submit(old_shipment)
-            Services::ShippingService.should have_received.submit_order_shipment_list([new_shipment])
+            original_shipment.delete(:cost)
+            actual_shipment[:cost] = "0.00"
+            Shipment.submit(original_shipment)
+            Services::ShippingService.should have_received.submit_order_shipment_list([actual_shipment])
           end
         end
 
         context "without a tax cost" do
           it "sends a shipment with a tax cost of 0.00" do
-            old_shipment.delete(:tax)
-            new_shipment[:tax] = "0.00"
-            Shipment.submit(old_shipment)
-            Services::ShippingService.should have_received.submit_order_shipment_list([new_shipment])
+            original_shipment.delete(:tax)
+            actual_shipment[:tax] = "0.00"
+            Shipment.submit(original_shipment)
+            Services::ShippingService.should have_received.submit_order_shipment_list([actual_shipment])
           end
         end
 
         context "without an insurance cost" do
           it "sends a shipment with an insurance cost of 0.00" do
-            old_shipment.delete(:insurance)
-            new_shipment[:insurance] = "0.00"
-            Shipment.submit(old_shipment)
-            Services::ShippingService.should have_received.submit_order_shipment_list([new_shipment])
+            original_shipment.delete(:insurance)
+            actual_shipment[:insurance] = "0.00"
+            Shipment.submit(original_shipment)
+            Services::ShippingService.should have_received.submit_order_shipment_list([actual_shipment])
           end
         end
 
         context "with line items" do
           it "sends a partial shipment" do
-            new_shipment[:line_items] = old_shipment[:line_items] = {:sku => "ABCD", :quantity => 5}
-            new_shipment[:type] = "Partial"
-            Shipment.submit(old_shipment)
-            Services::ShippingService.should have_received.submit_order_shipment_list([new_shipment])
+            actual_shipment[:line_items] = original_shipment[:line_items] = [{:sku => "ABCD", :quantity => 5}]
+            actual_shipment[:type] = "Partial"
+            Shipment.submit(original_shipment)
+            Services::ShippingService.should have_received.submit_order_shipment_list([actual_shipment])
           end
         end
       end # with one shipment
 
       context "with two shipments" do
-        let(:shipment1) { old_shipment.dup }
-        let(:shipment2) { old_shipment.dup }
+        use_vcr_cassette "responses/shipment/submit/two_shipments"
+
+        let(:shipment1) { original_shipment.dup }
+        let(:shipment2) do
+          {
+            :order_id => 567890,
+            :client_order_id => "EFGH1234",
+            :date => DateTime.new(2012,05,19),
+            :carrier => "USPS",
+            :class => "PRIORITY",
+            :tracking_number => "99999000000000",
+            :seller_id => "555555",
+            :cost => 5.99,
+            :tax => 1.99,
+            :insurance => 2.99
+          }
+        end
+        let(:shipments) { [shipment1, shipment2] }
 
         it "sends two shipments to the shipping service" do
-          shipments = [shipment1, shipment2]
           Shipment.submit(shipments)
           Services::ShippingService.should have_received.submit_order_shipment_list(shipments)
         end
+
+        it "returns hash of boolean results" do
+          results = Shipment.submit(shipments)
+          shipments.map { |shipment| shipment[:order_id].to_s }.each do |order_id|
+            results[order_id].should be_a_boolean
+          end
+        end
+      end # with two shipments
+
+      context "with a Failure status" do
+        use_vcr_cassette "responses/shipment/submit/failure", :exclusive => true
+
+        it "raises a ServiceFailure error" do
+          expect { Shipment.submit(original_shipment) }.to raise_error ServiceFailure
+        end
       end
+
+      context "with a SOAP fault" do
+        use_vcr_cassette "responses/soap_fault", :match_requests_on => [:method]
+
+        it "raises a SOAP fault error" do
+          expect { Shipment.submit(original_shipment) }.to raise_error SOAPFault, "Server was unable to process request. Authentication failed."
+        end
+
+        it "stores the SOAP fault code" do
+          begin
+            Shipment.submit(original_shipment)
+          rescue SOAPFault => fault
+            fault.code.should == "soap:Server"
+          end
+        end
+      end # with a SOAP Fault
+
+      context "with an HTTP error" do
+        http_status = {:code => 500, :message => "Internal Server Error"}
+        use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status
+
+        it "raises an HTTP error" do
+          expect { Shipment.submit(original_shipment) }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"
+        end
+
+        it "stores the HTTP status code" do
+          begin
+            Shipment.submit(original_shipment)
+          rescue HTTPError => error
+            error.code.should == http_status[:code]
+          end
+        end
+      end # with an HTTP error
     end # .submit
   end # Shipment
 end # ChannelAdvisor
