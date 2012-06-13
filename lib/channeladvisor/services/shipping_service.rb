@@ -23,6 +23,7 @@ module ChannelAdvisor
         #   partial_shipment = {
         #     :order_id => 123456,
         #     :client_order_id => "ABCD1234",
+        #     :type => "Partial",
         #     :line_items => [{:sku => "ABCD", :quantity => 5}],
         #     :date => DateTime.new(2012,05,19),
         #     :carrier => "UPS",
@@ -40,6 +41,7 @@ module ChannelAdvisor
         #   full_shipment = {
         #     :order_id => 123456,
         #     :client_order_id => "ABCD1234",
+        #     :type => "Full",
         #     :date => DateTime.new(2012,05,19),
         #     :carrier => "UPS",
         #     :class => "GND",
@@ -56,6 +58,7 @@ module ChannelAdvisor
         #   partial_shipment = {
         #     :order_id => 123456,
         #     :client_order_id => "ABCD1234",
+        #     :type => "Partial",
         #     :line_items => [{:sku => "ABCD", :quantity => 5}],
         #     :date => DateTime.new(2012,05,19),
         #     :carrier => "UPS",
@@ -70,6 +73,7 @@ module ChannelAdvisor
         #   full_shipment = {
         #     :order_id => 123456,
         #     :client_order_id => "ABCD1234",
+        #     :type => "Full",
         #     :date => DateTime.new(2012,05,19),
         #     :carrier => "UPS",
         #     :class => "GND",
@@ -86,11 +90,8 @@ module ChannelAdvisor
         #
         #   ShippingService.submit_order_shipment_list(shipments)
         def submit_order_shipment_list(shipment_data)
-          if shipment_data.is_a? Array
-            order_shipment = shipment_data.collect { |shipment| build_shipment(shipment) }
-          else
-            order_shipment = build_shipment(shipment_data)
-          end
+          shipments = shipment_data.map { |shipment| build_shipment(shipment) }
+          order_shipment = shipments.count > 1 ? shipments : shipments.first
 
           client.request :submit_order_shipment_list do
             soap.header = soap_header
@@ -111,9 +112,9 @@ module ChannelAdvisor
           order_shipment = {}
           order_shipment["ins0:OrderId"]                = shipment[:order_id]
           order_shipment["ins0:ClientOrderIdentifier"]  = shipment[:client_order_id] if shipment[:client_order_id]
+          order_shipment["ins0:ShipmentType"]           = shipment[:type]
 
-          if shipment[:line_items]
-            order_shipment["ins0:ShipmentType"] = "Partial"
+          if shipment[:type] == "Partial"
             partial_shipment = order_shipment["ins0:PartialShipment"] = {
               "ins0:shipmentContents" => {
                 "ins0:LineItemList" => {
@@ -128,25 +129,24 @@ module ChannelAdvisor
               line_items << {"ins0:SKU" => item[:sku], "ins0:Quantity" => item[:quantity]}
             end
 
-            partial_shipment["ins0:dateShippedGMT"]       = shipment[:date] || DateTime.now
+            partial_shipment["ins0:dateShippedGMT"]       = shipment[:date]
             partial_shipment["ins0:carrierCode"]          = shipment[:carrier]         if shipment[:carrier]
             partial_shipment["ins0:classCode"]            = shipment[:class]           if shipment[:class]
             partial_shipment["ins0:trackingNumber"]       = shipment[:tracking_number] if shipment[:tracking_number]
             partial_shipment["ins0:sellerFulfillmentID"]  = shipment[:seller_id]       if shipment[:seller_id]
-            partial_shipment["ins0:shipmentCost"]         = "%.2f" % shipment[:cost]
-            partial_shipment["ins0:shipmentTaxCost"]      = "%.2f" % shipment[:tax]
-            partial_shipment["ins0:insuranceCost"]        = "%.2f" % shipment[:insurance]
+            partial_shipment["ins0:shipmentCost"]         = shipment[:cost]
+            partial_shipment["ins0:shipmentTaxCost"]      = shipment[:tax]
+            partial_shipment["ins0:insuranceCost"]        = shipment[:insurance]
           else
-            order_shipment["ins0:ShipmentType"]           = "Full"
             full_shipment = order_shipment["ins0:FullShipment"] = {}
-            full_shipment["ins0:dateShippedGMT"]          = shipment[:date] || DateTime.now
+            full_shipment["ins0:dateShippedGMT"]          = shipment[:date]
             full_shipment["ins0:carrierCode"]             = shipment[:carrier]         if shipment[:carrier]
             full_shipment["ins0:classCode"]               = shipment[:class]           if shipment[:class]
             full_shipment["ins0:trackingNumber"]          = shipment[:tracking_number] if shipment[:tracking_number]
             full_shipment["ins0:sellerFulfillmentID"]     = shipment[:seller_id]       if shipment[:seller_id]
-            full_shipment["ins0:shipmentCost"]            = "%.2f" % shipment[:cost]
-            full_shipment["ins0:shipmentTaxCost"]         = "%.2f" % shipment[:tax]
-            full_shipment["ins0:insuranceCost"]           = "%.2f" % shipment[:insurance]
+            full_shipment["ins0:shipmentCost"]            = shipment[:cost]
+            full_shipment["ins0:shipmentTaxCost"]         = shipment[:tax]
+            full_shipment["ins0:insuranceCost"]           = shipment[:insurance]
           end
 
           return order_shipment
