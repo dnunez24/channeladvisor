@@ -545,27 +545,33 @@ module ChannelAdvisor
           use_vcr_cassette "responses/order/set_export_status/success/with_one_client_order_id"
 
           it "sends the client order ID and export status to OrderService.set_orders_export_status" do
-            mock.proxy(Services::OrderService).set_orders_export_status(["14162751"], false)
-            Order.set_export_status(["14162751"], false)
+            stub.proxy(Services::OrderService).set_orders_export_status
+            Order.set_export_status("14162751", false)
+            Services::OrderService.should have_received.set_orders_export_status(["14162751"], false)
           end
 
           it "returns a hash with one client order ID and boolean result" do
-            result = Order.set_export_status(["14162751"], false)
-            result.should == {"14162751" => true}
+            result = Order.set_export_status("14162751", false)
+            result.should be_a_boolean
           end
         end
 
         context "with two client order IDs" do
           use_vcr_cassette "responses/order/set_export_status/success/with_two_client_order_ids"
 
+          let(:client_order_ids) { ["14162751", "14161613"] }
+
           it "sends the client order IDs and export statuses to OrderService.set_orders_export_status" do
-            mock.proxy(Services::OrderService).set_orders_export_status(["14162751", "14161613"], false)
-            Order.set_export_status(["14162751", "14161613"], false)
+            stub.proxy(Services::OrderService).set_orders_export_status
+            Order.set_export_status(client_order_ids, false)
+            Services::OrderService.should have_received.set_orders_export_status(client_order_ids, false)
           end
 
           it "returns a hash with two client order IDs and boolean results" do
-            result = Order.set_export_status(["14162751", "14161613"], false)
-            result.should == {"14162751" => true, "14161613" => true}
+            results = Order.set_export_status(client_order_ids, false)
+            client_order_ids.each do |client_order_id|
+              results[client_order_id].should be_a_boolean
+            end
           end
         end
       end

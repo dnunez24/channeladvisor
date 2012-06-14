@@ -143,29 +143,35 @@ module ChannelAdvisor
       # Set the export status for the provided client order identifiers
       #
       # @param client_order_ids [String, Array<String>] An client order ID or array of client order IDs
-      # @param mark_as_exported [Boolean] `true` (`Exported`) or `false` (`NotExported`)
+      # @param mark_as_exported [boolean] `true` (`Exported`) or `false` (`NotExported`)
       #
       # @raise [ServiceFailure] If the service returns a Failure status
       # @raise [SOAPFault] If the service responds with a SOAP fault
       # @raise [HTTPError] If the service responds with an HTTP error
       #
-      # @return [Hash] Returns a hash of client order IDs and their corresponding boolean results
+      # @return [boolean, Hash] Returns a boolean result or hash of client order IDs and their corresponding boolean results
       def set_export_status(client_order_ids, mark_as_exported)
         handle_errors do
-          response = Services::OrderService.set_orders_export_status(client_order_ids, mark_as_exported)
+          client_order_id_list = arrayify client_order_ids
+          response = Services::OrderService.set_orders_export_status(client_order_id_list, mark_as_exported)
           result = response[:set_orders_export_status_response][:set_orders_export_status_result]
           check_status_of result
 
           bools = arrayify result[:result_data][:boolean]
-          result_hash = {}
 
-          bools.each do |bool|
-            client_order_ids.each do |client_order_id|
-              result_hash[client_order_id] = bool
+          if bools.count == 1
+            return bools.first
+          else
+            result_hash = {}
+
+            bools.each do |bool|
+              client_order_ids.each do |client_order_id|
+                result_hash[client_order_id] = bool
+              end
             end
-          end
 
-          return result_hash
+            return result_hash
+          end
         end
       end
     end
