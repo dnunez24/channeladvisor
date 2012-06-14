@@ -1,7 +1,7 @@
 require 'yaml'
 
 def sensitive_data
-  @sensitive_data ||= YAML.load_file("#{Dir.home}/.config/channeladvisor.yml")
+  @sensitive_data ||= YAML.load_file("#{ENV["HOME"]}/.config/channeladvisor.yml")
 end
 
 RSpec.configure do |config|
