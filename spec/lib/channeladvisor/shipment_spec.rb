@@ -148,7 +148,7 @@ module ChannelAdvisor
       end # with two shipments
 
       context "with a Failure status" do
-        use_vcr_cassette "responses/shipment/submit/failure", :exclusive => true
+        use_vcr_cassette "responses/shipment/submit/failure"
 
         it "raises a ServiceFailure error" do
           expect { Shipment.submit(original_shipment) }.to raise_error ServiceFailure
@@ -188,5 +188,70 @@ module ChannelAdvisor
         end
       end # with an HTTP error
     end # .submit
+
+    describe ".get_carriers" do
+      use_vcr_cassette "responses/shipment/get_carriers"
+
+      it "calls the get_shipping_carrier_list" do
+        stub.proxy(Services::ShippingService).get_shipping_carrier_list
+        Shipment.get_carriers
+        Services::ShippingService.should have_received.get_shipping_carrier_list
+      end
+
+      it "returns an array of shipping carrier hashes" do
+        results = Shipment.get_carriers
+        results.each do |carrier_data|
+          carrier_data.should include(
+            :carrier_id,
+            :class_id,
+            :carrier_name,
+            :carrier_code,
+            :class_code,
+            :class_name
+          )
+        end
+      end
+
+      context "with a Failure status" do
+        use_vcr_cassette "responses/shipment/get_carriers/failure", :exclusive => true
+
+        it "raises a ServiceFailure error" do
+          expect { Shipment.get_carriers }.to raise_error ServiceFailure
+        end
+      end
+
+      context "with a SOAP fault" do
+        use_vcr_cassette "responses/soap_fault", :match_requests_on => [:method]
+
+        it "raises a SOAP fault error" do
+          expect { Shipment.get_carriers }.to raise_error SOAPFault, "Server was unable to process request. Authentication failed."
+        end
+
+        it "stores the SOAP fault code" do
+          begin
+            Shipment.get_carriers
+          rescue SOAPFault => fault
+            fault.code.should == "soap:Server"
+          end
+        end
+      end # with a SOAP Fault
+
+      context "with an HTTP error" do
+        http_status = {:code => 500, :message => "Internal Server Error"}
+        use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status
+
+        it "raises an HTTP error" do
+          expect { Shipment.get_carriers }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"
+        end
+
+        it "stores the HTTP status code" do
+          begin
+            Shipment.get_carriers
+          rescue HTTPError => error
+            error.code.should == http_status[:code]
+          end
+        end
+      end # with an HTTP error
+    end # .get_carriers
   end # Shipment
 end # ChannelAdvisor

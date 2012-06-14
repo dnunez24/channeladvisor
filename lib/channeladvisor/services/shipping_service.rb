@@ -106,6 +106,13 @@ module ChannelAdvisor
           end
         end
 
+        def get_shipping_carrier_list
+          client.request :get_shipping_carrier_list do
+            soap.header = soap_header
+            soap.body = {"ins0:accountID" => creds(:account_id)}
+          end
+        end
+
       private
 
         def build_shipment(shipment)
@@ -150,7 +157,7 @@ module ChannelAdvisor
           end
 
           return order_shipment
-        end
+        end # build_shipment
       end # self
     end # ShippingService
   end # Services

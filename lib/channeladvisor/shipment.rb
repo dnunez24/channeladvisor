@@ -8,7 +8,7 @@ module ChannelAdvisor
       @tracking_number  = attrs[:tracking_number]
     end
 
-    # Submit shipments for one or more orders. When called with a single shipment the return 
+    # Submit shipments for one or more orders. When called with a single shipment the return
     # value will be a single boolean value, otherwise a hash of value will be returned.
     #
     # @param [Hash, Array<Hash>] shipment_data A shipment hash or array of shipment hashes
@@ -50,6 +50,15 @@ module ChannelAdvisor
           return result_hash
         end
       end
-    end
-  end
-end
+    end # self.submit
+
+    def self.get_carriers
+      handle_errors do
+        response = Services::ShippingService.get_shipping_carrier_list
+        result = response[:get_shipping_carrier_list_response][:get_shipping_carrier_list_result]
+        check_status_of result
+        arrayify result[:result_data][:shipping_carrier]
+      end
+    end # self.get_carriers
+  end # Shipment
+end # ChannelAdvisor

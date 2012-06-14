@@ -260,7 +260,29 @@ module ChannelAdvisor
             @last_request.should match_valid_xml_body_for "submit_order_shipment_list/with_partial_and_full_shipments"
           end
         end # with both full and partial shipments
-      end
+      end # .submit_order_shipment_list
+
+      describe ".get_shipping_carrier_list" do
+        use_vcr_cassette "responses/shipping_service/get_shipping_carrier_list", :allow_playback_repeats => true
+        before(:each) do
+          @last_request, @last_response = nil
+
+          ShippingService.client.config.hooks.define(:get_shipping_carrier_list, :soap_request) do |callback, request|
+            @last_request = request.http
+            @last_response = callback.call
+          end
+        end
+
+        it "sends a valid SOAP request" do
+          ShippingService.get_shipping_carrier_list
+          @last_request.should match_valid_xml_body_for :get_shipping_carrier_list
+        end
+
+        it "returns a SOAP response" do
+          soap_response = ShippingService.get_shipping_carrier_list
+          soap_response.should be_a Savon::SOAP::Response
+        end
+      end # .get_shipping_carrier_list
     end # ShippingService
   end # Services
 end # ChannelAdvisor

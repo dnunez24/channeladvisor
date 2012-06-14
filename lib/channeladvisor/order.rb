@@ -35,7 +35,7 @@ module ChannelAdvisor
           @shipments = arrayify(shipment_list[:shipment]).map { |s| Shipment.new(s) }
         end
       end
-    end
+    end # initialize
 
     # Set the export status for a given order instance
     #
@@ -53,7 +53,7 @@ module ChannelAdvisor
         check_status_of result
         return result[:result_data][:boolean]
       end
-    end
+    end # set_export_status
 
     def total_ship_cost
       invoice_ship_cost || items_ship_cost
@@ -81,7 +81,7 @@ module ChannelAdvisor
           result = response[:ping_response][:ping_result]
           check_status_of result
         end
-      end
+      end # ping
 
       # Retrieve a list of orders, restricted by the provided criteria
       #
@@ -138,7 +138,7 @@ module ChannelAdvisor
 
           return orders
         end
-      end
+      end # list
 
       # Set the export status for the provided client order identifiers
       #
@@ -173,7 +173,7 @@ module ChannelAdvisor
             return result_hash
           end
         end
-      end
-    end
+      end # set_export_status
+    end # self
   end # Order
 end # ChannelAdvisor
