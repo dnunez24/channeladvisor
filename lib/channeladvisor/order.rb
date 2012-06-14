@@ -142,7 +142,8 @@ module ChannelAdvisor
 
       # Set the export status for the provided client order identifiers
       #
-      # @param [Boolean] mark_as_exported `true` (`Exported`) or `false` (`NotExported`)
+      # @param client_order_ids [String, Array<String>] An client order ID or array of client order IDs
+      # @param mark_as_exported [Boolean] `true` (`Exported`) or `false` (`NotExported`)
       #
       # @raise [ServiceFailure] If the service returns a Failure status
       # @raise [SOAPFault] If the service responds with a SOAP fault

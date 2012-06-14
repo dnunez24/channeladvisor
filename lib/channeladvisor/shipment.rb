@@ -8,6 +8,16 @@ module ChannelAdvisor
       @tracking_number  = attrs[:tracking_number]
     end
 
+    # Submit shipments for one or more orders. When called with a single shipment the return 
+    # value will be a single boolean value, otherwise a hash of value will be returned.
+    #
+    # @param [Hash, Array<Hash>] shipment_data A shipment hash or array of shipment hashes
+    #
+    # @raise [ServiceFailure] If the service returns a Failure status
+    # @raise [SOAPFault] If the service responds with a SOAP fault
+    # @raise [HTTPError] If the service responds with an HTTP error
+    #
+    # @return [Boolean, Hash] Returns a boolean or a hash of order IDs and their corresponding boolean results
     def self.submit(shipment_data)
       handle_errors do
         shipments = arrayify(shipment_data)
@@ -30,28 +40,15 @@ module ChannelAdvisor
           return shipment_responses.first[:success]
         else
           result_hash = {}
+
           shipment_responses.each do |shipment_response|
             shipments.each do |shipment|
               result_hash[shipment[:order_id].to_s] = shipment_response[:success]
             end
           end
+
           return result_hash
         end
-
-        # if bools.is_a? Array
-        #   result_hash = {}
-
-        #   bools.each do |bool|
-        #     shipments.each do |shipment|
-        #       result_hash[shipment[:order_id]] = bool
-        #     end
-        #   end
-
-        #   return result_hash
-        # else
-        #   return bools
-        # end
-
       end
     end
   end
