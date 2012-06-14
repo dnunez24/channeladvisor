@@ -52,6 +52,13 @@ module ChannelAdvisor
       end
     end # self.submit
 
+    # Get a list of all valid shipping carriers and classes
+    #
+    # @raise [ServiceFailure] If the service returns a Failure status
+    # @raise [SOAPFault] If the service responds with a SOAP fault
+    # @raise [HTTPError] If the service responds with an HTTP error
+    #
+    # @return [Array<Hash>] An array of shipping carrier hashes
     def self.get_carriers
       handle_errors do
         response = Services::ShippingService.get_shipping_carrier_list
