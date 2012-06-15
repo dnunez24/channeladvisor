@@ -37,8 +37,45 @@ module ChannelAdvisor
             soap.header = soap_header
             soap.body = soap_body
           end
-        end
-      end
-    end
-  end
-end
+        end # update_inventory_item_quantity_and_price
+
+        def update_inventory_item_quantity_and_price_list(quantity_and_price_list)
+          soap_body = {
+            "ins0:accountID" => creds(:account_id),
+            "ins0:itemQuantityAndPriceList" => {
+              "ins0:InventoryItemQuantityAndPrice" => {
+                "ins0:Sku" => quantity_and_price_list.first[:sku]
+              }
+            }
+          }
+
+          item_quantity_and_price = soap_body["ins0:itemQuantityAndPriceList"]["ins0:InventoryItemQuantityAndPrice"]
+
+          if quantity_info = quantity_and_price_list.first[:quantity_info]
+            item_quantity_and_price["ins0:QuantityInfo"] = {
+              "ins0:UpdateType" => quantity_info[:update_type],
+              "ins0:Total"      => quantity_info[:total]
+            }
+          end
+
+          if price_info = quantity_and_price_list.first[:price_info]
+            item_quantity_and_price["ins0:PriceInfo"] = {
+              "ins0:Cost"                   => price_info[:cost],
+              "ins0:RetailPrice"            => price_info[:retail_price],
+              "ins0:StartingPrice"          => price_info[:starting_price],
+              "ins0:ReservePrice"           => price_info[:reserve_price],
+              "ins0:TakeItPrice"            => price_info[:take_it_price],
+              "ins0:SecondChanceOfferPrice" => price_info[:second_chance_offer_price],
+              "ins0:StorePrice"             => price_info[:store_price]
+            }
+          end
+
+          client.request :update_inventory_item_quantity_and_price_list do
+            soap.header = soap_header
+            soap.body = soap_body
+          end
+        end # update_inventory_item_quantity_and_price_list
+      end # self
+    end # InventoryService
+  end # Services
+end # ChannelAdvisor
