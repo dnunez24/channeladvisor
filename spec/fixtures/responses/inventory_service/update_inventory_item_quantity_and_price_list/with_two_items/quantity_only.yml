@@ -1,0 +1,191 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/InventoryService.asmx
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="UTF-8"?><env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://api.channeladvisor.com/webservices/"
+        xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ins0="http://api.channeladvisor.com/webservices/"><env:Header><ins0:APICredentials><ins0:DeveloperKey>$$DEVELOPER_KEY$$</ins0:DeveloperKey><ins0:Password>$$PASSWORD$$</ins0:Password></ins0:APICredentials></env:Header><env:Body><ins0:UpdateInventoryItemQuantityAndPriceList><ins0:accountID>$$ACCOUNT_ID$$</ins0:accountID><ins0:itemQuantityAndPriceList><ins0:InventoryItemQuantityAndPrice><ins0:Sku>FAKE001</ins0:Sku><ins0:QuantityInfo><ins0:UpdateType>Absolute</ins0:UpdateType><ins0:Total>5000</ins0:Total></ins0:QuantityInfo></ins0:InventoryItemQuantityAndPrice></ins0:itemQuantityAndPriceList></ins0:UpdateInventoryItemQuantityAndPriceList></env:Body></env:Envelope>
+    headers:
+      soapaction:
+      - ! '"http://api.channeladvisor.com/webservices/UpdateInventoryItemQuantityAndPriceList"'
+      content-type:
+      - text/xml;charset=UTF-8
+      content-length:
+      - '972'
+      accept:
+      - ! '*/*'
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Fri, 15 Jun 2012 21:31:43 GMT
+      server:
+      - Microsoft-IIS/6.0
+      x-servername:
+      - RDU-IISWEB-10
+      x-powered-by:
+      - ASP.NET
+      x-aspnet-version:
+      - 4.0.30319
+      cache-control:
+      - private, max-age=0
+      content-type:
+      - text/xml; charset=utf-8
+      content-length:
+      - '666'
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><UpdateInventoryItemQuantityAndPriceListResponse
+        xmlns="http://api.channeladvisor.com/webservices/"><UpdateInventoryItemQuantityAndPriceListResult><Status>Success</Status><MessageCode>0</MessageCode><ResultData><UpdateInventoryItemResponse><Sku>FAKE001</Sku><Result>true</Result></UpdateInventoryItemResponse></ResultData></UpdateInventoryItemQuantityAndPriceListResult></UpdateInventoryItemQuantityAndPriceListResponse></soap:Body></soap:Envelope>
+    http_version: '1.1'
+  recorded_at: Fri, 15 Jun 2012 21:31:43 GMT
+- request:
+    method: post
+    uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/InventoryService.asmx
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="UTF-8"?><env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://api.channeladvisor.com/webservices/"
+        xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ins0="http://api.channeladvisor.com/webservices/"><env:Header><ins0:APICredentials><ins0:DeveloperKey>$$DEVELOPER_KEY$$</ins0:DeveloperKey><ins0:Password>$$PASSWORD$$</ins0:Password></ins0:APICredentials></env:Header><env:Body><ins0:UpdateInventoryItemQuantityAndPriceList><ins0:accountID>$$ACCOUNT_ID$$</ins0:accountID><ins0:itemQuantityAndPriceList><ins0:InventoryItemQuantityAndPrice><ins0:Sku>FAKE001</ins0:Sku><ins0:QuantityInfo><ins0:UpdateType>Absolute</ins0:UpdateType><ins0:Total>5000</ins0:Total></ins0:QuantityInfo></ins0:InventoryItemQuantityAndPrice></ins0:itemQuantityAndPriceList></ins0:UpdateInventoryItemQuantityAndPriceList></env:Body></env:Envelope>
+    headers:
+      soapaction:
+      - ! '"http://api.channeladvisor.com/webservices/UpdateInventoryItemQuantityAndPriceList"'
+      content-type:
+      - text/xml;charset=UTF-8
+      content-length:
+      - '972'
+      accept:
+      - ! '*/*'
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Fri, 15 Jun 2012 21:31:43 GMT
+      server:
+      - Microsoft-IIS/6.0
+      x-servername:
+      - RDU-IISWEB-05
+      x-powered-by:
+      - ASP.NET
+      x-aspnet-version:
+      - 4.0.30319
+      cache-control:
+      - private, max-age=0
+      content-type:
+      - text/xml; charset=utf-8
+      content-length:
+      - '666'
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><UpdateInventoryItemQuantityAndPriceListResponse
+        xmlns="http://api.channeladvisor.com/webservices/"><UpdateInventoryItemQuantityAndPriceListResult><Status>Success</Status><MessageCode>0</MessageCode><ResultData><UpdateInventoryItemResponse><Sku>FAKE001</Sku><Result>true</Result></UpdateInventoryItemResponse></ResultData></UpdateInventoryItemQuantityAndPriceListResult></UpdateInventoryItemQuantityAndPriceListResponse></soap:Body></soap:Envelope>
+    http_version: '1.1'
+  recorded_at: Fri, 15 Jun 2012 21:31:44 GMT
+- request:
+    method: post
+    uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/InventoryService.asmx
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="UTF-8"?><env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://api.channeladvisor.com/webservices/"
+        xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ins0="http://api.channeladvisor.com/webservices/"><env:Header><ins0:APICredentials><ins0:DeveloperKey>$$DEVELOPER_KEY$$</ins0:DeveloperKey><ins0:Password>$$PASSWORD$$</ins0:Password></ins0:APICredentials></env:Header><env:Body><ins0:UpdateInventoryItemQuantityAndPriceList><ins0:accountID>$$ACCOUNT_ID$$</ins0:accountID><ins0:itemQuantityAndPriceList><ins0:InventoryItemQuantityAndPrice><ins0:Sku>FAKE001</ins0:Sku><ins0:QuantityInfo><ins0:UpdateType>Absolute</ins0:UpdateType><ins0:Total>5000</ins0:Total></ins0:QuantityInfo></ins0:InventoryItemQuantityAndPrice></ins0:itemQuantityAndPriceList></ins0:UpdateInventoryItemQuantityAndPriceList></env:Body></env:Envelope>
+    headers:
+      soapaction:
+      - ! '"http://api.channeladvisor.com/webservices/UpdateInventoryItemQuantityAndPriceList"'
+      content-type:
+      - text/xml;charset=UTF-8
+      content-length:
+      - '972'
+      accept:
+      - ! '*/*'
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Fri, 15 Jun 2012 21:31:45 GMT
+      server:
+      - Microsoft-IIS/6.0
+      x-servername:
+      - RDU-IISWEB-10
+      x-powered-by:
+      - ASP.NET
+      x-aspnet-version:
+      - 4.0.30319
+      cache-control:
+      - private, max-age=0
+      content-type:
+      - text/xml; charset=utf-8
+      content-length:
+      - '666'
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><UpdateInventoryItemQuantityAndPriceListResponse
+        xmlns="http://api.channeladvisor.com/webservices/"><UpdateInventoryItemQuantityAndPriceListResult><Status>Success</Status><MessageCode>0</MessageCode><ResultData><UpdateInventoryItemResponse><Sku>FAKE001</Sku><Result>true</Result></UpdateInventoryItemResponse></ResultData></UpdateInventoryItemQuantityAndPriceListResult></UpdateInventoryItemQuantityAndPriceListResponse></soap:Body></soap:Envelope>
+    http_version: '1.1'
+  recorded_at: Fri, 15 Jun 2012 21:31:45 GMT
+- request:
+    method: post
+    uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/InventoryService.asmx
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="UTF-8"?><env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://api.channeladvisor.com/webservices/"
+        xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ins0="http://api.channeladvisor.com/webservices/"><env:Header><ins0:APICredentials><ins0:DeveloperKey>$$DEVELOPER_KEY$$</ins0:DeveloperKey><ins0:Password>$$PASSWORD$$</ins0:Password></ins0:APICredentials></env:Header><env:Body><ins0:UpdateInventoryItemQuantityAndPriceList><ins0:accountID>$$ACCOUNT_ID$$</ins0:accountID><ins0:itemQuantityAndPriceList><ins0:InventoryItemQuantityAndPrice><ins0:Sku>FAKE001</ins0:Sku><ins0:QuantityInfo><ins0:UpdateType>Absolute</ins0:UpdateType><ins0:Total>5000</ins0:Total></ins0:QuantityInfo></ins0:InventoryItemQuantityAndPrice></ins0:itemQuantityAndPriceList></ins0:UpdateInventoryItemQuantityAndPriceList></env:Body></env:Envelope>
+    headers:
+      soapaction:
+      - ! '"http://api.channeladvisor.com/webservices/UpdateInventoryItemQuantityAndPriceList"'
+      content-type:
+      - text/xml;charset=UTF-8
+      content-length:
+      - '972'
+      accept:
+      - ! '*/*'
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Fri, 15 Jun 2012 21:31:46 GMT
+      server:
+      - Microsoft-IIS/6.0
+      x-servername:
+      - RDU-IISWEB-08
+      x-powered-by:
+      - ASP.NET
+      x-aspnet-version:
+      - 4.0.30319
+      cache-control:
+      - private, max-age=0
+      content-type:
+      - text/xml; charset=utf-8
+      content-length:
+      - '666'
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><UpdateInventoryItemQuantityAndPriceListResponse
+        xmlns="http://api.channeladvisor.com/webservices/"><UpdateInventoryItemQuantityAndPriceListResult><Status>Success</Status><MessageCode>0</MessageCode><ResultData><UpdateInventoryItemResponse><Sku>FAKE001</Sku><Result>true</Result></UpdateInventoryItemResponse></ResultData></UpdateInventoryItemQuantityAndPriceListResult></UpdateInventoryItemQuantityAndPriceListResponse></soap:Body></soap:Envelope>
+    http_version: '1.1'
+  recorded_at: Fri, 15 Jun 2012 21:31:46 GMT
+recorded_with: VCR 2.2.1

@@ -154,9 +154,38 @@ module ChannelAdvisor
         end # with one item
 
         context "with two items" do
+          context "with only quantity info" do
+            use_vcr_cassette "responses/inventory_service/update_inventory_item_quantity_and_price_list/with_two_items/quantity_only"
 
+            it "sends a valid SOAP request with only quantity info" do
+              item1.delete(:price_info)
+              item2.delete(:price_info)
+              InventoryService.update_inventory_item_quantity_and_price_list([item1, item2])
+              @last_request.should match_valid_xml_body_for "update_inventory_item_quantity_and_price_list/with_two_items/quantity_only"
+            end
+          end # with only quantity info
+
+          context "with only price info" do
+            use_vcr_cassette "responses/inventory_service/update_inventory_item_quantity_and_price_list/with_two_items/price_only"
+
+            it "sends a valid SOAP request with only price info" do
+              item1.delete(:quantity_info)
+              item2.delete(:quantity_info)
+              InventoryService.update_inventory_item_quantity_and_price_list([item1, item2])
+              @last_request.should match_valid_xml_body_for "update_inventory_item_quantity_and_price_list/with_two_items/price_only"
+            end
+          end # with only price info
+
+          context "with both quantity and price info" do
+            use_vcr_cassette "responses/inventory_service/update_inventory_item_quantity_and_price_list/with_two_items/quantity_and_price"
+
+            it "sends a valid SOAP request with both quantity and price info" do
+              InventoryService.update_inventory_item_quantity_and_price_list([item1, item2])
+              @last_request.should match_valid_xml_body_for "update_inventory_item_quantity_and_price_list/with_two_items/quantity_and_price"
+            end
+          end # with both quantity and price info
         end # with two items
-      end
+      end # .update_inventory_item_quantity_and_price_list
     end # InventoryService
   end # Services
 end # ChannelAdvisor
