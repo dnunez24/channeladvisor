@@ -4,6 +4,12 @@ module ChannelAdvisor
       document "https://api.channeladvisor.com/ChannelAdvisorAPI/v6/InventoryService.asmx?WSDL"
 
       class << self
+        def ping
+          client.request :ping do
+            soap.header = soap_header
+          end
+        end # ping
+
         def update_inventory_item_quantity_and_price(sku, quantity_and_price_info)
           soap_body = {
             "ins0:accountID" => creds(:account_id),

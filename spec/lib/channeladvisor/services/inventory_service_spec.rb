@@ -3,8 +3,31 @@ require 'spec_helper'
 module ChannelAdvisor
   module Services
     describe InventoryService do
+      describe ".ping" do
+        use_vcr_cassette "responses/inventory_service/ping", :allow_playback_repeats => true
+
+        before(:each) do
+          @last_request, @last_response = nil
+
+          InventoryService.client.config.hooks.define(:ping, :soap_request) do |callback, request|
+            @last_request = request.http
+            @last_response = callback.call
+          end
+        end
+
+        it "sends a valid SOAP request" do
+          InventoryService.ping
+          @last_request.should match_valid_xml_body_for :ping
+        end
+
+        it "returns a SOAP response" do
+          soap_response = InventoryService.ping
+          soap_response.should be_a Savon::SOAP::Response
+        end
+      end # .ping
+
       describe ".update_inventory_item_quantity_and_price" do
-        use_vcr_cassette "responses/inventory_service/update_inventory_item_quantity_and_price"
+        use_vcr_cassette "responses/inventory_service/update_inventory_item_quantity_and_price", :allow_playback_repeats => true
 
         let(:quantity_info) do
           {
@@ -68,7 +91,7 @@ module ChannelAdvisor
       end # .update_inventory_item_quantity_and_price
 
       describe ".update_inventory_item_quantity_and_price_list" do
-        use_vcr_cassette "responses/inventory_service/update_inventory_item_quantity_and_price_list"
+        use_vcr_cassette "responses/inventory_service/update_inventory_item_quantity_and_price_list", :allow_playback_repeats => true
 
         let(:item1) do
           {
