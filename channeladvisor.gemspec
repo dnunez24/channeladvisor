@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.summary     = %q{Ruby wrapper for the ChannelAdvisor API}
   s.description = %q{Provides an easy-to-use interface for making requests to the ChannelAdvisor API. Includes all methods for requesting and updating data via API version 6.}
 
+  s.required_ruby_version = ">= 1.9.2"
   s.rubyforge_project = "channeladvisor"
 
   s.files         = `git ls-files`.split("\n")
