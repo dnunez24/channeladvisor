@@ -27,7 +27,7 @@ module ChannelAdvisor
     end # .new
 
     describe ".submit" do
-      use_vcr_cassette "responses/shipment/submit"
+      use_vcr_cassette "responses/shipment/submit", :allow_playback_repeats => true
       before { stub.proxy(Services::ShippingService).submit_order_shipment_list }
 
       let(:original_shipment) do
@@ -115,7 +115,7 @@ module ChannelAdvisor
       end # with one shipment
 
       context "with two shipments" do
-        use_vcr_cassette "responses/shipment/submit/two_shipments"
+        use_vcr_cassette "responses/shipment/submit/two_shipments", :allow_playback_repeats => true
 
         let(:shipment1) { original_shipment.dup }
         let(:shipment2) do
@@ -148,7 +148,7 @@ module ChannelAdvisor
       end # with two shipments
 
       context "with a Failure status" do
-        use_vcr_cassette "responses/shipment/submit/failure"
+        use_vcr_cassette "responses/shipment/submit/failure", :allow_playback_repeats => true
 
         it "raises a ServiceFailure error" do
           expect { Shipment.submit(original_shipment) }.to raise_error ServiceFailure
@@ -156,7 +156,7 @@ module ChannelAdvisor
       end
 
       context "with a SOAP fault" do
-        use_vcr_cassette "responses/soap_fault", :match_requests_on => [:method]
+        use_vcr_cassette "responses/soap_fault", :match_requests_on => [:method], :allow_playback_repeats => true
 
         it "raises a SOAP fault error" do
           expect { Shipment.submit(original_shipment) }.to raise_error SOAPFault, "Server was unable to process request. Authentication failed."
@@ -173,7 +173,7 @@ module ChannelAdvisor
 
       context "with an HTTP error" do
         http_status = {:code => 500, :message => "Internal Server Error"}
-        use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status
+        use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status, :allow_playback_repeats => true
 
         it "raises an HTTP error" do
           expect { Shipment.submit(original_shipment) }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"
@@ -190,7 +190,7 @@ module ChannelAdvisor
     end # .submit
 
     describe ".get_carriers" do
-      use_vcr_cassette "responses/shipment/get_carriers"
+      use_vcr_cassette "responses/shipment/get_carriers", :allow_playback_repeats => true
 
       it "calls the get_shipping_carrier_list" do
         stub.proxy(Services::ShippingService).get_shipping_carrier_list
@@ -213,7 +213,7 @@ module ChannelAdvisor
       end
 
       context "with a Failure status" do
-        use_vcr_cassette "responses/shipment/get_carriers/failure", :exclusive => true
+        use_vcr_cassette "responses/shipment/get_carriers/failure", :allow_playback_repeats => true
 
         it "raises a ServiceFailure error" do
           expect { Shipment.get_carriers }.to raise_error ServiceFailure
@@ -221,7 +221,7 @@ module ChannelAdvisor
       end
 
       context "with a SOAP fault" do
-        use_vcr_cassette "responses/soap_fault", :match_requests_on => [:method]
+        use_vcr_cassette "responses/soap_fault", :match_requests_on => [:method], :allow_playback_repeats => true
 
         it "raises a SOAP fault error" do
           expect { Shipment.get_carriers }.to raise_error SOAPFault, "Server was unable to process request. Authentication failed."
@@ -238,7 +238,7 @@ module ChannelAdvisor
 
       context "with an HTTP error" do
         http_status = {:code => 500, :message => "Internal Server Error"}
-        use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status
+        use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status, :allow_playback_repeats => true
 
         it "raises an HTTP error" do
           expect { Shipment.get_carriers }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"
