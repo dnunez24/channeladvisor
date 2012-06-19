@@ -43,7 +43,7 @@ module ChannelAdvisor
 
 
       context "with one item" do
-        use_vcr_cassette "responses/inventory/update_quantity_and_price/with_one_item"
+        use_vcr_cassette "responses/inventory/update_quantity_and_price/with_one_item", :allow_playback_repeats => true
 
         it "sends a request to the inventory update service with one item" do
           stub.proxy(Services::InventoryService).update_inventory_item_quantity_and_price
@@ -58,7 +58,7 @@ module ChannelAdvisor
       end
 
       context "with two items" do
-        use_vcr_cassette "responses/inventory/update_quantity_and_price/with_two_items"
+        use_vcr_cassette "responses/inventory/update_quantity_and_price/with_two_items", :allow_playback_repeats => true
 
         it "sends a request to the inventory update service with two items" do
           stub.proxy(Services::InventoryService).update_inventory_item_quantity_and_price_list
@@ -78,7 +78,7 @@ module ChannelAdvisor
         end
 
         context "with all true results" do
-          use_vcr_cassette "responses/inventory/update_quantity_and_price/with_two_items/both_true", :exclusive => true
+          use_vcr_cassette "responses/inventory/update_quantity_and_price/with_two_items/both_true", :allow_playback_repeats => true
 
           it "returns a hash where false is an empty array" do
             results = {
@@ -91,7 +91,7 @@ module ChannelAdvisor
         end
 
         context "with all false results" do
-          use_vcr_cassette "responses/inventory/update_quantity_and_price/with_two_items/both_false", :exclusive => true
+          use_vcr_cassette "responses/inventory/update_quantity_and_price/with_two_items/both_false", :allow_playback_repeats => true
 
           it "returns a hash where true is an empty array" do
             results = {
@@ -105,7 +105,7 @@ module ChannelAdvisor
       end
 
       context "with a Failure status" do
-        use_vcr_cassette "responses/inventory/update_quantity_and_price/failure"
+        use_vcr_cassette "responses/inventory/update_quantity_and_price/failure", :allow_playback_repeats => true
 
         it "raises a ServiceFailure error" do
           expect { Inventory.update_quantity_and_price(item1) }.to raise_error ServiceFailure
@@ -113,7 +113,7 @@ module ChannelAdvisor
       end
 
       context "with a SOAP fault" do
-        use_vcr_cassette "responses/soap_fault", :match_requests_on => [:method]
+        use_vcr_cassette "responses/soap_fault", :match_requests_on => [:method], :allow_playback_repeats => true
 
         it "raises a SOAP fault error" do
           expect { Inventory.update_quantity_and_price(item1) }.to raise_error SOAPFault, "Server was unable to process request. Authentication failed."
@@ -130,7 +130,7 @@ module ChannelAdvisor
 
       context "with an HTTP error" do
         http_status = {:code => 500, :message => "Internal Server Error"}
-        use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status
+        use_vcr_cassette "responses/http_error", :match_requests_on => [:method], :erb => http_status, :allow_playback_repeats => true
 
         it "raises an HTTP error" do
           expect { Inventory.update_quantity_and_price(item1) }.to raise_error HTTPError, "Failed with HTTP error #{http_status[:code]}"
