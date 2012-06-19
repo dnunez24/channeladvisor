@@ -6,7 +6,7 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: <?xml version="1.0" encoding="UTF-8"?><env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wsdl="http://api.channeladvisor.com/webservices/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://api.channeladvisor.com/webservices/"
         xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ins0="http://api.channeladvisor.com/webservices/"
         xmlns:ins1="http://api.channeladvisor.com/datacontracts/orders"><env:Header><ins0:APICredentials><ins0:DeveloperKey>$$DEVELOPER_KEY$$</ins0:DeveloperKey><ins0:Password>$$PASSWORD$$</ins0:Password></ins0:APICredentials></env:Header><env:Body><ins0:SetOrdersExportStatus><ins0:accountID>$$ACCOUNT_ID$$</ins0:accountID><ins0:clientOrderIdentifiers><ins0:string>14162751</ins0:string><ins0:string>14161613</ins0:string></ins0:clientOrderIdentifiers><ins0:markAsExported>false</ins0:markAsExported></ins0:SetOrdersExportStatus></env:Body></env:Envelope>
     headers:
@@ -15,7 +15,7 @@ http_interactions:
       content-type:
       - text/xml;charset=UTF-8
       content-length:
-      - '903'
+      - '902'
       accept:
       - ! '*/*'
       user-agent:
@@ -26,11 +26,11 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Thu, 24 May 2012 05:09:28 GMT
+      - Mon, 18 Jun 2012 23:58:33 GMT
       server:
       - Microsoft-IIS/6.0
       x-servername:
-      - RDU-IISWEB-09
+      - RDU-IISWEB-11
       x-powered-by:
       - ASP.NET
       x-aspnet-version:
@@ -45,7 +45,7 @@ http_interactions:
       encoding: US-ASCII
       string: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><SetOrdersExportStatusResponse
-        xmlns="http://api.channeladvisor.com/webservices/"><SetOrdersExportStatusResult><Status>Success</Status><MessageCode>0</MessageCode><ResultData><boolean>true</boolean><boolean>false</boolean></ResultData></SetOrdersExportStatusResult></SetOrdersExportStatusResponse></soap:Body></soap:Envelope>
+        xmlns="http://api.channeladvisor.com/webservices/"><SetOrdersExportStatusResult><Status>Success</Status><MessageCode>0</MessageCode><ResultData><boolean>true</boolean><boolean>true</boolean></ResultData></SetOrdersExportStatusResult></SetOrdersExportStatusResponse></soap:Body></soap:Envelope>
     http_version: '1.1'
-  recorded_at: Thu, 24 May 2012 05:09:29 GMT
-recorded_with: VCR 2.1.1
+  recorded_at: Mon, 18 Jun 2012 23:58:33 GMT
+recorded_with: VCR 2.2.1

@@ -139,10 +139,40 @@ module ChannelAdvisor
           Services::ShippingService.should have_received.submit_order_shipment_list(shipments)
         end
 
-        it "returns hash of boolean results" do
-          results = Shipment.submit(shipments)
-          shipments.map { |shipment| shipment[:order_id].to_s }.each do |order_id|
-            results[order_id].should be_a_boolean
+        context "with a true and false result" do
+          it "returns hash of boolean results" do
+            result = {
+              false => [shipment1[:order_id]],
+              true => [shipment2[:order_id]]
+            }
+            response = Shipment.submit(shipments)
+            response.should == result
+          end
+        end
+
+        context "with all true results" do
+          use_vcr_cassette "responses/shipment/submit/two_shipments/both_true", :exclusive => true
+
+          it "returns a hash where false is an empty array" do
+            result = {
+              true => [shipment1[:order_id], shipment2[:order_id]],
+              false => []
+            }
+            response = Shipment.submit(shipments)
+            response.should == result
+          end
+        end
+
+        context "with all false results" do
+          use_vcr_cassette "responses/shipment/submit/two_shipments/both_false", :exclusive => true
+
+          it "returns a hash where true is an empty array" do
+            result = {
+              true => [],
+              false => [shipment1[:order_id], shipment2[:order_id]]
+            }
+            response = Shipment.submit(shipments)
+            response.should == result
           end
         end
       end # with two shipments

@@ -39,12 +39,13 @@ module ChannelAdvisor
         if shipment_responses.count == 1
           return shipment_responses.first[:success]
         else
-          result_hash = {}
+          result_hash = {
+            true => [],
+            false => []
+          }
 
-          shipment_responses.each do |shipment_response|
-            shipments.each do |shipment|
-              result_hash[shipment[:order_id].to_s] = shipment_response[:success]
-            end
+          shipment_responses.each_with_index do |shipment_response, i|
+            result_hash[shipment_response[:success]] << shipments[i][:order_id]
           end
 
           return result_hash

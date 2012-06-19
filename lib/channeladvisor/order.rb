@@ -162,12 +162,13 @@ module ChannelAdvisor
           if bools.count == 1
             return bools.first
           else
-            result_hash = {}
+            result_hash = {
+              true => [],
+              false => []
+            }
 
-            bools.each do |bool|
-              client_order_ids.each do |client_order_id|
-                result_hash[client_order_id] = bool
-              end
+            bools.each_with_index do |bool, i|
+              result_hash[bool] << client_order_ids[i]
             end
 
             return result_hash

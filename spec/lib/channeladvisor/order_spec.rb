@@ -567,11 +567,42 @@ module ChannelAdvisor
             Services::OrderService.should have_received.set_orders_export_status(client_order_ids, false)
           end
 
-          it "returns a hash with two client order IDs and boolean results" do
-            results = Order.set_export_status(client_order_ids, false)
-            client_order_ids.each do |client_order_id|
-              results[client_order_id].should be_a_boolean
+          context "with a true and false result" do
+            it "returns a hash with boolean results" do
+              result = {
+                true => [client_order_ids[0]],
+                false => [client_order_ids[1]]
+              }
+              response = Order.set_export_status(client_order_ids, false)
+              response.should == result
             end
+          end
+
+          context "with all true results" do
+            use_vcr_cassette "responses/order/set_export_status/success/with_two_client_order_ids/both_true"
+
+            it "returns a hash where false in an empty array" do
+              result = {
+                true => [client_order_ids[0], client_order_ids[1]],
+                false => []
+              }
+              response = Order.set_export_status(client_order_ids, false)
+              response.should == result
+            end
+          end
+
+          context "with all false results" do
+            use_vcr_cassette "responses/order/set_export_status/success/with_two_client_order_ids/both_false"
+
+            it "returns a hash where true is an empty array" do
+              result = {
+                true => [],
+                false => [client_order_ids[0], client_order_ids[1]]
+              }
+              response = Order.set_export_status(client_order_ids, false)
+              response.should == result
+            end
+            
           end
         end
       end
