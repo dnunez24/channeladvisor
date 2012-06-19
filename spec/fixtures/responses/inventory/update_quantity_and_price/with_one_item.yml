@@ -1,0 +1,1356 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/InventoryService.asmx?WSDL
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      accept:
+      - ! '*/*'
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Mon, 18 Jun 2012 16:40:24 GMT
+      server:
+      - Microsoft-IIS/6.0
+      x-servername:
+      - RDU-IISWEB-04
+      x-powered-by:
+      - ASP.NET
+      x-aspnet-version:
+      - 4.0.30319
+      cache-control:
+      - private, max-age=0
+      content-type:
+      - text/xml; charset=utf-8
+      content-length:
+      - '99544'
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<wsdl:definitions xmlns:soap=\"http://schemas.xmlsoap.org/wsdl/soap/\"
+        xmlns:tm=\"http://microsoft.com/wsdl/mime/textMatching/\" xmlns:soapenc=\"http://schemas.xmlsoap.org/soap/encoding/\"
+        xmlns:mime=\"http://schemas.xmlsoap.org/wsdl/mime/\" xmlns:tns=\"http://api.channeladvisor.com/webservices/\"
+        xmlns:s=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://schemas.xmlsoap.org/wsdl/soap12/\"
+        xmlns:http=\"http://schemas.xmlsoap.org/wsdl/http/\" targetNamespace=\"http://api.channeladvisor.com/webservices/\"
+        xmlns:wsdl=\"http://schemas.xmlsoap.org/wsdl/\">\r\n  <wsdl:types>\r\n    <s:schema
+        elementFormDefault=\"qualified\" targetNamespace=\"http://api.channeladvisor.com/webservices/\">\r\n
+        \     <s:element name=\"DoesSkuExist\">\r\n        <s:complexType>\r\n          <s:sequence>\r\n
+        \           <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"accountID\"
+        nillable=\"true\" type=\"s:string\" />\r\n            <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"sku\" nillable=\"true\" type=\"s:string\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"DoesSkuExistResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"DoesSkuExistResult\" type=\"tns:APIResultOfBoolean\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"APIResultOfBoolean\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Status\" type=\"tns:ResultStatus\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"MessageCode\"
+        type=\"s:int\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Message\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Data\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"ResultData\" type=\"s:boolean\" />\r\n
+        \       </s:sequence>\r\n      </s:complexType>\r\n      <s:simpleType name=\"ResultStatus\">\r\n
+        \       <s:restriction base=\"s:string\">\r\n          <s:enumeration value=\"Success\"
+        />\r\n          <s:enumeration value=\"Failure\" />\r\n        </s:restriction>\r\n
+        \     </s:simpleType>\r\n      <s:element name=\"APICredentials\" type=\"tns:APICredentials\"
+        />\r\n      <s:complexType name=\"APICredentials\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"DeveloperKey\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Password\" type=\"s:string\" />\r\n        </s:sequence>\r\n        <s:anyAttribute
+        />\r\n      </s:complexType>\r\n      <s:element name=\"DoesSkuExistList\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"accountID\" nillable=\"true\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"skuList\"
+        type=\"tns:ArrayOfString\" />\r\n          </s:sequence>\r\n        </s:complexType>\r\n
+        \     </s:element>\r\n      <s:complexType name=\"ArrayOfString\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"unbounded\" name=\"string\"
+        nillable=\"true\" type=\"s:string\" />\r\n        </s:sequence>\r\n      </s:complexType>\r\n
+        \     <s:element name=\"DoesSkuExistListResponse\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"DoesSkuExistListResult\" type=\"tns:APIResultOfArrayOfDoesSkuExistResponse\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"APIResultOfArrayOfDoesSkuExistResponse\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"Status\" type=\"tns:ResultStatus\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"MessageCode\" type=\"s:int\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Message\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Data\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\"
+        type=\"tns:ArrayOfDoesSkuExistResponse\" />\r\n        </s:sequence>\r\n      </s:complexType>\r\n
+        \     <s:complexType name=\"ArrayOfDoesSkuExistResponse\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"unbounded\" name=\"DoesSkuExistResponse\"
+        nillable=\"true\" type=\"tns:DoesSkuExistResponse\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"DoesSkuExistResponse\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Sku\" type=\"s:string\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"Result\" type=\"s:boolean\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"ErrorMessage\" type=\"s:string\" />\r\n
+        \       </s:sequence>\r\n      </s:complexType>\r\n      <s:element name=\"GetInventoryItemList\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"accountID\" nillable=\"true\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"skuList\"
+        type=\"tns:ArrayOfString\" />\r\n          </s:sequence>\r\n        </s:complexType>\r\n
+        \     </s:element>\r\n      <s:element name=\"GetInventoryItemListResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"GetInventoryItemListResult\" type=\"tns:APIResultOfArrayOfInventoryItemResponse\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"APIResultOfArrayOfInventoryItemResponse\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"Status\" type=\"tns:ResultStatus\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"MessageCode\" type=\"s:int\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Message\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Data\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\"
+        type=\"tns:ArrayOfInventoryItemResponse\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"ArrayOfInventoryItemResponse\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"unbounded\"
+        name=\"InventoryItemResponse\" nillable=\"true\" type=\"tns:InventoryItemResponse\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType
+        name=\"InventoryItemResponse\">\r\n        <s:sequence>\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Sku\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Title\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Subtitle\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ShortDescription\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Description\" type=\"s:string\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"Weight\" nillable=\"true\" type=\"s:double\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"SupplierCode\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"WarehouseLocation\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"TaxProductCode\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"FlagStyle\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"FlagDescription\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"IsBlocked\" nillable=\"true\" type=\"s:boolean\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"BlockComment\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ASIN\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ISBN\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"UPC\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"MPN\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"EAN\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Manufacturer\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Brand\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Condition\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Warranty\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"ProductMargin\"
+        nillable=\"true\" type=\"s:decimal\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"SupplierPO\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"ReceivedInInventory\" nillable=\"true\"
+        type=\"s:dateTime\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"HarmonizedCode\" type=\"s:string\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"Height\" nillable=\"true\" type=\"s:decimal\" />\r\n
+        \         <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Length\" nillable=\"true\"
+        type=\"s:decimal\" />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"Width\" nillable=\"true\" type=\"s:decimal\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Classification\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"QuantityInfo\"
+        type=\"tns:QuantityInfoResponse\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"PriceInfo\" type=\"tns:PriceInfo\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"AttributeList\" type=\"tns:ArrayOfAttributeInfo\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"VariationInfo\"
+        type=\"tns:VariationInfo\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"StoreInfo\" type=\"tns:StoreInfo\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"ImageList\" type=\"tns:ArrayOfImageInfoResponse\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ShippingInfo\"
+        type=\"tns:ShippingInfo\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"MetaDescription\" type=\"s:string\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"QuantityInfoResponse\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"Total\" type=\"s:int\" />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"Available\" type=\"s:int\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"Open\" type=\"s:int\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"PendingCheckout\" type=\"s:int\" />\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"PendingPayment\" type=\"s:int\" />\r\n
+        \         <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"PendingShipment\"
+        type=\"s:int\" />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"IsScheduled\" type=\"s:boolean\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"OpenPooled\" type=\"s:int\" />\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"PendingCheckoutPooled\" type=\"s:int\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"PendingPaymentPooled\"
+        type=\"s:int\" />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"PendingShipmentPooled\" type=\"s:int\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"TotalPooled\" type=\"s:int\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"PriceInfo\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Cost\" nillable=\"true\"
+        type=\"s:decimal\" />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"RetailPrice\" nillable=\"true\" type=\"s:decimal\" />\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"StartingPrice\" nillable=\"true\" type=\"s:decimal\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"ReservePrice\"
+        nillable=\"true\" type=\"s:decimal\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"TakeItPrice\" nillable=\"true\" type=\"s:decimal\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"SecondChanceOfferPrice\"
+        nillable=\"true\" type=\"s:decimal\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"StorePrice\" nillable=\"true\" type=\"s:decimal\" />\r\n
+        \       </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType name=\"ArrayOfAttributeInfo\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"unbounded\"
+        name=\"AttributeInfo\" nillable=\"true\" type=\"tns:AttributeInfo\" />\r\n
+        \       </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType name=\"AttributeInfo\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Name\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Value\" type=\"s:string\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"VariationInfo\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"IsInRelationship\" type=\"s:boolean\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"RelationshipName\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"IsParent\" type=\"s:boolean\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ParentSku\" type=\"s:string\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType
+        name=\"StoreInfo\">\r\n        <s:sequence>\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"DisplayInStore\" nillable=\"true\" type=\"s:boolean\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Title\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Description\" type=\"s:string\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"CategoryID\" nillable=\"true\" type=\"s:int\" />\r\n
+        \       </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType name=\"ArrayOfImageInfoResponse\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"unbounded\"
+        name=\"ImageInfoResponse\" nillable=\"true\" type=\"tns:ImageInfoResponse\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType
+        name=\"ImageInfoResponse\">\r\n        <s:sequence>\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"PlacementName\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"FolderName\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Url\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ImageThumbList\"
+        type=\"tns:ArrayOfImageThumbInfo\" />\r\n        </s:sequence>\r\n      </s:complexType>\r\n
+        \     <s:complexType name=\"ArrayOfImageThumbInfo\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"unbounded\" name=\"ImageThumbInfo\"
+        nillable=\"true\" type=\"tns:ImageThumbInfo\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"ImageThumbInfo\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"TypeName\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Url\" type=\"s:string\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"ShippingInfo\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"DistributionCenterCode\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"IsFBA\" type=\"s:boolean\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"ShippingRateList\" type=\"tns:ArrayOfShippingRateInfo\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType
+        name=\"ArrayOfShippingRateInfo\">\r\n        <s:sequence>\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"unbounded\" name=\"ShippingRateInfo\" nillable=\"true\"
+        type=\"tns:ShippingRateInfo\" />\r\n        </s:sequence>\r\n      </s:complexType>\r\n
+        \     <s:complexType name=\"ShippingRateInfo\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"DestinationZoneName\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"CarrierCode\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"ClassCode\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"FirstItemRate\" nillable=\"true\" type=\"s:decimal\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"AdditionalItemRate\"
+        nillable=\"true\" type=\"s:decimal\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"FirstItemHandlingRate\" nillable=\"true\" type=\"s:decimal\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"AdditionalItemHandlingRate\"
+        nillable=\"true\" type=\"s:decimal\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"FreeShippingIfBuyItNow\" type=\"s:boolean\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"FirstItemRateAttribute\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"FirstItemHandlingRateAttribute\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"AdditionalItemRateAttribute\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"AdditionalItemHandlingRateAttribute\"
+        type=\"s:string\" />\r\n        </s:sequence>\r\n      </s:complexType>\r\n
+        \     <s:element name=\"GetInventoryItemListWithFullDetail\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"accountID\" nillable=\"true\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"skuList\" type=\"tns:ArrayOfString\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"GetInventoryItemListWithFullDetailResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"GetInventoryItemListWithFullDetailResult\"
+        type=\"tns:APIResultOfArrayOfInventoryItemResponse\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"GetFilteredInventoryItemList\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"accountID\" nillable=\"true\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"itemCriteria\"
+        nillable=\"true\" type=\"tns:InventoryItemCriteria\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"detailLevel\" type=\"tns:InventoryItemDetailLevel\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"sortField\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"sortDirection\" type=\"s:string\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:complexType name=\"InventoryItemCriteria\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"DateRangeField\" type=\"s:string\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"DateRangeStartGMT\" nillable=\"true\" type=\"s:dateTime\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"DateRangeEndGMT\"
+        nillable=\"true\" type=\"s:dateTime\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"PartialSku\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"SkuStartsWith\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"SkuEndsWith\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"ClassificationName\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"LabelName\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"QuantityCheckField\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"QuantityCheckType\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"QuantityCheckValue\" nillable=\"true\" type=\"s:int\" />\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"PageNumber\" type=\"s:int\" />\r\n
+        \         <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"PageSize\" type=\"s:int\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType
+        name=\"InventoryItemDetailLevel\">\r\n        <s:sequence>\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"IncludeQuantityInfo\" nillable=\"true\"
+        type=\"s:boolean\" />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"IncludePriceInfo\" nillable=\"true\" type=\"s:boolean\" />\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"IncludeClassificationInfo\" nillable=\"true\"
+        type=\"s:boolean\" />\r\n        </s:sequence>\r\n      </s:complexType>\r\n
+        \     <s:element name=\"GetFilteredInventoryItemListResponse\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"GetFilteredInventoryItemListResult\" type=\"tns:APIResultOfArrayOfInventoryItemResponse\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"GetFilteredSkuList\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"accountID\" nillable=\"true\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"itemCriteria\" nillable=\"true\" type=\"tns:InventoryItemCriteria\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"sortField\"
+        type=\"s:string\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"sortDirection\" type=\"s:string\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"GetFilteredSkuListResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"GetFilteredSkuListResult\" type=\"tns:APIResultOfArrayOfString\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"APIResultOfArrayOfString\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Status\" type=\"tns:ResultStatus\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"MessageCode\"
+        type=\"s:int\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Message\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Data\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\" type=\"tns:ArrayOfString\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:element
+        name=\"GetInventoryItemShippingInfo\">\r\n        <s:complexType>\r\n          <s:sequence>\r\n
+        \           <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"accountID\"
+        nillable=\"true\" type=\"s:string\" />\r\n            <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"sku\" nillable=\"true\" type=\"s:string\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"GetInventoryItemShippingInfoResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"GetInventoryItemShippingInfoResult\"
+        type=\"tns:APIResultOfArrayOfShippingRateInfo\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:complexType name=\"APIResultOfArrayOfShippingRateInfo\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"Status\" type=\"tns:ResultStatus\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"MessageCode\" type=\"s:int\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Message\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Data\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\"
+        type=\"tns:ArrayOfShippingRateInfo\" />\r\n        </s:sequence>\r\n      </s:complexType>\r\n
+        \     <s:element name=\"GetInventoryItemQuantityInfo\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"accountID\" nillable=\"true\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"sku\" nillable=\"true\" type=\"s:string\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"GetInventoryItemQuantityInfoResponse\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"GetInventoryItemQuantityInfoResult\" type=\"tns:APIResultOfQuantityInfoResponse\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"APIResultOfQuantityInfoResponse\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Status\" type=\"tns:ResultStatus\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"MessageCode\"
+        type=\"s:int\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Message\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Data\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\" type=\"tns:QuantityInfoResponse\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:element
+        name=\"GetClassificationConfigurationInformation\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"accountID\" nillable=\"true\" type=\"s:string\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"GetClassificationConfigurationInformationResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"GetClassificationConfigurationInformationResult\"
+        type=\"tns:APIResultOfArrayOfClassificationConfigurationInformation\" />\r\n
+        \         </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"APIResultOfArrayOfClassificationConfigurationInformation\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"Status\" type=\"tns:ResultStatus\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"MessageCode\" type=\"s:int\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Message\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Data\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\"
+        type=\"tns:ArrayOfClassificationConfigurationInformation\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"ArrayOfClassificationConfigurationInformation\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"unbounded\"
+        name=\"ClassificationConfigurationInformation\" nillable=\"true\" type=\"tns:ClassificationConfigurationInformation\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType
+        name=\"ClassificationConfigurationInformation\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Name\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ClassificationConfigurationInformationAttributeArray\"
+        type=\"tns:ArrayOfClassificationConfigurationInformationAttribute\" />\r\n
+        \       </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType name=\"ArrayOfClassificationConfigurationInformationAttribute\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"unbounded\"
+        name=\"ClassificationConfigurationInformationAttribute\" nillable=\"true\"
+        type=\"tns:ClassificationConfigurationInformationAttribute\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"ClassificationConfigurationInformationAttribute\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Name\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"DefaultValue\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"ListOfChoices\" type=\"s:string\" />\r\n
+        \       </s:sequence>\r\n      </s:complexType>\r\n      <s:element name=\"GetInventoryItemAttributeList\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"accountID\" nillable=\"true\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"sku\"
+        nillable=\"true\" type=\"s:string\" />\r\n          </s:sequence>\r\n        </s:complexType>\r\n
+        \     </s:element>\r\n      <s:element name=\"GetInventoryItemAttributeListResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"GetInventoryItemAttributeListResult\"
+        type=\"tns:APIResultOfArrayOfAttributeInfo\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:complexType name=\"APIResultOfArrayOfAttributeInfo\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"Status\" type=\"tns:ResultStatus\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"MessageCode\" type=\"s:int\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Message\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Data\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\"
+        type=\"tns:ArrayOfAttributeInfo\" />\r\n        </s:sequence>\r\n      </s:complexType>\r\n
+        \     <s:element name=\"GetInventoryItemVariationInfo\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"accountID\" nillable=\"true\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"sku\" nillable=\"true\" type=\"s:string\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"GetInventoryItemVariationInfoResponse\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"GetInventoryItemVariationInfoResult\" type=\"tns:APIResultOfVariationInfo\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"APIResultOfVariationInfo\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Status\" type=\"tns:ResultStatus\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"MessageCode\"
+        type=\"s:int\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Message\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Data\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\" type=\"tns:VariationInfo\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:element
+        name=\"GetInventoryItemStoreInfo\">\r\n        <s:complexType>\r\n          <s:sequence>\r\n
+        \           <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"accountID\"
+        nillable=\"true\" type=\"s:string\" />\r\n            <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"sku\" nillable=\"true\" type=\"s:string\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"GetInventoryItemStoreInfoResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"GetInventoryItemStoreInfoResult\" type=\"tns:APIResultOfStoreInfo\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"APIResultOfStoreInfo\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Status\" type=\"tns:ResultStatus\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"MessageCode\"
+        type=\"s:int\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Message\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Data\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\" type=\"tns:StoreInfo\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:element
+        name=\"GetInventoryItemImageList\">\r\n        <s:complexType>\r\n          <s:sequence>\r\n
+        \           <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"accountID\"
+        nillable=\"true\" type=\"s:string\" />\r\n            <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"sku\" nillable=\"true\" type=\"s:string\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"GetInventoryItemImageListResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"GetInventoryItemImageListResult\" type=\"tns:APIResultOfArrayOfImageInfoResponse\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"APIResultOfArrayOfImageInfoResponse\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Status\" type=\"tns:ResultStatus\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"MessageCode\"
+        type=\"s:int\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Message\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Data\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\" type=\"tns:ArrayOfImageInfoResponse\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:element
+        name=\"GetInventoryQuantity\">\r\n        <s:complexType>\r\n          <s:sequence>\r\n
+        \           <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"accountID\"
+        nillable=\"true\" type=\"s:string\" />\r\n            <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"sku\" nillable=\"true\" type=\"s:string\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"GetInventoryQuantityResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"GetInventoryQuantityResult\" type=\"tns:APIResultOfInt32\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"APIResultOfInt32\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Status\" type=\"tns:ResultStatus\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"MessageCode\"
+        type=\"s:int\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Message\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Data\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"ResultData\" type=\"s:int\" />\r\n
+        \       </s:sequence>\r\n      </s:complexType>\r\n      <s:element name=\"GetInventoryQuantityList\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"accountID\" nillable=\"true\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"skuList\"
+        type=\"tns:ArrayOfString\" />\r\n          </s:sequence>\r\n        </s:complexType>\r\n
+        \     </s:element>\r\n      <s:element name=\"GetInventoryQuantityListResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"GetInventoryQuantityListResult\" type=\"tns:APIResultOfArrayOfInventoryQuantityResponse\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"APIResultOfArrayOfInventoryQuantityResponse\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"Status\" type=\"tns:ResultStatus\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"MessageCode\" type=\"s:int\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Message\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Data\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\"
+        type=\"tns:ArrayOfInventoryQuantityResponse\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"ArrayOfInventoryQuantityResponse\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"unbounded\"
+        name=\"InventoryQuantityResponse\" nillable=\"true\" type=\"tns:InventoryQuantityResponse\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType
+        name=\"InventoryQuantityResponse\">\r\n        <s:sequence>\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"SKU\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"Quantity\" type=\"s:int\" />\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"MessageCode\" type=\"s:int\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Message\" type=\"s:string\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:element
+        name=\"DeleteInventoryItem\">\r\n        <s:complexType>\r\n          <s:sequence>\r\n
+        \           <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"accountID\"
+        nillable=\"true\" type=\"s:string\" />\r\n            <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"sku\" nillable=\"true\" type=\"s:string\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"DeleteInventoryItemResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"DeleteInventoryItemResult\" type=\"tns:APIResultOfBoolean\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"SynchInventoryItem\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"accountID\" nillable=\"true\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"item\" nillable=\"true\" type=\"tns:InventoryItemSubmit\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"InventoryItemSubmit\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Sku\" nillable=\"true\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Title\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Subtitle\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"ShortDescription\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Description\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"Weight\" nillable=\"true\" type=\"s:double\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"SupplierCode\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"WarehouseLocation\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"TaxProductCode\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"FlagStyle\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"FlagDescription\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"IsBlocked\"
+        nillable=\"true\" type=\"s:boolean\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"BlockComment\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"ASIN\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"ISBN\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"UPC\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"MPN\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"EAN\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Manufacturer\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Brand\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Condition\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Warranty\" type=\"s:string\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"ProductMargin\" nillable=\"true\" type=\"s:decimal\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"SupplierPO\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"ReceivedInInventory\" nillable=\"true\" type=\"s:dateTime\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"HarmonizedCode\"
+        type=\"s:string\" />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"Height\" nillable=\"true\" type=\"s:decimal\" />\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"Length\" nillable=\"true\" type=\"s:decimal\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Width\"
+        nillable=\"true\" type=\"s:decimal\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Classification\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"QuantityInfo\" type=\"tns:QuantityInfoSubmit\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"PriceInfo\"
+        type=\"tns:PriceInfo\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"AttributeList\" type=\"tns:ArrayOfAttributeInfo\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"VariationInfo\" type=\"tns:VariationInfo\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"StoreInfo\"
+        type=\"tns:StoreInfo\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"ImageList\" type=\"tns:ArrayOfImageInfoSubmit\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"ShippingInfo\" type=\"tns:ShippingInfo\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"LabelList\"
+        type=\"tns:ArrayOfString\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"MetaDescription\" type=\"s:string\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"QuantityInfoSubmit\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"UpdateType\" type=\"s:string\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"Total\" type=\"s:int\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"ArrayOfImageInfoSubmit\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"unbounded\"
+        name=\"ImageInfoSubmit\" nillable=\"true\" type=\"tns:ImageInfoSubmit\" />\r\n
+        \       </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType name=\"ImageInfoSubmit\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"PlacementName\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"FolderName\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"FilenameOrUrl\" type=\"s:string\" />\r\n
+        \       </s:sequence>\r\n      </s:complexType>\r\n      <s:element name=\"SynchInventoryItemResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"SynchInventoryItemResult\" type=\"tns:APIResultOfBoolean\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"SynchInventoryItemList\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"accountID\" nillable=\"true\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"itemList\" type=\"tns:ArrayOfInventoryItemSubmit\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"ArrayOfInventoryItemSubmit\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"unbounded\" name=\"InventoryItemSubmit\"
+        nillable=\"true\" type=\"tns:InventoryItemSubmit\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:element name=\"SynchInventoryItemListResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"SynchInventoryItemListResult\" type=\"tns:APIResultOfArrayOfSynchInventoryItemResponse\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"APIResultOfArrayOfSynchInventoryItemResponse\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"Status\" type=\"tns:ResultStatus\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"MessageCode\" type=\"s:int\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Message\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Data\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\"
+        type=\"tns:ArrayOfSynchInventoryItemResponse\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"ArrayOfSynchInventoryItemResponse\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"unbounded\"
+        name=\"SynchInventoryItemResponse\" nillable=\"true\" type=\"tns:SynchInventoryItemResponse\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType
+        name=\"SynchInventoryItemResponse\">\r\n        <s:sequence>\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Sku\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"Result\" type=\"s:boolean\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ErrorMessage\"
+        type=\"s:string\" />\r\n        </s:sequence>\r\n      </s:complexType>\r\n
+        \     <s:element name=\"UpdateInventoryItemQuantityAndPrice\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"accountID\" nillable=\"true\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"itemQuantityAndPrice\" nillable=\"true\"
+        type=\"tns:InventoryItemQuantityAndPrice\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:complexType name=\"InventoryItemQuantityAndPrice\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Sku\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"QuantityInfo\" type=\"tns:QuantityInfoSubmit\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"PriceInfo\" type=\"tns:PriceInfo\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:element
+        name=\"UpdateInventoryItemQuantityAndPriceResponse\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"UpdateInventoryItemQuantityAndPriceResult\" type=\"tns:APIResultOfBoolean\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"UpdateInventoryItemQuantityAndPriceList\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"accountID\" nillable=\"true\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"itemQuantityAndPriceList\" type=\"tns:ArrayOfInventoryItemQuantityAndPrice\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"ArrayOfInventoryItemQuantityAndPrice\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"unbounded\" name=\"InventoryItemQuantityAndPrice\"
+        nillable=\"true\" type=\"tns:InventoryItemQuantityAndPrice\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:element name=\"UpdateInventoryItemQuantityAndPriceListResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"UpdateInventoryItemQuantityAndPriceListResult\"
+        type=\"tns:APIResultOfArrayOfUpdateInventoryItemResponse\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:complexType name=\"APIResultOfArrayOfUpdateInventoryItemResponse\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"Status\" type=\"tns:ResultStatus\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"MessageCode\" type=\"s:int\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Message\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Data\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\"
+        type=\"tns:ArrayOfUpdateInventoryItemResponse\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"ArrayOfUpdateInventoryItemResponse\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"unbounded\"
+        name=\"UpdateInventoryItemResponse\" nillable=\"true\" type=\"tns:UpdateInventoryItemResponse\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType
+        name=\"UpdateInventoryItemResponse\">\r\n        <s:sequence>\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Sku\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"Result\" type=\"s:boolean\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ErrorMessage\"
+        type=\"s:string\" />\r\n        </s:sequence>\r\n      </s:complexType>\r\n
+        \     <s:element name=\"AssignLabelListToInventoryItemList\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"accountID\" nillable=\"true\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"labelList\" type=\"tns:ArrayOfString\"
+        />\r\n            <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"createLabelIfNotExist\"
+        type=\"s:boolean\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"skuList\" type=\"tns:ArrayOfString\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"assignReasonDesc\" type=\"s:string\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"AssignLabelListToInventoryItemListResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"AssignLabelListToInventoryItemListResult\"
+        type=\"tns:APIResultOfBoolean\" />\r\n          </s:sequence>\r\n        </s:complexType>\r\n
+        \     </s:element>\r\n      <s:element name=\"RemoveLabelListFromInventoryItemList\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"accountID\" nillable=\"true\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"labelList\"
+        type=\"tns:ArrayOfString\" />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"skuList\" type=\"tns:ArrayOfString\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"removeReasonDesc\" type=\"s:string\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"RemoveLabelListFromInventoryItemListResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"RemoveLabelListFromInventoryItemListResult\"
+        type=\"tns:APIResultOfBoolean\" />\r\n          </s:sequence>\r\n        </s:complexType>\r\n
+        \     </s:element>\r\n      <s:element name=\"AddUpsellRelationship\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"accountID\" nillable=\"true\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"upsellInfoList\"
+        type=\"tns:ArrayOfInventoryUpsellInfoSubmit\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:complexType name=\"ArrayOfInventoryUpsellInfoSubmit\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"unbounded\"
+        name=\"InventoryUpsellInfoSubmit\" nillable=\"true\" type=\"tns:InventoryUpsellInfoSubmit\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType
+        name=\"InventoryUpsellInfoSubmit\">\r\n        <s:sequence>\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"ParentSKU\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ChildItemList\"
+        type=\"tns:ArrayOfInventoryUpsellChildInfo\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"ArrayOfInventoryUpsellChildInfo\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"unbounded\"
+        name=\"InventoryUpsellChildInfo\" nillable=\"true\" type=\"tns:InventoryUpsellChildInfo\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType
+        name=\"InventoryUpsellChildInfo\">\r\n        <s:sequence>\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"SKU\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"Quantity\" nillable=\"true\" type=\"s:int\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"SalePrice\"
+        nillable=\"true\" type=\"s:decimal\" />\r\n        </s:sequence>\r\n      </s:complexType>\r\n
+        \     <s:element name=\"AddUpsellRelationshipResponse\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"AddUpsellRelationshipResult\" type=\"tns:APIResultOfArrayOfArrayOfBoolean\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"APIResultOfArrayOfArrayOfBoolean\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Status\" type=\"tns:ResultStatus\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"MessageCode\"
+        type=\"s:int\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Message\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Data\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\" type=\"tns:ArrayOfArrayOfBoolean\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType
+        name=\"ArrayOfArrayOfBoolean\">\r\n        <s:sequence>\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"unbounded\" name=\"ArrayOfBoolean\" nillable=\"true\"
+        type=\"tns:ArrayOfBoolean\" />\r\n        </s:sequence>\r\n      </s:complexType>\r\n
+        \     <s:complexType name=\"ArrayOfBoolean\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"unbounded\" name=\"boolean\"
+        type=\"s:boolean\" />\r\n        </s:sequence>\r\n      </s:complexType>\r\n
+        \     <s:element name=\"GetUpsellRelationship\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"accountID\" nillable=\"true\" type=\"s:string\" />\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"parentSKUList\" type=\"tns:ArrayOfString\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:element name=\"GetUpsellRelationshipResponse\">\r\n        <s:complexType>\r\n
+        \         <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"GetUpsellRelationshipResult\" type=\"tns:APIResultOfArrayOfInventoryUpsellInfoResponse\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"APIResultOfArrayOfInventoryUpsellInfoResponse\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"Status\" type=\"tns:ResultStatus\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"MessageCode\" type=\"s:int\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Message\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Data\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\"
+        type=\"tns:ArrayOfInventoryUpsellInfoResponse\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:complexType name=\"ArrayOfInventoryUpsellInfoResponse\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"0\" maxOccurs=\"unbounded\"
+        name=\"InventoryUpsellInfoResponse\" nillable=\"true\" type=\"tns:InventoryUpsellInfoResponse\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:complexType
+        name=\"InventoryUpsellInfoResponse\">\r\n        <s:sequence>\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"ParentSKU\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ChildItemList\"
+        type=\"tns:ArrayOfInventoryUpsellChildInfo\" />\r\n        </s:sequence>\r\n
+        \     </s:complexType>\r\n      <s:element name=\"DeleteUpsellRelationship\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"1\" maxOccurs=\"1\" name=\"accountID\" nillable=\"true\" type=\"s:string\"
+        />\r\n            <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"parentSKU\"
+        nillable=\"true\" type=\"s:string\" />\r\n            <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"childSKUList\" type=\"tns:ArrayOfString\" />\r\n          </s:sequence>\r\n
+        \       </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"DeleteUpsellRelationshipResponse\">\r\n
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"DeleteUpsellRelationshipResult\" type=\"tns:APIResultOfArrayOfBoolean\"
+        />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n
+        \     <s:complexType name=\"APIResultOfArrayOfBoolean\">\r\n        <s:sequence>\r\n
+        \         <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Status\" type=\"tns:ResultStatus\"
+        />\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"MessageCode\"
+        type=\"s:int\" />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\"
+        name=\"Message\" type=\"s:string\" />\r\n          <s:element minOccurs=\"0\"
+        maxOccurs=\"1\" name=\"Data\" type=\"s:string\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\" type=\"tns:ArrayOfBoolean\"
+        />\r\n        </s:sequence>\r\n      </s:complexType>\r\n      <s:element
+        name=\"Ping\">\r\n        <s:complexType />\r\n      </s:element>\r\n      <s:element
+        name=\"PingResponse\">\r\n        <s:complexType>\r\n          <s:sequence>\r\n
+        \           <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"PingResult\"
+        type=\"tns:APIResultOfString\" />\r\n          </s:sequence>\r\n        </s:complexType>\r\n
+        \     </s:element>\r\n      <s:complexType name=\"APIResultOfString\">\r\n
+        \       <s:sequence>\r\n          <s:element minOccurs=\"1\" maxOccurs=\"1\"
+        name=\"Status\" type=\"tns:ResultStatus\" />\r\n          <s:element minOccurs=\"1\"
+        maxOccurs=\"1\" name=\"MessageCode\" type=\"s:int\" />\r\n          <s:element
+        minOccurs=\"0\" maxOccurs=\"1\" name=\"Message\" type=\"s:string\" />\r\n
+        \         <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Data\" type=\"s:string\"
+        />\r\n          <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ResultData\"
+        type=\"s:string\" />\r\n        </s:sequence>\r\n      </s:complexType>\r\n
+        \   </s:schema>\r\n  </wsdl:types>\r\n  <wsdl:message name=\"DoesSkuExistSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:DoesSkuExist\" />\r\n  </wsdl:message>\r\n
+        \ <wsdl:message name=\"DoesSkuExistSoapOut\">\r\n    <wsdl:part name=\"parameters\"
+        element=\"tns:DoesSkuExistResponse\" />\r\n  </wsdl:message>\r\n  <wsdl:message
+        name=\"DoesSkuExistAPICredentials\">\r\n    <wsdl:part name=\"APICredentials\"
+        element=\"tns:APICredentials\" />\r\n  </wsdl:message>\r\n  <wsdl:message
+        name=\"DoesSkuExistListSoapIn\">\r\n    <wsdl:part name=\"parameters\" element=\"tns:DoesSkuExistList\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"DoesSkuExistListSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:DoesSkuExistListResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"DoesSkuExistListAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemListSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryItemList\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemListSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryItemListResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemListAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemListWithFullDetailSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryItemListWithFullDetail\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemListWithFullDetailSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryItemListWithFullDetailResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemListWithFullDetailAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"GetFilteredInventoryItemListSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetFilteredInventoryItemList\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetFilteredInventoryItemListSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetFilteredInventoryItemListResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetFilteredInventoryItemListAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"GetFilteredSkuListSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetFilteredSkuList\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"GetFilteredSkuListSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetFilteredSkuListResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetFilteredSkuListAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemShippingInfoSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryItemShippingInfo\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemShippingInfoSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryItemShippingInfoResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemShippingInfoAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemQuantityInfoSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryItemQuantityInfo\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemQuantityInfoSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryItemQuantityInfoResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemQuantityInfoAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"GetClassificationConfigurationInformationSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetClassificationConfigurationInformation\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetClassificationConfigurationInformationSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetClassificationConfigurationInformationResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetClassificationConfigurationInformationAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemAttributeListSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryItemAttributeList\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemAttributeListSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryItemAttributeListResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemAttributeListAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemVariationInfoSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryItemVariationInfo\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemVariationInfoSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryItemVariationInfoResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemVariationInfoAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemStoreInfoSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryItemStoreInfo\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemStoreInfoSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryItemStoreInfoResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemStoreInfoAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemImageListSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryItemImageList\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemImageListSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryItemImageListResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryItemImageListAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryQuantitySoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryQuantity\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryQuantitySoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryQuantityResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryQuantityAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryQuantityListSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryQuantityList\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryQuantityListSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetInventoryQuantityListResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetInventoryQuantityListAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"DeleteInventoryItemSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:DeleteInventoryItem\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"DeleteInventoryItemSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:DeleteInventoryItemResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"DeleteInventoryItemAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"SynchInventoryItemSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:SynchInventoryItem\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"SynchInventoryItemSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:SynchInventoryItemResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"SynchInventoryItemAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"SynchInventoryItemListSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:SynchInventoryItemList\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"SynchInventoryItemListSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:SynchInventoryItemListResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"SynchInventoryItemListAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"UpdateInventoryItemQuantityAndPriceSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:UpdateInventoryItemQuantityAndPrice\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"UpdateInventoryItemQuantityAndPriceSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:UpdateInventoryItemQuantityAndPriceResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"UpdateInventoryItemQuantityAndPriceAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"UpdateInventoryItemQuantityAndPriceListSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:UpdateInventoryItemQuantityAndPriceList\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"UpdateInventoryItemQuantityAndPriceListSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:UpdateInventoryItemQuantityAndPriceListResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"UpdateInventoryItemQuantityAndPriceListAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"AssignLabelListToInventoryItemListSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:AssignLabelListToInventoryItemList\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"AssignLabelListToInventoryItemListSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:AssignLabelListToInventoryItemListResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"AssignLabelListToInventoryItemListAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"RemoveLabelListFromInventoryItemListSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:RemoveLabelListFromInventoryItemList\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"RemoveLabelListFromInventoryItemListSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:RemoveLabelListFromInventoryItemListResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"RemoveLabelListFromInventoryItemListAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"AddUpsellRelationshipSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:AddUpsellRelationship\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"AddUpsellRelationshipSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:AddUpsellRelationshipResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"AddUpsellRelationshipAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"GetUpsellRelationshipSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetUpsellRelationship\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"GetUpsellRelationshipSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:GetUpsellRelationshipResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"GetUpsellRelationshipAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"DeleteUpsellRelationshipSoapIn\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:DeleteUpsellRelationship\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"DeleteUpsellRelationshipSoapOut\">\r\n
+        \   <wsdl:part name=\"parameters\" element=\"tns:DeleteUpsellRelationshipResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"DeleteUpsellRelationshipAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:message name=\"PingSoapIn\">\r\n    <wsdl:part
+        name=\"parameters\" element=\"tns:Ping\" />\r\n  </wsdl:message>\r\n  <wsdl:message
+        name=\"PingSoapOut\">\r\n    <wsdl:part name=\"parameters\" element=\"tns:PingResponse\"
+        />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"PingAPICredentials\">\r\n
+        \   <wsdl:part name=\"APICredentials\" element=\"tns:APICredentials\" />\r\n
+        \ </wsdl:message>\r\n  <wsdl:portType name=\"InventoryServiceSoap\">\r\n    <wsdl:operation
+        name=\"DoesSkuExist\">\r\n      <wsdl:input message=\"tns:DoesSkuExistSoapIn\"
+        />\r\n      <wsdl:output message=\"tns:DoesSkuExistSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"DoesSkuExistList\">\r\n      <wsdl:input message=\"tns:DoesSkuExistListSoapIn\"
+        />\r\n      <wsdl:output message=\"tns:DoesSkuExistListSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemList\">\r\n      <wsdl:input message=\"tns:GetInventoryItemListSoapIn\"
+        />\r\n      <wsdl:output message=\"tns:GetInventoryItemListSoapOut\" />\r\n
+        \   </wsdl:operation>\r\n    <wsdl:operation name=\"GetInventoryItemListWithFullDetail\">\r\n
+        \     <wsdl:input message=\"tns:GetInventoryItemListWithFullDetailSoapIn\"
+        />\r\n      <wsdl:output message=\"tns:GetInventoryItemListWithFullDetailSoapOut\"
+        />\r\n    </wsdl:operation>\r\n    <wsdl:operation name=\"GetFilteredInventoryItemList\">\r\n
+        \     <wsdl:input message=\"tns:GetFilteredInventoryItemListSoapIn\" />\r\n
+        \     <wsdl:output message=\"tns:GetFilteredInventoryItemListSoapOut\" />\r\n
+        \   </wsdl:operation>\r\n    <wsdl:operation name=\"GetFilteredSkuList\">\r\n
+        \     <wsdl:input message=\"tns:GetFilteredSkuListSoapIn\" />\r\n      <wsdl:output
+        message=\"tns:GetFilteredSkuListSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemShippingInfo\">\r\n      <wsdl:input
+        message=\"tns:GetInventoryItemShippingInfoSoapIn\" />\r\n      <wsdl:output
+        message=\"tns:GetInventoryItemShippingInfoSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemQuantityInfo\">\r\n      <wsdl:input
+        message=\"tns:GetInventoryItemQuantityInfoSoapIn\" />\r\n      <wsdl:output
+        message=\"tns:GetInventoryItemQuantityInfoSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetClassificationConfigurationInformation\">\r\n
+        \     <wsdl:input message=\"tns:GetClassificationConfigurationInformationSoapIn\"
+        />\r\n      <wsdl:output message=\"tns:GetClassificationConfigurationInformationSoapOut\"
+        />\r\n    </wsdl:operation>\r\n    <wsdl:operation name=\"GetInventoryItemAttributeList\">\r\n
+        \     <wsdl:input message=\"tns:GetInventoryItemAttributeListSoapIn\" />\r\n
+        \     <wsdl:output message=\"tns:GetInventoryItemAttributeListSoapOut\" />\r\n
+        \   </wsdl:operation>\r\n    <wsdl:operation name=\"GetInventoryItemVariationInfo\">\r\n
+        \     <wsdl:input message=\"tns:GetInventoryItemVariationInfoSoapIn\" />\r\n
+        \     <wsdl:output message=\"tns:GetInventoryItemVariationInfoSoapOut\" />\r\n
+        \   </wsdl:operation>\r\n    <wsdl:operation name=\"GetInventoryItemStoreInfo\">\r\n
+        \     <wsdl:input message=\"tns:GetInventoryItemStoreInfoSoapIn\" />\r\n      <wsdl:output
+        message=\"tns:GetInventoryItemStoreInfoSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemImageList\">\r\n      <wsdl:input
+        message=\"tns:GetInventoryItemImageListSoapIn\" />\r\n      <wsdl:output message=\"tns:GetInventoryItemImageListSoapOut\"
+        />\r\n    </wsdl:operation>\r\n    <wsdl:operation name=\"GetInventoryQuantity\">\r\n
+        \     <wsdl:input message=\"tns:GetInventoryQuantitySoapIn\" />\r\n      <wsdl:output
+        message=\"tns:GetInventoryQuantitySoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryQuantityList\">\r\n      <wsdl:input
+        message=\"tns:GetInventoryQuantityListSoapIn\" />\r\n      <wsdl:output message=\"tns:GetInventoryQuantityListSoapOut\"
+        />\r\n    </wsdl:operation>\r\n    <wsdl:operation name=\"DeleteInventoryItem\">\r\n
+        \     <wsdl:input message=\"tns:DeleteInventoryItemSoapIn\" />\r\n      <wsdl:output
+        message=\"tns:DeleteInventoryItemSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"SynchInventoryItem\">\r\n      <wsdl:input message=\"tns:SynchInventoryItemSoapIn\"
+        />\r\n      <wsdl:output message=\"tns:SynchInventoryItemSoapOut\" />\r\n
+        \   </wsdl:operation>\r\n    <wsdl:operation name=\"SynchInventoryItemList\">\r\n
+        \     <wsdl:input message=\"tns:SynchInventoryItemListSoapIn\" />\r\n      <wsdl:output
+        message=\"tns:SynchInventoryItemListSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"UpdateInventoryItemQuantityAndPrice\">\r\n      <wsdl:input
+        message=\"tns:UpdateInventoryItemQuantityAndPriceSoapIn\" />\r\n      <wsdl:output
+        message=\"tns:UpdateInventoryItemQuantityAndPriceSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"UpdateInventoryItemQuantityAndPriceList\">\r\n
+        \     <wsdl:input message=\"tns:UpdateInventoryItemQuantityAndPriceListSoapIn\"
+        />\r\n      <wsdl:output message=\"tns:UpdateInventoryItemQuantityAndPriceListSoapOut\"
+        />\r\n    </wsdl:operation>\r\n    <wsdl:operation name=\"AssignLabelListToInventoryItemList\">\r\n
+        \     <wsdl:input message=\"tns:AssignLabelListToInventoryItemListSoapIn\"
+        />\r\n      <wsdl:output message=\"tns:AssignLabelListToInventoryItemListSoapOut\"
+        />\r\n    </wsdl:operation>\r\n    <wsdl:operation name=\"RemoveLabelListFromInventoryItemList\">\r\n
+        \     <wsdl:input message=\"tns:RemoveLabelListFromInventoryItemListSoapIn\"
+        />\r\n      <wsdl:output message=\"tns:RemoveLabelListFromInventoryItemListSoapOut\"
+        />\r\n    </wsdl:operation>\r\n    <wsdl:operation name=\"AddUpsellRelationship\">\r\n
+        \     <wsdl:input message=\"tns:AddUpsellRelationshipSoapIn\" />\r\n      <wsdl:output
+        message=\"tns:AddUpsellRelationshipSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetUpsellRelationship\">\r\n      <wsdl:input message=\"tns:GetUpsellRelationshipSoapIn\"
+        />\r\n      <wsdl:output message=\"tns:GetUpsellRelationshipSoapOut\" />\r\n
+        \   </wsdl:operation>\r\n    <wsdl:operation name=\"DeleteUpsellRelationship\">\r\n
+        \     <wsdl:input message=\"tns:DeleteUpsellRelationshipSoapIn\" />\r\n      <wsdl:output
+        message=\"tns:DeleteUpsellRelationshipSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"Ping\">\r\n      <wsdl:input message=\"tns:PingSoapIn\"
+        />\r\n      <wsdl:output message=\"tns:PingSoapOut\" />\r\n    </wsdl:operation>\r\n
+        \ </wsdl:portType>\r\n  <wsdl:binding name=\"InventoryServiceSoap\" type=\"tns:InventoryServiceSoap\">\r\n
+        \   <soap:binding transport=\"http://schemas.xmlsoap.org/soap/http\" />\r\n
+        \   <wsdl:operation name=\"DoesSkuExist\">\r\n      <soap:operation soapAction=\"http://api.channeladvisor.com/webservices/DoesSkuExist\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:DoesSkuExistAPICredentials\" part=\"APICredentials\"
+        use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body
+        use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"DoesSkuExistList\">\r\n      <soap:operation soapAction=\"http://api.channeladvisor.com/webservices/DoesSkuExistList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:DoesSkuExistListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemList\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryItemList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:GetInventoryItemListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemListWithFullDetail\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryItemListWithFullDetail\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:GetInventoryItemListWithFullDetailAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetFilteredInventoryItemList\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetFilteredInventoryItemList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:GetFilteredInventoryItemListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetFilteredSkuList\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetFilteredSkuList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:GetFilteredSkuListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemShippingInfo\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryItemShippingInfo\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:GetInventoryItemShippingInfoAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemQuantityInfo\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryItemQuantityInfo\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:GetInventoryItemQuantityInfoAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetClassificationConfigurationInformation\">\r\n
+        \     <soap:operation soapAction=\"http://api.channeladvisor.com/webservices/GetClassificationConfigurationInformation\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:GetClassificationConfigurationInformationAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemAttributeList\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryItemAttributeList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:GetInventoryItemAttributeListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemVariationInfo\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryItemVariationInfo\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:GetInventoryItemVariationInfoAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemStoreInfo\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryItemStoreInfo\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:GetInventoryItemStoreInfoAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemImageList\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryItemImageList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:GetInventoryItemImageListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryQuantity\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryQuantity\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:GetInventoryQuantityAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryQuantityList\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryQuantityList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:GetInventoryQuantityListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"DeleteInventoryItem\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/DeleteInventoryItem\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:DeleteInventoryItemAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"SynchInventoryItem\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/SynchInventoryItem\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:SynchInventoryItemAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"SynchInventoryItemList\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/SynchInventoryItemList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:SynchInventoryItemListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"UpdateInventoryItemQuantityAndPrice\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/UpdateInventoryItemQuantityAndPrice\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:UpdateInventoryItemQuantityAndPriceAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"UpdateInventoryItemQuantityAndPriceList\">\r\n
+        \     <soap:operation soapAction=\"http://api.channeladvisor.com/webservices/UpdateInventoryItemQuantityAndPriceList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:UpdateInventoryItemQuantityAndPriceListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"AssignLabelListToInventoryItemList\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/AssignLabelListToInventoryItemList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:AssignLabelListToInventoryItemListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"RemoveLabelListFromInventoryItemList\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/RemoveLabelListFromInventoryItemList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:RemoveLabelListFromInventoryItemListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"AddUpsellRelationship\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/AddUpsellRelationship\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:AddUpsellRelationshipAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetUpsellRelationship\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetUpsellRelationship\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:GetUpsellRelationshipAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"DeleteUpsellRelationship\">\r\n      <soap:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/DeleteUpsellRelationship\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:DeleteUpsellRelationshipAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"Ping\">\r\n      <soap:operation soapAction=\"http://api.channeladvisor.com/webservices/Ping\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap:body use=\"literal\"
+        />\r\n        <soap:header message=\"tns:PingAPICredentials\" part=\"APICredentials\"
+        use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap:body
+        use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n  </wsdl:binding>\r\n
+        \ <wsdl:binding name=\"InventoryServiceSoap12\" type=\"tns:InventoryServiceSoap\">\r\n
+        \   <soap12:binding transport=\"http://schemas.xmlsoap.org/soap/http\" />\r\n
+        \   <wsdl:operation name=\"DoesSkuExist\">\r\n      <soap12:operation soapAction=\"http://api.channeladvisor.com/webservices/DoesSkuExist\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:DoesSkuExistAPICredentials\" part=\"APICredentials\"
+        use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body
+        use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation
+        name=\"DoesSkuExistList\">\r\n      <soap12:operation soapAction=\"http://api.channeladvisor.com/webservices/DoesSkuExistList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:DoesSkuExistListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemList\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryItemList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:GetInventoryItemListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemListWithFullDetail\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryItemListWithFullDetail\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:GetInventoryItemListWithFullDetailAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetFilteredInventoryItemList\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetFilteredInventoryItemList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:GetFilteredInventoryItemListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetFilteredSkuList\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetFilteredSkuList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:GetFilteredSkuListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemShippingInfo\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryItemShippingInfo\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:GetInventoryItemShippingInfoAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemQuantityInfo\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryItemQuantityInfo\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:GetInventoryItemQuantityInfoAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetClassificationConfigurationInformation\">\r\n
+        \     <soap12:operation soapAction=\"http://api.channeladvisor.com/webservices/GetClassificationConfigurationInformation\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:GetClassificationConfigurationInformationAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemAttributeList\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryItemAttributeList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:GetInventoryItemAttributeListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemVariationInfo\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryItemVariationInfo\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:GetInventoryItemVariationInfoAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemStoreInfo\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryItemStoreInfo\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:GetInventoryItemStoreInfoAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryItemImageList\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryItemImageList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:GetInventoryItemImageListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryQuantity\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryQuantity\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:GetInventoryQuantityAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetInventoryQuantityList\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetInventoryQuantityList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:GetInventoryQuantityListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"DeleteInventoryItem\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/DeleteInventoryItem\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:DeleteInventoryItemAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"SynchInventoryItem\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/SynchInventoryItem\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:SynchInventoryItemAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"SynchInventoryItemList\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/SynchInventoryItemList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:SynchInventoryItemListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"UpdateInventoryItemQuantityAndPrice\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/UpdateInventoryItemQuantityAndPrice\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:UpdateInventoryItemQuantityAndPriceAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"UpdateInventoryItemQuantityAndPriceList\">\r\n
+        \     <soap12:operation soapAction=\"http://api.channeladvisor.com/webservices/UpdateInventoryItemQuantityAndPriceList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:UpdateInventoryItemQuantityAndPriceListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"AssignLabelListToInventoryItemList\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/AssignLabelListToInventoryItemList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:AssignLabelListToInventoryItemListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"RemoveLabelListFromInventoryItemList\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/RemoveLabelListFromInventoryItemList\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:RemoveLabelListFromInventoryItemListAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"AddUpsellRelationship\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/AddUpsellRelationship\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:AddUpsellRelationshipAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"GetUpsellRelationship\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/GetUpsellRelationship\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:GetUpsellRelationshipAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"DeleteUpsellRelationship\">\r\n      <soap12:operation
+        soapAction=\"http://api.channeladvisor.com/webservices/DeleteUpsellRelationship\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:DeleteUpsellRelationshipAPICredentials\"
+        part=\"APICredentials\" use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n
+        \       <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n
+        \   <wsdl:operation name=\"Ping\">\r\n      <soap12:operation soapAction=\"http://api.channeladvisor.com/webservices/Ping\"
+        style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"literal\"
+        />\r\n        <soap12:header message=\"tns:PingAPICredentials\" part=\"APICredentials\"
+        use=\"literal\" />\r\n      </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body
+        use=\"literal\" />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n  </wsdl:binding>\r\n
+        \ <wsdl:service name=\"InventoryService\">\r\n    <wsdl:port name=\"InventoryServiceSoap\"
+        binding=\"tns:InventoryServiceSoap\">\r\n      <soap:address location=\"https://api.channeladvisor.com/ChannelAdvisorAPI/v6/InventoryService.asmx\"
+        />\r\n    </wsdl:port>\r\n    <wsdl:port name=\"InventoryServiceSoap12\" binding=\"tns:InventoryServiceSoap12\">\r\n
+        \     <soap12:address location=\"https://api.channeladvisor.com/ChannelAdvisorAPI/v6/InventoryService.asmx\"
+        />\r\n    </wsdl:port>\r\n  </wsdl:service>\r\n</wsdl:definitions>"
+    http_version: '1.1'
+  recorded_at: Mon, 18 Jun 2012 16:40:24 GMT
+- request:
+    method: post
+    uri: https://api.channeladvisor.com/ChannelAdvisorAPI/v6/InventoryService.asmx
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="UTF-8"?><env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://api.channeladvisor.com/webservices/"
+        xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ins0="http://api.channeladvisor.com/webservices/"><env:Header><ins0:APICredentials><ins0:DeveloperKey>$$DEVELOPER_KEY$$</ins0:DeveloperKey><ins0:Password>$$PASSWORD$$</ins0:Password></ins0:APICredentials></env:Header><env:Body><ins0:UpdateInventoryItemQuantityAndPrice><ins0:accountID>$$ACCOUNT_ID$$</ins0:accountID><ins0:itemQuantityAndPrice><ins0:Sku>FAKE001</ins0:Sku><ins0:QuantityInfo><ins0:UpdateType>Absolute</ins0:UpdateType><ins0:Total>5000</ins0:Total></ins0:QuantityInfo><ins0:PriceInfo><ins0:Cost>2.99</ins0:Cost><ins0:RetailPrice>11.99</ins0:RetailPrice><ins0:StartingPrice>5.99</ins0:StartingPrice><ins0:ReservePrice>7.99</ins0:ReservePrice><ins0:TakeItPrice>9.99</ins0:TakeItPrice><ins0:SecondChanceOfferPrice>8.99</ins0:SecondChanceOfferPrice><ins0:StorePrice>9.49</ins0:StorePrice></ins0:PriceInfo></ins0:itemQuantityAndPrice></ins0:UpdateInventoryItemQuantityAndPrice></env:Body></env:Envelope>
+    headers:
+      soapaction:
+      - ! '"http://api.channeladvisor.com/webservices/UpdateInventoryItemQuantityAndPrice"'
+      content-type:
+      - text/xml;charset=UTF-8
+      content-length:
+      - '1216'
+      accept:
+      - ! '*/*'
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Mon, 18 Jun 2012 16:40:26 GMT
+      server:
+      - Microsoft-IIS/6.0
+      x-servername:
+      - RDU-IISWEB-04
+      x-powered-by:
+      - ASP.NET
+      x-aspnet-version:
+      - 4.0.30319
+      cache-control:
+      - private, max-age=0
+      content-type:
+      - text/xml; charset=utf-8
+      content-length:
+      - '556'
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><UpdateInventoryItemQuantityAndPriceResponse
+        xmlns="http://api.channeladvisor.com/webservices/"><UpdateInventoryItemQuantityAndPriceResult><Status>Success</Status><MessageCode>0</MessageCode><ResultData>true</ResultData></UpdateInventoryItemQuantityAndPriceResult></UpdateInventoryItemQuantityAndPriceResponse></soap:Body></soap:Envelope>
+    http_version: '1.1'
+  recorded_at: Mon, 18 Jun 2012 16:40:26 GMT
+recorded_with: VCR 2.2.1

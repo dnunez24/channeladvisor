@@ -29,22 +29,22 @@ module ChannelAdvisor
       describe ".update_inventory_item_quantity_and_price" do
         use_vcr_cassette "responses/inventory_service/update_inventory_item_quantity_and_price", :allow_playback_repeats => true
 
-        let(:quantity_info) do
+        let(:item) do
           {
-            :update_type  => "Absolute",
-            :total        => 5000
-          }
-        end
-
-        let(:price_info) do
-          {
-            :cost                       => 2.99,
-            :retail_price               => 11.99,
-            :starting_price             => 5.99,
-            :reserve_price              => 7.99,
-            :take_it_price              => 9.99,
-            :second_chance_offer_price  => 8.99,
-            :store_price                => 9.49
+            :sku => "FAKE001",
+            :quantity_info => {
+              :update_type  => "Absolute",
+              :total        => 5000
+            },
+            :price_info => {
+              :cost                       => 2.99,
+              :retail_price               => 11.99,
+              :starting_price             => 5.99,
+              :reserve_price              => 7.99,
+              :take_it_price              => 9.99,
+              :second_chance_offer_price  => 8.99,
+              :store_price                => 9.49
+            }
           }
         end
 
@@ -58,7 +58,7 @@ module ChannelAdvisor
         end
 
         it "returns a SOAP response" do
-          soap_response = InventoryService.update_inventory_item_quantity_and_price("FAKE001", :quantity_info => quantity_info, :price_info => price_info)
+          soap_response = InventoryService.update_inventory_item_quantity_and_price(item)
           soap_response.should be_a Savon::SOAP::Response
         end # returns a SOAP response
 
@@ -66,7 +66,8 @@ module ChannelAdvisor
           use_vcr_cassette "responses/inventory_service/update_inventory_item_quantity_and_price/quantity_only"
 
           it "sends a valid SOAP request with only quantity info" do
-            InventoryService.update_inventory_item_quantity_and_price("FAKE001", :quantity_info => quantity_info)
+            item.delete(:price_info)
+            InventoryService.update_inventory_item_quantity_and_price(item)
             @last_request.should match_valid_xml_body_for :update_item_quantity
           end
         end # with only quantity info
@@ -75,7 +76,8 @@ module ChannelAdvisor
           use_vcr_cassette "responses/inventory_service/update_inventory_item_quantity_and_price/price_only"
 
           it "sends a valid SOAP request with only price info" do
-            InventoryService.update_inventory_item_quantity_and_price("FAKE001", :price_info => price_info)
+            item.delete(:quantity_info)
+            InventoryService.update_inventory_item_quantity_and_price(item)
             @last_request.should match_valid_xml_body_for :update_item_price
           end
         end # with only price info
@@ -84,7 +86,7 @@ module ChannelAdvisor
           use_vcr_cassette "responses/inventory_service/update_inventory_item_quantity_and_price/quantity_and_price"
 
           it "sends a valid SOAP request with both quantity and price info" do
-            InventoryService.update_inventory_item_quantity_and_price("FAKE001", :quantity_info => quantity_info, :price_info => price_info)
+            InventoryService.update_inventory_item_quantity_and_price(item)
             @last_request.should match_valid_xml_body_for :update_item_quantity_and_price
           end
         end # with both quantity and price info

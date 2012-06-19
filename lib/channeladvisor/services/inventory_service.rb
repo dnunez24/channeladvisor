@@ -10,24 +10,24 @@ module ChannelAdvisor
           end
         end # ping
 
-        def update_inventory_item_quantity_and_price(sku, quantity_and_price_info)
+        def update_inventory_item_quantity_and_price(item_info)
           soap_body = {
             "ins0:accountID" => creds(:account_id),
             "ins0:itemQuantityAndPrice" => {
-              "ins0:Sku" => sku
+              "ins0:Sku" => item_info[:sku]
             }
           }
 
           item_quantity_and_price = soap_body["ins0:itemQuantityAndPrice"]
 
-          if quantity_info = quantity_and_price_info[:quantity_info]
+          if quantity_info = item_info[:quantity_info]
             item_quantity_and_price["ins0:QuantityInfo"] = {
               "ins0:UpdateType" => quantity_info[:update_type],
               "ins0:Total"      => quantity_info[:total]
             }
           end
 
-          if price_info = quantity_and_price_info[:price_info]
+          if price_info = item_info[:price_info]
             item_quantity_and_price["ins0:PriceInfo"] = {
               "ins0:Cost"                   => price_info[:cost],
               "ins0:RetailPrice"            => price_info[:retail_price],
