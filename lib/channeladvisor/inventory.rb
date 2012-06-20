@@ -1,5 +1,13 @@
 module ChannelAdvisor
   class Inventory < Base
+
+    # Update the quantity and/or price data for inventory items
+    #
+    # @raise [ServiceFailure] If the service returns a Failure status
+    # @raise [SOAPFault] If the service responds with a SOAP fault
+    # @raise [HTTPError] If the service responds with an HTTP error
+    #
+    # @return [Hash] A hash with true/false keys corresponding to an array of SKUs that returned the given result
     def self.update_quantity_and_price(*items)
       handle_errors do
         if items.count > 1
@@ -21,7 +29,7 @@ module ChannelAdvisor
         }
 
         result_data[:update_inventory_item_response].each do |item|
-          result_hash[item[:result]] << item[:sku] 
+          result_hash[item[:result]] << item[:sku]
         end
 
         return result_hash

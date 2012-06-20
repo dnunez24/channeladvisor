@@ -149,7 +149,7 @@ module ChannelAdvisor
       # @raise [SOAPFault] If the service responds with a SOAP fault
       # @raise [HTTPError] If the service responds with an HTTP error
       #
-      # @return [boolean, Hash] Returns a boolean result or hash of client order IDs and their corresponding boolean results
+      # @return [boolean, Hash] A boolean (single order) or hash with true/false keys corresponding to an array of client order IDs that returned the given result
       def set_export_status(client_order_ids, mark_as_exported)
         handle_errors do
           client_order_id_list = arrayify client_order_ids

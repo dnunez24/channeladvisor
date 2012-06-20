@@ -17,7 +17,7 @@ module ChannelAdvisor
     # @raise [SOAPFault] If the service responds with a SOAP fault
     # @raise [HTTPError] If the service responds with an HTTP error
     #
-    # @return [Boolean, Hash] Returns a boolean or a hash of order IDs and their corresponding boolean results
+    # @return [Boolean, Hash] A boolean (single shipment) or hash with true/false keys corresponding to an array of order IDs that returned the given result
     def self.submit(shipment_data)
       handle_errors do
         shipments = arrayify(shipment_data)
