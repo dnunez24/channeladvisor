@@ -78,27 +78,27 @@ module ChannelAdvisor
         end
 
         context "without a ship cost" do
-          it "sends a shipment with a shipping cost of 0.00" do
+          it "sends a shipment cost that is nil" do
             original_shipment.delete(:cost)
-            actual_shipment[:cost] = "0.00"
+            actual_shipment[:cost] = nil
             Shipment.submit(original_shipment)
             Services::ShippingService.should have_received.submit_order_shipment_list([actual_shipment])
           end
         end
 
         context "without a tax cost" do
-          it "sends a shipment with a tax cost of 0.00" do
+          it "sends a shipment with a tax cost of nil" do
             original_shipment.delete(:tax)
-            actual_shipment[:tax] = "0.00"
+            actual_shipment[:tax] = nil
             Shipment.submit(original_shipment)
             Services::ShippingService.should have_received.submit_order_shipment_list([actual_shipment])
           end
         end
 
         context "without an insurance cost" do
-          it "sends a shipment with an insurance cost of 0.00" do
+          it "sends a shipment with an insurance cost of nil" do
             original_shipment.delete(:insurance)
-            actual_shipment[:insurance] = "0.00"
+            actual_shipment[:insurance] = nil
             Shipment.submit(original_shipment)
             Services::ShippingService.should have_received.submit_order_shipment_list([actual_shipment])
           end
@@ -151,7 +151,7 @@ module ChannelAdvisor
         end
 
         context "with all true results" do
-          use_vcr_cassette "responses/shipment/submit/two_shipments/both_true", :exclusive => true
+          use_vcr_cassette "responses/shipment/submit/two_shipments/both_true", :exclusive => true, :allow_playback_repeats => true
 
           it "returns a hash where false is an empty array" do
             result = {
@@ -164,7 +164,7 @@ module ChannelAdvisor
         end
 
         context "with all false results" do
-          use_vcr_cassette "responses/shipment/submit/two_shipments/both_false", :exclusive => true
+          use_vcr_cassette "responses/shipment/submit/two_shipments/both_false", :exclusive => true, :allow_playback_repeats => true
 
           it "returns a hash where true is an empty array" do
             result = {
