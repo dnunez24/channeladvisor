@@ -24,10 +24,10 @@ module ChannelAdvisor
 
         shipments.each do |shipment|
           shipment[:type] = shipment[:line_items] ? "Partial" : "Full"
-          shipment[:date] ||= DateTime.now
-          shipment[:cost]       = "%.2f" % shipment[:cost].to_f
-          shipment[:tax]        = "%.2f" % shipment[:tax].to_f
-          shipment[:insurance]  = "%.2f" % shipment[:insurance].to_f
+          shipment[:date]       ||= DateTime.now
+          shipment[:cost]       = shipment[:cost] == nil ? shipment[:cost] : "%.2f" % shipment[:cost].to_f
+          shipment[:tax]        = shipment[:tax] == nil ? shipment[:tax] : "%.2f" % shipment[:tax].to_f
+          shipment[:insurance]  = shipment[:insurance] == nil ? shipment[:insurance] : "%.2f" % shipment[:insurance].to_f
         end
 
         response = Services::ShippingService.submit_order_shipment_list(shipments)
