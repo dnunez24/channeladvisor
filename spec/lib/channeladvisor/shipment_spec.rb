@@ -133,18 +133,26 @@ module ChannelAdvisor
           }
         end
         let(:shipments) { [shipment1, shipment2] }
-
+        before :each do 
+          @false_msg = "An unexpected error occurred involving Order 123456.  Please make sure sufficient unshipped quantity exists on the order and that the Carrier and Class Codes are valid."
+        end
         it "sends two shipments to the shipping service" do
           Shipment.submit(shipments)
           Services::ShippingService.should have_received.submit_order_shipment_list(shipments)
         end
 
         context "with a true and false result" do
-          it "returns hash of boolean results" do
-            result = {
-              false => [shipment1[:order_id]],
-              true => [shipment2[:order_id]]
-            }
+          it "returns an array of hashes with their sucess fields set to true or false " do
+            result =[
+              {
+                :order_id => shipment1[:order_id],
+                :success  => false,
+                :message  => @false_msg
+              },
+              {
+                :order_id =>shipment2[:order_id],
+                :success  => true
+              }]
             response = Shipment.submit(shipments)
             response.should == result
           end
@@ -153,11 +161,16 @@ module ChannelAdvisor
         context "with all true results" do
           use_vcr_cassette "responses/shipment/submit/two_shipments/both_true", :exclusive => true, :allow_playback_repeats => true
 
-          it "returns a hash where false is an empty array" do
-            result = {
-              true => [shipment1[:order_id], shipment2[:order_id]],
-              false => []
-            }
+          it "returns an array of hashes with success = true" do
+            result =[
+              {
+                :order_id => shipment1[:order_id],
+                :success  => true
+              },
+              {
+                :order_id =>shipment2[:order_id],
+                :success  => true
+              }]
             response = Shipment.submit(shipments)
             response.should == result
           end
@@ -166,11 +179,18 @@ module ChannelAdvisor
         context "with all false results" do
           use_vcr_cassette "responses/shipment/submit/two_shipments/both_false", :exclusive => true, :allow_playback_repeats => true
 
-          it "returns a hash where true is an empty array" do
-            result = {
-              true => [],
-              false => [shipment1[:order_id], shipment2[:order_id]]
-            }
+          it "returns an array of hashes with success = false, also returns an error message  " do
+            result =[
+              {
+                :order_id => shipment1[:order_id],
+                :success  => false,
+                :message  => @false_msg
+              },
+              {
+                :order_id =>shipment2[:order_id],
+                :success  => false,
+                :message  => @false_msg
+              }]
             response = Shipment.submit(shipments)
             response.should == result
           end

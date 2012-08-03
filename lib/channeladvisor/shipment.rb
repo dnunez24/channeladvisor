@@ -30,7 +30,7 @@ module ChannelAdvisor
           shipment[:insurance]  = shipment[:insurance] == nil ? shipment[:insurance] : "%.2f" % shipment[:insurance].to_f
         end
 
-        response = Services::ShippingService.submit_order_shipment_list(shipments)
+        response = ChannelAdvisor::Services::ShippingService.submit_order_shipment_list(shipments)
         result = response[:submit_order_shipment_list_response][:submit_order_shipment_list_result]
         check_status_of result
 
@@ -39,16 +39,23 @@ module ChannelAdvisor
         if shipment_responses.count == 1
           return shipment_responses.first[:success]
         else
-          result_hash = {
-            true => [],
-            false => []
-          }
-
+          results_array = []
           shipment_responses.each_with_index do |shipment_response, i|
-            result_hash[shipment_response[:success]] << shipments[i][:order_id]
+            if shipment_response[:success]
+              results_array << {
+                :order_id => shipments[i][:order_id],
+                :success  => shipment_response[:success]
+              }
+            else
+              results_array << {
+                :order_id => shipments[i][:order_id],
+                :success  => shipment_response[:success],
+                :message  => shipment_response[:message]
+              }
+            end
           end
 
-          return result_hash
+          return results_array
         end
       end
     end # self.submit
