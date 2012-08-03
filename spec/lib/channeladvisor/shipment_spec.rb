@@ -151,8 +151,7 @@ module ChannelAdvisor
               },
               {
                 :order_id =>shipment2[:order_id],
-                :success  => true,
-                :message  => nil
+                :success  => true
               }]
             response = Shipment.submit(shipments)
             response.should == result
@@ -166,13 +165,11 @@ module ChannelAdvisor
             result =[
               {
                 :order_id => shipment1[:order_id],
-                :success  => true,
-                :message  => nil
+                :success  => true
               },
               {
                 :order_id =>shipment2[:order_id],
-                :success  => true,
-                :message  => nil
+                :success  => true
               }]
             response = Shipment.submit(shipments)
             response.should == result

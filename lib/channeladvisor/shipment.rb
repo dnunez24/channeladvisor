@@ -41,11 +41,18 @@ module ChannelAdvisor
         else
           results_array = []
           shipment_responses.each_with_index do |shipment_response, i|
-            results_array << {
-              :order_id => shipments[i][:order_id],
-              :success  => shipment_response[:success],
-              :message  => shipment_response[:message]
-            }
+            if shipment_response[:success]
+              results_array << {
+                :order_id => shipments[i][:order_id],
+                :success  => shipment_response[:success]
+              }
+            else
+              results_array << {
+                :order_id => shipments[i][:order_id],
+                :success  => shipment_response[:success],
+                :message  => shipment_response[:message]
+              }
+            end
           end
 
           return results_array
