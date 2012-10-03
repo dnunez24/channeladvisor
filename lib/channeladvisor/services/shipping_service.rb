@@ -141,9 +141,9 @@ module ChannelAdvisor
             partial_shipment["ins0:classCode"]            = shipment[:class]           if shipment[:class]
             partial_shipment["ins0:trackingNumber"]       = shipment[:tracking_number] if shipment[:tracking_number]
             partial_shipment["ins0:sellerFulfillmentID"]  = shipment[:seller_id]       if shipment[:seller_id]
-            partial_shipment["ins0:shipmentCost"]         = shipment[:cost]
-            partial_shipment["ins0:shipmentTaxCost"]      = shipment[:tax]
-            partial_shipment["ins0:insuranceCost"]        = shipment[:insurance]
+            partial_shipment["ins0:shipmentCost"]         = shipment[:cost]            if shipment[:cost]
+            partial_shipment["ins0:shipmentTaxCost"]      = shipment[:tax]             if shipment[:tax]
+            partial_shipment["ins0:insuranceCost"]        = shipment[:insurance]       if shipment[:insurance]
           else
             full_shipment = order_shipment["ins0:FullShipment"] = {}
             full_shipment["ins0:dateShippedGMT"]          = shipment[:date]
@@ -151,9 +151,9 @@ module ChannelAdvisor
             full_shipment["ins0:classCode"]               = shipment[:class]           if shipment[:class]
             full_shipment["ins0:trackingNumber"]          = shipment[:tracking_number] if shipment[:tracking_number]
             full_shipment["ins0:sellerFulfillmentID"]     = shipment[:seller_id]       if shipment[:seller_id]
-            full_shipment["ins0:shipmentCost"]            = shipment[:cost]
-            full_shipment["ins0:shipmentTaxCost"]         = shipment[:tax]
-            full_shipment["ins0:insuranceCost"]           = shipment[:insurance]
+            full_shipment["ins0:shipmentCost"]            = shipment[:cost]            if shipment[:cost]
+            full_shipment["ins0:shipmentTaxCost"]         = shipment[:tax]             if shipment[:tax]
+            full_shipment["ins0:insuranceCost"]           = shipment[:insurance]       if shipment[:insurance]
           end
 
           return order_shipment
