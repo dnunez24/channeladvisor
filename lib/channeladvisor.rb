@@ -15,6 +15,7 @@ require 'channeladvisor/shopping_cart'
 require 'channeladvisor/line_item'
 require 'channeladvisor/account_authorization'
 require 'channeladvisor/inventory'
+require 'channeladvisor/line_item_promo'
 
 module ChannelAdvisor
   def self.configuration
