@@ -29,7 +29,6 @@ module ChannelAdvisor
         :user_name => "somebody",
         :distribution_center_code => "ABC",
         :is_fba => false,
-        :promo_code => "ABC123",
         :"@xsi:type" => "q1:OrderLineItemItemResponse"
       }
 		end
@@ -137,10 +136,6 @@ module ChannelAdvisor
 
 		  it "sets @is_fba" do
 		    @line_item.is_fba.should == attrs[:is_fba]
-		  end
-
-		  it "sets @promo_code" do
-		    @line_item.promo_code.should == attrs[:promo_code]
 		  end
 		end
 	end # LineItem
