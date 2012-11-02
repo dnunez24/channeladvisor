@@ -3,7 +3,7 @@ module ChannelAdvisor
     attr_accessor :id, :type, :sku, :title, :unit_price, :quantity, :allow_negative_quantity, :sale_source, :buyer_user_id,
       :buyer_feedback_rating, :sales_source_id, :vat_rate, :tax_cost, :shipping_cost, :shipping_tax_cost, :gift_wrap_cost,
       :gift_wrap_tax_cost, :gift_message, :gift_wrap_level, :recycling_fee, :unit_weight, :unit_of_measure, :warehouse_location,
-      :user_name, :distribution_center, :is_fba, :line_promos
+      :user_name, :distribution_center, :is_fba, :promo_code, :shipping_price, :line_promos
 
     def initialize(attrs={})
       @id                       = attrs[:line_item_id]
@@ -32,8 +32,11 @@ module ChannelAdvisor
       @user_name                = attrs[:user_name]
       @distribution_center      = attrs[:distribution_center_code]
       @is_fba                   = attrs[:is_fba]
+      @promo_code               = attrs[:promo_code]
+      @shipping_price           = attrs[:shipping_price].to_f
+
       if line_promos = attrs[:item_promo_list]
-        @line_promos = arrayify(line_promos[:order_line_item_item_promo]).map { |p| LineItemPromo.new(p) }
+        @line_promos = arrayify(line_promos[:order_line_item_item_promo]).map { |p| LineItem.new(p) }
       end      
     end # initialize
   end # LineItem
