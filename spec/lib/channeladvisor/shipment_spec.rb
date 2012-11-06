@@ -60,10 +60,16 @@ module ChannelAdvisor
           Shipment.submit(original_shipment)
           Services::ShippingService.should have_received.submit_order_shipment_list([actual_shipment])
         end
-
-        it "returns a boolean result" do
+        it "returns an array of a single hash" do
           response = Shipment.submit(original_shipment)
-          response.should be_a_boolean
+          response.is_a?(Array).should == true
+          response[0].is_a?(Hash).should == true
+        end
+
+        it "populates the hash with details about the shipment" do
+          response = Shipment.submit(original_shipment)
+          response[0][:order_id].should == original_shipment[:order_id]
+          response[0][:client_order_id].should == original_shipment[:client_order_id]
         end
 
         context "without a ship date" do
@@ -145,13 +151,15 @@ module ChannelAdvisor
           it "returns an array of hashes with their sucess fields set to true or false " do
             result =[
               {
-                :order_id => shipment1[:order_id],
-                :success  => false,
-                :message  => @false_msg
+                :order_id        => shipment1[:order_id],
+                :client_order_id => shipment1[:client_order_id],
+                :success         => false,
+                :message         => @false_msg
               },
               {
-                :order_id =>shipment2[:order_id],
-                :success  => true
+                :order_id        =>shipment2[:order_id],
+                :client_order_id => shipment2[:client_order_id],
+                :success         => true
               }]
             response = Shipment.submit(shipments)
             response.should == result
@@ -165,14 +173,16 @@ module ChannelAdvisor
             result =[
               {
                 :order_id => shipment1[:order_id],
+                :client_order_id => shipment1[:client_order_id],
                 :success  => true
               },
               {
                 :order_id =>shipment2[:order_id],
+                :client_order_id =>shipment2[:client_order_id],
                 :success  => true
               }]
             response = Shipment.submit(shipments)
-            response.should == result
+            response.should == result 
           end
         end
 
@@ -183,11 +193,13 @@ module ChannelAdvisor
             result =[
               {
                 :order_id => shipment1[:order_id],
+                :client_order_id => shipment1[:client_order_id],                
                 :success  => false,
                 :message  => @false_msg
               },
               {
                 :order_id =>shipment2[:order_id],
+                :client_order_id =>shipment2[:client_order_id],                
                 :success  => false,
                 :message  => @false_msg
               }]

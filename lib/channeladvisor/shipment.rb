@@ -36,27 +36,15 @@ module ChannelAdvisor
 
         shipment_responses = arrayify result[:result_data][:shipment_response]
 
-        if shipment_responses.count == 1
-          return shipment_responses.first[:success]
-        else
-          results_array = []
-          shipment_responses.each_with_index do |shipment_response, i|
-            if shipment_response[:success]
-              results_array << {
-                :order_id => shipments[i][:order_id],
-                :success  => shipment_response[:success]
-              }
-            else
-              results_array << {
-                :order_id => shipments[i][:order_id],
-                :success  => shipment_response[:success],
-                :message  => shipment_response[:message]
-              }
-            end
-          end
-
-          return results_array
+        results_array = []
+        shipment_responses.each_with_index do |shipment_response, i|
+          result = {:success  => shipment_response[:success]} 
+          result[:order_id] = shipments[i][:order_id] if shipments[i][:order_id]
+          result[:client_order_id] = shipments[i][:client_order_id] if shipments[i][:client_order_id]
+          result[:message] = shipment_response[:message] if shipment_response[:message]
+          results_array << result
         end
+        return results_array
       end
     end # self.submit
 
