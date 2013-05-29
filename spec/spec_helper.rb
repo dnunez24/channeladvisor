@@ -1,13 +1,11 @@
 require 'rubygems'
 require 'bundler/setup'
 
-begin
+if ENV['COVERAGE']
   require 'simplecov'
   SimpleCov.start do
     add_filter 'spec'
   end
-rescue => LoadError
-  # not able to load 'simplecov' do nothing
 end
 
 require 'channeladvisor'
