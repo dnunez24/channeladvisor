@@ -106,6 +106,31 @@ module ChannelAdvisor
                 @last_request.should match_valid_xml_body_for "submit_order_shipment_list/full_shipment/without_seller_id"
               end
             end
+
+
+            context "without shipment cost" do
+              it "sends a valid SOAP request without the shipment cost" do
+                full_shipment.delete(:cost)
+                ShippingService.submit_order_shipment_list([full_shipment])
+                @last_request.should match_valid_xml_body_for "submit_order_shipment_list/full_shipment/without_shipment_cost"
+              end
+            end
+
+            context "without tax cost" do
+              it "sends a valid SOAP request without the tax cost" do
+                full_shipment.delete(:tax)
+                ShippingService.submit_order_shipment_list([full_shipment])
+                @last_request.should match_valid_xml_body_for "submit_order_shipment_list/full_shipment/without_tax_cost"
+              end
+            end
+
+            context "without insurance cost" do
+              it "sends a valid SOAP request without the insurance cost" do
+                full_shipment.delete(:insurance)
+                ShippingService.submit_order_shipment_list([full_shipment])
+                @last_request.should match_valid_xml_body_for "submit_order_shipment_list/full_shipment/without_insurance_cost"
+              end
+            end
           end # with one full shipment
 
           context "with two full shipments" do
@@ -186,6 +211,30 @@ module ChannelAdvisor
                   partial_shipment.delete(:seller_id)
                   ShippingService.submit_order_shipment_list([partial_shipment])
                   @last_request.should match_valid_xml_body_for "submit_order_shipment_list/partial_shipment/without_seller_id"
+                end
+              end
+
+              context "without a shipment cost" do
+                it "sends a valid soap request without the shipment cost" do
+                  partial_shipment.delete(:shipment)
+                  shippingservice.submit_order_shipment_list([partial_shipment])
+                  @last_request.should match_valid_xml_body_for "submit_order_shipment_list/partial_shipment/without_shipment_cost"
+                end
+              end
+
+              context "without a tax cost" do
+                it "sends a valid soap request without the tax cost" do
+                  partial_shipment.delete(:tax)
+                  shippingservice.submit_order_shipment_list([partial_shipment])
+                  @last_request.should match_valid_xml_body_for "submit_order_shipment_list/partial_shipment/without_tax_cost"
+                end
+              end
+
+              context "without a insurance cost" do
+                it "sends a valid soap request without the insurance cost" do
+                  partial_shipment.delete(:insurance)
+                  shippingservice.submit_order_shipment_list([partial_shipment])
+                  @last_request.should match_valid_xml_body_for "submit_order_shipment_list/partial_shipment/without_insurance_cost"
                 end
               end
             end
