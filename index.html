@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="ChannelAdvisor : Ruby wrapper for the ChannelAdvisor API" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>ChannelAdvisor</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/dnunez24/channeladvisor">View on GitHub</a>
+
+          <h1 id="project_title">ChannelAdvisor</h1>
+          <h2 id="project_tagline">Ruby wrapper for the ChannelAdvisor API</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/dnunez24/channeladvisor/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/dnunez24/channeladvisor/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="channeladvisor" class="anchor" href="#channeladvisor"><span class="octicon octicon-link"></span></a>ChannelAdvisor</h1>
+
+<p>Ruby wrapper for the SOAP API provided by ChannelAdvisor.</p>
+
+<h2>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h2>
+
+<p>Install the gem:</p>
+
+<div class="highlight"><pre><span class="nv">$ </span>gem install channeladvisor
+</pre></div>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Setup the ChannelAdvisor client:</p>
+
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'channeladvisor'</span>
+
+<span class="no">ChannelAdvisor</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">developer_key</span> <span class="o">=</span> <span class="no">YOUR_DEVELOPER_KEY</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">password</span>      <span class="o">=</span> <span class="no">YOUR_PASSWORD</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">account_id</span>    <span class="o">=</span> <span class="no">YOUR_ACCOUNT_ID</span>
+<span class="k">end</span>
+</pre></div>
+
+<p>Make a request to the service:</p>
+
+<div class="highlight"><pre><span class="n">date_range</span> <span class="o">=</span> <span class="no">DateTime</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">2012</span><span class="p">,</span><span class="mo">05</span><span class="p">,</span><span class="mo">01</span><span class="p">)</span><span class="o">.</span><span class="n">.</span><span class="no">DateTime</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">2012</span><span class="p">,</span><span class="mo">06</span><span class="p">,</span><span class="mo">01</span><span class="p">)</span>
+
+<span class="n">orders</span> <span class="o">=</span> <span class="ss">ChannelAdvisor</span><span class="p">:</span><span class="ss">:Order</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="ss">:created_between</span> <span class="o">=&gt;</span> <span class="n">date_range</span><span class="p">)</span>
+<span class="c1"># =&gt; [#&lt;ChannelAdvisor::Order&gt;, #&lt;ChannelAdvisor::Order&gt;, ...]</span>
+
+<span class="n">orders</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">id</span>
+<span class="c1"># =&gt; 1234567</span>
+</pre></div>
+
+<h2>
+<a name="organization" class="anchor" href="#organization"><span class="octicon octicon-link"></span></a>Organization</h2>
+
+<p>The API wrapper is organized into two distinct segments. The <code>ChannelAdvisor::Services</code> module directly corresponds to the services and methods in the ChannelAdvisor API. Utilizing this interface ensures consistency with the actual ChannelAdvisor interface and will also allow you to handle errors and response data your own way, i.e. making a minimal amount of assumptions about how to handle the data returned from the web service request. A second, simpler interface is designed for ease-of-use and makes some assumptions about how best to handle the data and errors in the API response. For example, the simple interface would
+work like this:</p>
+
+<div class="highlight"><pre><span class="ss">ChannelAdvisor</span><span class="p">:</span><span class="ss">:Order</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="ss">:state</span> <span class="o">=&gt;</span> <span class="s2">"Active"</span><span class="p">)</span>
+<span class="c1"># =&gt; [#&lt;ChannelAdvisor::Order&gt;, #&lt;ChannelAdvisor::Order&gt;, ...]</span>
+</pre></div>
+
+<p>While the <code>Services</code> interface would work like this:</p>
+
+<div class="highlight"><pre><span class="ss">ChannelAdvisor</span><span class="p">:</span><span class="ss">:Services</span><span class="o">::</span><span class="no">OrderService</span><span class="o">.</span><span class="n">get_order_list</span><span class="p">(</span><span class="ss">:state</span> <span class="o">=&gt;</span> <span class="s2">"Active"</span><span class="p">)</span>
+<span class="c1"># =&gt; #&lt;Savon::SOAP::Response&gt;</span>
+<span class="c1"># ... do some neat stuff with the SOAP response</span>
+</pre></div>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">ChannelAdvisor maintained by <a href="https://github.com/dnunez24">dnunez24</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
